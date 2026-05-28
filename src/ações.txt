@@ -1,264 +1,396 @@
 
-[06:30] [Carlinhos] [Local: FarmHouse] Coletou 15x Parsnip Seeds
-[06:40] [Carlinhos] [Local: Farm] Saiu de 'FarmHouse' para 'Farm'
-[06:50] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
-[06:50] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
-[06:50] [Carlinhos] [Local: Farm] Coletou 1x Mixed Seeds
-[06:50] [Carlinhos] [Local: Farm] [2x] Usou a foice [Ferramenta: Scythe]
-[06:50] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
-[06:50] [Carlinhos] [Local: Farm] Cortou Arvore [Ferramenta: Scythe]
-[06:50] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
-[06:50] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
-[06:50] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
-[06:50] [Carlinhos] [Local: Farm] Coletou 1x Fiber
-[06:50] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
-[06:50] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
-[06:50] [Carlinhos] [Local: Farm] Coletou 1x Fiber
-[06:50] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
-[06:50] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
+[06:00] [Carlinhos] [Local: FarmHouse] [2x] Assistiu TV
+[06:00] [Carlinhos] [Local: Farm] Saiu de 'FarmHouse' para 'Farm'
+[06:30] [Carlinhos] [Local: Farm] [15x] Regou Chirívia [Ferramenta: Watering Can]
+[06:30] [Carlinhos] [Local: Farm] Regou Solo [Ferramenta: Watering Can]
+[06:50] [Carlinhos] [Local: Farm] [5x] Regou Batata [Ferramenta: Watering Can]
 [07:00] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[07:00] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
+[07:00] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[07:00] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
+[07:00] [Carlinhos] [Local: Farm] Coletou 1x Fiber
+[07:00] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[07:00] [Carlinhos] [Local: Farm] Cortou Arvore [Ferramenta: Scythe]
+[07:00] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
+[07:00] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[07:00] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
 [07:00] [Carlinhos] [Local: Farm] Coletou 1x Fiber
 [07:00] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
 [07:00] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
-[07:00] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
-[07:00] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
-[07:00] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
-[07:00] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
-[07:00] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
-[07:00] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
-[07:00] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
-[07:00] [Carlinhos] [Local: Farm] Coletou 1x Fiber
-[07:00] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
-[07:00] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
-[07:00] [Carlinhos] [Local: Farm] [3x] Cortou Weeds [Ferramenta: Scythe]
-[07:00] [Carlinhos] [Local: Farm] [2x] Coletou 1x Fiber
-[07:00] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
-[07:00] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
-[07:00] [Carlinhos] [Local: Farm] Coletou 1x Fiber
-[07:10] [Carlinhos] [Local: Farm] Quebrou Stone [Ferramenta: Pickaxe]
-[07:10] [Carlinhos] [Local: Farm] Coletou 1x Stone
+[07:10] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[07:10] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
 [07:10] [Carlinhos] [Local: Farm] Coletou 1x Fiber
-[07:10] [Carlinhos] [Local: Farm] Quebrou Stone [Ferramenta: Pickaxe]
-[07:10] [Carlinhos] [Local: Farm] Coletou 1x Stone
-[07:10] [Carlinhos] [Local: Farm] Quebrou Stone [Ferramenta: Pickaxe]
-[07:10] [Carlinhos] [Local: Farm] Coletou 1x Stone
-[07:10] [Carlinhos] [Local: Farm] Quebrou Stone [Ferramenta: Pickaxe]
-[07:10] [Carlinhos] [Local: Farm] Coletou 1x Stone
-[07:20] [Carlinhos] [Local: Farm] Quebrou Stone [Ferramenta: Pickaxe]
-[07:20] [Carlinhos] [Local: Farm] Coletou 1x Stone
-[07:20] [Carlinhos] [Local: Farm] Quebrou Stone [Ferramenta: Pickaxe]
+[07:10] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[07:10] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
+[07:10] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[07:10] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
+[07:10] [Carlinhos] [Local: Farm] Coletou 2x Fiber
+[07:10] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[07:10] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
+[07:10] [Carlinhos] [Local: Farm] [2x] Coletou 1x Fiber
+[07:10] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[07:10] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
+[07:10] [Carlinhos] [Local: Farm] Coletou 1x Mixed Seeds
+[07:10] [Carlinhos] [Local: Farm] Coletou 1x Fiber
+[07:10] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[07:10] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
+[07:20] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[07:20] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
+[07:20] [Carlinhos] [Local: Farm] [2x] Coletou 1x Fiber
+[07:20] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[07:20] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
+[07:20] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[07:20] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
 [07:20] [Carlinhos] [Local: Farm] Coletou 1x Fiber
-[07:20] [Carlinhos] [Local: Farm] Coletou 1x Stone
-[07:20] [Carlinhos] [Local: Farm] Quebrou Stone [Ferramenta: Pickaxe]
-[07:20] [Carlinhos] [Local: Farm] Coletou 1x Stone
-[07:20] [Carlinhos] [Local: Farm] Quebrou Stone [Ferramenta: Pickaxe]
-[07:20] [Carlinhos] [Local: Farm] Coletou 1x Stone
-[07:20] [Carlinhos] [Local: Farm] Quebrou Twig [Ferramenta: Axe]
-[07:20] [Carlinhos] [Local: Farm] Coletou 1x Wood
-[07:30] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
-[07:30] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
-[07:30] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
-[07:30] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
-[07:30] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
-[07:30] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
-[07:30] [Carlinhos] [Local: Farm] Cortou Arvore [Ferramenta: Scythe]
+[07:30] [Carlinhos] [Local: Farm] [2x] Usou a foice [Ferramenta: Scythe]
 [07:30] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
 [07:30] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
 [07:30] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
 [07:30] [Carlinhos] [Local: Farm] Coletou 1x Fiber
-[07:30] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
-[07:30] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
-[07:30] [Carlinhos] [Local: Farm] [2x] Coletou 1x Fiber
-[07:30] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
 [07:30] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
 [07:30] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
-[07:30] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
-[07:30] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
+[07:30] [Carlinhos] [Local: Farm] Coletou 1x Fiber
+[07:40] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[07:40] [Carlinhos] [Local: Farm] [3x] Cortou Weeds [Ferramenta: Scythe]
 [07:40] [Carlinhos] [Local: Farm] Coletou 1x Fiber
-[07:40] [Carlinhos] [Local: Farm] Quebrou Twig [Ferramenta: Axe]
-[07:40] [Carlinhos] [Local: Farm] Coletou 1x Wood
-[07:40] [Carlinhos] [Local: Farm] Quebrou Stone [Ferramenta: Pickaxe]
-[07:40] [Carlinhos] [Local: Farm] Coletou 1x Stone
-[07:50] [Carlinhos] [Local: Farm] Cortou Arvore [Ferramenta: Axe]
-[07:50] [Carlinhos] [Local: Farm] Coletou 4x Wood
-[07:50] [Carlinhos] [Local: Farm] Quebrou Twig [Ferramenta: Axe]
-[07:50] [Carlinhos] [Local: Farm] Coletou 1x Wood
-[07:50] [Carlinhos] [Local: Farm] Quebrou Twig [Ferramenta: Axe]
-[08:00] [Carlinhos] [Local: Farm] Coletou 1x Wood
-[08:00] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
-[08:00] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
-[08:00] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
-[08:00] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
-[08:00] [Carlinhos] [Local: Farm] [2x] Usou a foice [Ferramenta: Scythe]
-[08:00] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
-[08:10] [Carlinhos] [Local: Farm] [2x] Usou a foice [Ferramenta: Scythe]
-[08:10] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
-[08:10] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
-[08:10] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
-[08:10] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
-[08:10] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
-[08:10] [Carlinhos] [Local: Farm] Coletou 1x Fiber
-[08:10] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
-[08:10] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
-[08:10] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
-[08:10] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
-[08:10] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
-[08:10] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
+[07:40] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[07:40] [Carlinhos] [Local: Farm] [3x] Cortou Weeds [Ferramenta: Scythe]
+[07:40] [Carlinhos] [Local: Farm] Coletou 1x Fiber
+[07:40] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[07:40] [Carlinhos] [Local: Farm] [3x] Cortou Weeds [Ferramenta: Scythe]
+[07:40] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[07:40] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
+[07:40] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[07:40] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
+[07:40] [Carlinhos] [Local: Farm] Coletou 1x Fiber
+[07:50] [Carlinhos] [Local: Farm] Quebrou Stone [Ferramenta: Pickaxe]
+[07:50] [Carlinhos] [Local: Farm] Coletou 1x Stone
+[07:50] [Carlinhos] [Local: Farm] Quebrou Stone [Ferramenta: Pickaxe]
+[07:50] [Carlinhos] [Local: Farm] Coletou 1x Stone
+[07:50] [Carlinhos] [Local: Farm] Quebrou Stone [Ferramenta: Pickaxe]
+[07:50] [Carlinhos] [Local: Farm] Coletou 1x Stone
+[07:50] [Carlinhos] [Local: Farm] Quebrou Stone [Ferramenta: Pickaxe]
+[07:50] [Carlinhos] [Local: Farm] Coletou 1x Stone
 [08:10] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
 [08:10] [Carlinhos] [Local: Farm] [3x] Cortou Weeds [Ferramenta: Scythe]
-[08:10] [Carlinhos] [Local: Farm] Coletou 1x Fiber
 [08:10] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
 [08:10] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
-[08:20] [Carlinhos] [Local: Farm] Quebrou Twig [Ferramenta: Axe]
-[08:20] [Carlinhos] [Local: Farm] Coletou 1x Wood
-[08:30] [Carlinhos] [Local: Farm] Quebrou Stone [Ferramenta: Pickaxe]
-[08:30] [Carlinhos] [Local: Farm] Coletou 1x Stone
-[08:30] [Carlinhos] [Local: Farm] Quebrou Twig [Ferramenta: Axe]
-[08:30] [Carlinhos] [Local: Farm] Coletou 1x Wood
-[08:30] [Carlinhos] [Local: Farm] Quebrou Stone [Ferramenta: Pickaxe]
-[08:30] [Carlinhos] [Local: Farm] Coletou 1x Stone
+[08:10] [Carlinhos] [Local: Farm] Cortou Arvore [Ferramenta: Scythe]
+[08:10] [Carlinhos] [Local: Farm] [3x] Coletou 1x Fiber
+[08:20] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[08:20] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
+[08:20] [Carlinhos] [Local: Farm] Quebrou Stone [Ferramenta: Pickaxe]
+[08:20] [Carlinhos] [Local: Farm] Coletou 1x Stone
+[08:30] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[08:30] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
+[08:30] [Carlinhos] [Local: Farm] Coletou 1x Fiber
+[08:30] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[08:30] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
+[08:30] [Carlinhos] [Local: Farm] Coletou 1x Fiber
+[08:30] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[08:30] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
+[08:30] [Carlinhos] [Local: Farm] Coletou 1x Fiber
+[08:30] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[08:30] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
+[08:30] [Carlinhos] [Local: Farm] [5x] Usou a foice [Ferramenta: Scythe]
+[08:30] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
+[08:30] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[08:30] [Carlinhos] [Local: Farm] Coletou 1x Fiber
+[08:40] [Carlinhos] [Local: Farm] [2x] Usou a foice [Ferramenta: Scythe]
 [08:40] [Carlinhos] [Local: Farm] Quebrou Twig [Ferramenta: Axe]
 [08:40] [Carlinhos] [Local: Farm] Coletou 1x Wood
-[08:40] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
-[08:40] [Carlinhos] [Local: Farm] [4x] Cortou Weeds [Ferramenta: Scythe]
-[08:40] [Carlinhos] [Local: Farm] [2x] Coletou 1x Fiber
-[08:40] [Carlinhos] [Local: Farm] Quebrou Twig [Ferramenta: Axe]
-[08:40] [Carlinhos] [Local: Farm] Coletou 1x Wood
-[08:40] [Carlinhos] [Local: Farm] Quebrou Twig [Ferramenta: Axe]
-[08:40] [Carlinhos] [Local: Farm] Coletou 1x Wood
+[08:50] [Carlinhos] [Local: Farm] Quebrou Twig [Ferramenta: Axe]
+[08:50] [Carlinhos] [Local: Farm] Coletou 1x Wood
+[08:50] [Carlinhos] [Local: Farm] Quebrou Twig [Ferramenta: Axe]
+[08:50] [Carlinhos] [Local: Farm] Coletou 1x Wood
 [08:50] [Carlinhos] [Local: Farm] Quebrou Stone [Ferramenta: Pickaxe]
 [08:50] [Carlinhos] [Local: Farm] Coletou 1x Stone
+[08:50] [Carlinhos] [Local: Farm] Quebrou Stone [Ferramenta: Pickaxe]
+[08:50] [Carlinhos] [Local: Farm] Coletou 1x Stone
+[08:50] [Carlinhos] [Local: Farm] Cortou Arvore [Ferramenta: Pickaxe]
+[09:10] [Carlinhos] [Local: BusStop] Saiu de 'Farm' para 'BusStop'
+[09:10] [Carlinhos] [Local: Town] Saiu de 'BusStop' para 'Town'
+[09:30] [Carlinhos] [Local: Hospital] Saiu de 'Town' para 'Hospital'
+[09:30] [Carlinhos] [Local: Hospital] Conversou com Maru: "Você já conheceu a minha mãe? Ela é a carpinteira da cidade."
+[09:40] [Carlinhos] [Local: Hospital] Conversou com Harvey: "Fique à vontade para passar no meu consultório caso não se sinta bem."
+[09:40] [Carlinhos] [Local: Hospital] Conversou com Harvey: "Mas você é jovem. Provavelmente você continuará saudável sem esforço."
+[09:50] [Carlinhos] [Local: Town] Saiu de 'Hospital' para 'Town'
+[10:00] [Carlinhos] [Local: Town] [2x] Mexeu no lixo
+[10:00] [Carlinhos] [Local: Town] Coletou 1x Green Algae
+[10:10] [Carlinhos] [Local: Town] Conversou com Lewis: "E então, como foi sua primeira noite na velha cabana?"
+[10:10] [Carlinhos] [Local: Town] Conversou com Lewis: "Seu avô costumava reclamar do ranger da cama. Mas acho que, no fundo, ele amava aquela casa."
+[10:30] [Carlinhos] [Local: Town] Conversou com Vincent: "*Aaah*... Mamãe não quer deixar eu comer mais bala de goma hoje."
+[10:30] [Carlinhos] [Local: ArchaeologyHouse] Saiu de 'Town' para 'ArchaeologyHouse'
+[10:30] [Carlinhos] [Local: ArchaeologyHouse] Conversou com Gunther: "Olá! Bem-vindo ao Departamento de Arqueologia do Vale do Orvalho."
+[10:40] [Carlinhos] [Local: ArchaeologyHouse] Conversou com Penny: "Estou ensinando o Vincent e a Jasmim hoje. Eles são muito levados, mas é bom fazer a diferença na vida de alguém."
+[10:50] [Carlinhos] [Local: Town] Saiu de 'ArchaeologyHouse' para 'Town'
+[10:50] [Carlinhos] [Local: Town] Conversou com Jas: "..."
+[11:10] [Carlinhos] [Local: Town] Coletou 1x Daffodil
+[11:10] [Carlinhos] [Local: Beach] Assistiu a uma cutscene
+[11:10] [Carlinhos] [Local: Beach] Saiu de 'Town' para 'Beach'
+[11:10] [Carlinhos] [Local: Beach] Conversou com Willy: "Ei, fio."
+[11:10] [Carlinhos] [Local: Beach] Conversou com Willy: "Ah... Ainda tô tentando relaxar depois de ficar um mês na água salgada..."
+[11:10] [Carlinhos] [Local: Beach] Conversou com Willy: "Aqui. Ocê pode pegá a minha vara de pescar véia."
+[11:10] [Carlinhos] [Local: Beach] Coletou 1x Green Algae
+[11:10] [Carlinhos] [Local: Beach] Coletou 1x Bamboo Pole
+[11:10] [Carlinhos] [Local: Beach] Conversou com Willy: "Tem água boa lá no vale. É peixe demais da conta."
+[11:10] [Carlinhos] [Local: Beach] Conversou com Willy: "Ah, é. Minha loja tá aberta de novo, então passa lá pra comprar algo."
+[11:20] [Carlinhos] [Local: Beach] Começou a pescar [Ferramenta: Bamboo Pole]
+[11:50] [Carlinhos] [Local: Beach] Coletou 1x Sardine
+[12:00] [Carlinhos] [Local: Beach] Começou a pescar [Ferramenta: Bamboo Pole]
+[12:30] [Carlinhos] [Local: Beach] Coletou 1x Driftwood
+[12:50] [Carlinhos] [Local: Beach] Coletou 1x Oyster
+[12:50] [Carlinhos] [Local: Town] Saiu de 'Beach' para 'Town'
+[13:20] [Carlinhos] [Local: BusStop] Saiu de 'Town' para 'BusStop'
+[13:30] [Carlinhos] [Local: BusStop] Começou a pescar [Ferramenta: Bamboo Pole]
+[13:50] [Carlinhos] [Local: Backwoods] Saiu de 'BusStop' para 'Backwoods'
+[14:00] [Carlinhos] [Local: Tunnel] Saiu de 'Backwoods' para 'Tunnel'
+[14:10] [Carlinhos] [Local: Backwoods] Saiu de 'Tunnel' para 'Backwoods'
+[14:20] [Carlinhos] [Local: BusStop] Saiu de 'Backwoods' para 'BusStop'
+[14:30] [Carlinhos] [Local: Farm] Saiu de 'BusStop' para 'Farm'
+[14:40] [Carlinhos] [Local: FarmHouse] Saiu de 'Farm' para 'FarmHouse'
+[14:50] [Carlinhos] [Local: FarmHouse] faturou 125 no final do dia
+[14:50] [Carlinhos] [Local: FarmHouse] Foi dormir no final do dia Primavera 2 no ano 1
+[06:00] [Carlinhos] [Local: FarmHouse] [2x] Assistiu TV
+[06:10] [Carlinhos] [Local: FarmHouse] [2x] Interagiu com a lareira
+[06:10] [Carlinhos] [Local: Farm] Saiu de 'FarmHouse' para 'Farm'
+[06:40] [Carlinhos] [Local: Farm] Cortou Arvore [Ferramenta: Axe]
+[06:40] [Carlinhos] [Local: Farm] [2x] Coletou 2x Wood
+[06:40] [Carlinhos] [Local: Farm] Coletou 1x Wood
+[06:40] [Carlinhos] [Local: Farm] [2x] Coletou 1x Sap
+[06:40] [Carlinhos] [Local: Farm] Coletou 2x Sap
+[06:40] [Carlinhos] [Local: Farm] Coletou 1x Wood
+[06:40] [Carlinhos] [Local: Farm] Coletou 1x Sap
+[06:40] [Carlinhos] [Local: Farm] [2x] Coletou 1x Wood
+[06:40] [Carlinhos] [Local: Farm] Coletou 1x Sap
+[06:40] [Carlinhos] [Local: Farm] Coletou 1x Wood
+[06:40] [Carlinhos] [Local: Farm] Coletou 2x Wood
+[06:40] [Carlinhos] [Local: Farm] [6x] Coletou 1x Wood
+[06:40] [Carlinhos] [Local: Farm] Quebrou Twig [Ferramenta: Axe]
+[06:50] [Carlinhos] [Local: Farm] Coletou 1x Wood
+[07:00] [Carlinhos] [Local: Farm] [2x] Cortou Arvore [Ferramenta: Axe]
+[07:00] [Carlinhos] [Local: Farm] Coletou 3x Wood
+[07:00] [Carlinhos] [Local: Farm] [2x] Coletou 1x Wood
+[07:00] [Carlinhos] [Local: Farm] Coletou 1x Sap
+[07:00] [Carlinhos] [Local: Farm] Coletou 1x Wood
+[07:00] [Carlinhos] [Local: Farm] [2x] Coletou 1x Sap
+[07:00] [Carlinhos] [Local: Farm] Coletou 2x Sap
+[07:00] [Carlinhos] [Local: Farm] [2x] Coletou 1x Wood
+[07:00] [Carlinhos] [Local: Farm] Coletou 1x Sap
+[07:00] [Carlinhos] [Local: Farm] [8x] Coletou 1x Wood
+[07:00] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Axe]
+[07:00] [Carlinhos] [Local: Farm] Coletou 1x Wood
+[07:10] [Carlinhos] [Local: Farm] Coletou 1x Fiber
+[07:10] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Axe]
+[07:10] [Carlinhos] [Local: Farm] Coletou 1x Fiber
+[07:10] [Carlinhos] [Local: Farm] [2x] Coletou 1x Wood
+[07:10] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Axe]
+[07:10] [Carlinhos] [Local: Farm] Coletou 1x Fiber
+[07:10] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Axe]
+[07:20] [Carlinhos] [Local: Farm] Coletou 1x Fiber
+[07:20] [Carlinhos] [Local: Farm] Cortou Arvore [Ferramenta: Axe]
+[07:20] [Carlinhos] [Local: Farm] Coletou 4x Wood
+[07:20] [Carlinhos] [Local: Farm] Quebrou Twig [Ferramenta: Axe]
+[07:20] [Carlinhos] [Local: Farm] Coletou 1x Wood
+[07:30] [Carlinhos] [Local: Farm] Coletou 1x Stardew Valley Almanac
+[07:40] [Carlinhos] [Local: Farm] Cortou Arvore [Ferramenta: Axe]
+[07:40] [Carlinhos] [Local: Farm] Coletou 2x Wood
+[07:40] [Carlinhos] [Local: Farm] [3x] Coletou 1x Wood
+[07:40] [Carlinhos] [Local: Farm] Coletou 1x Sap
+[07:40] [Carlinhos] [Local: Farm] Coletou 1x Wood
+[07:40] [Carlinhos] [Local: Farm] Coletou 2x Wood
+[07:40] [Carlinhos] [Local: Farm] [4x] Coletou 1x Sap
+[07:40] [Carlinhos] [Local: Farm] Coletou 1x Wood
+[07:40] [Carlinhos] [Local: Farm] Coletou 1x Sap
+[07:40] [Carlinhos] [Local: Farm] Coletou 2x Wood
+[07:40] [Carlinhos] [Local: Farm] [6x] Coletou 1x Wood
+[08:00] [Carlinhos] [Local: Farm] Cortou Arvore [Ferramenta: Axe]
+[08:00] [Carlinhos] [Local: Farm] Coletou 4x Wood
+[08:00] [Carlinhos] [Local: Farm] Coletou 1x Sap
+[08:00] [Carlinhos] [Local: Farm] Coletou 2x Wood
+[08:00] [Carlinhos] [Local: Farm] Coletou 1x Sap
+[08:00] [Carlinhos] [Local: Farm] Coletou 2x Sap
+[08:00] [Carlinhos] [Local: Farm] Coletou 1x Wood
+[08:00] [Carlinhos] [Local: Farm] Coletou 2x Wood
+[08:00] [Carlinhos] [Local: Farm] [2x] Coletou 1x Sap
+[08:00] [Carlinhos] [Local: Farm] Coletou 2x Wood
+[08:00] [Carlinhos] [Local: Farm] Coletou 3x Wood
+[08:00] [Carlinhos] [Local: Farm] [5x] Coletou 1x Wood
+[08:00] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[08:00] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
+[08:00] [Carlinhos] [Local: Farm] Coletou 1x Fiber
+[08:10] [Carlinhos] [Local: Farm] Quebrou Stone [Ferramenta: Pickaxe]
+[08:10] [Carlinhos] [Local: Farm] Coletou 1x Stone
+[08:10] [Carlinhos] [Local: Farm] Quebrou Twig [Ferramenta: Axe]
+[08:10] [Carlinhos] [Local: Farm] Coletou 1x Wood
+[08:10] [Carlinhos] [Local: Farm] Quebrou Twig [Ferramenta: Axe]
+[08:10] [Carlinhos] [Local: Farm] Coletou 1x Wood
+[08:20] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[08:20] [Carlinhos] [Local: Farm] [3x] Cortou Weeds [Ferramenta: Scythe]
+[08:20] [Carlinhos] [Local: Farm] Coletou 1x Mixed Seeds
+[08:20] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[08:20] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
+[08:20] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[08:20] [Carlinhos] [Local: Farm] Coletou 1x Fiber
+[08:20] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
+[08:20] [Carlinhos] [Local: Farm] [2x] Coletou 1x Fiber
+[08:20] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[08:20] [Carlinhos] [Local: Farm] [5x] Cortou Weeds [Ferramenta: Scythe]
+[08:20] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[08:20] [Carlinhos] [Local: Farm] [2x] Coletou 1x Fiber
+[08:20] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
+[08:20] [Carlinhos] [Local: Farm] Coletou 1x Fiber
+[08:20] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[08:20] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
+[08:20] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[08:20] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
+[08:30] [Carlinhos] [Local: Farm] Coletou 1x Fiber
+[08:30] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[08:30] [Carlinhos] [Local: Farm] [3x] Cortou Weeds [Ferramenta: Scythe]
+[08:30] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[08:30] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
+[08:30] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[08:30] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
+[08:30] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[08:30] [Carlinhos] [Local: Farm] [4x] Cortou Weeds [Ferramenta: Scythe]
+[08:30] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[08:30] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
+[08:30] [Carlinhos] [Local: Farm] [4x] Coletou 1x Fiber
+[08:30] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[08:30] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
+[08:30] [Carlinhos] [Local: Farm] Coletou 1x Fiber
+[08:30] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[08:30] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
+[08:30] [Carlinhos] [Local: Farm] Cortou Arvore [Ferramenta: Scythe]
+[08:30] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[08:30] [Carlinhos] [Local: Farm] [3x] Cortou Weeds [Ferramenta: Scythe]
+[08:40] [Carlinhos] [Local: Farm] Coletou 1x Fiber
+[08:40] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[08:40] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
+[08:40] [Carlinhos] [Local: Farm] Coletou 1x Fiber
+[08:40] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[08:40] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
+[08:40] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[08:40] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
+[08:40] [Carlinhos] [Local: Farm] Cortou Arvore [Ferramenta: Scythe]
+[08:40] [Carlinhos] [Local: Farm] Coletou 2x Fiber
+[09:00] [Carlinhos] [Local: Farm] Cortou Arvore [Ferramenta: Axe]
+[09:00] [Carlinhos] [Local: Farm] Coletou 2x Wood
+[09:00] [Carlinhos] [Local: Farm] [2x] Coletou 1x Wood
+[09:00] [Carlinhos] [Local: Farm] [4x] Coletou 1x Sap
+[09:00] [Carlinhos] [Local: Farm] [4x] Coletou 1x Wood
+[09:00] [Carlinhos] [Local: Farm] Coletou 1x Sap
+[09:00] [Carlinhos] [Local: Farm] [2x] Coletou 1x Wood
+[09:00] [Carlinhos] [Local: Farm] [2x] Coletou 2x Wood
+[09:00] [Carlinhos] [Local: Farm] [3x] Coletou 1x Wood
 [09:10] [Carlinhos] [Local: Farm] Cortou Arvore [Ferramenta: Axe]
-[09:10] [Carlinhos] [Local: Farm] Coletou 2x Wood
-[09:10] [Carlinhos] [Local: Farm] [2x] Coletou 1x Wood
-[09:10] [Carlinhos] [Local: Farm] Coletou 1x Sap
-[09:10] [Carlinhos] [Local: Farm] [4x] Coletou 1x Wood
-[09:10] [Carlinhos] [Local: Farm] Coletou 2x Sap
-[09:10] [Carlinhos] [Local: Farm] Coletou 1x Sap
-[09:10] [Carlinhos] [Local: Farm] Coletou 1x Wood
-[09:10] [Carlinhos] [Local: Farm] [2x] Coletou 1x Sap
-[09:10] [Carlinhos] [Local: Farm] Coletou 1x Wood
-[09:10] [Carlinhos] [Local: Farm] Coletou 2x Wood
-[09:10] [Carlinhos] [Local: Farm] [5x] Coletou 1x Wood
-[09:20] [Carlinhos] [Local: Farm] Quebrou Twig [Ferramenta: Axe]
+[09:20] [Carlinhos] [Local: Farm] Coletou 2x Wood
+[09:20] [Carlinhos] [Local: Farm] Coletou 1x Sap
+[09:20] [Carlinhos] [Local: Farm] [4x] Coletou 1x Wood
+[09:20] [Carlinhos] [Local: Farm] [2x] Coletou 1x Sap
+[09:20] [Carlinhos] [Local: Farm] Coletou 2x Wood
 [09:20] [Carlinhos] [Local: Farm] Coletou 1x Wood
-[09:20] [Carlinhos] [Local: Farm] Quebrou Twig [Ferramenta: Axe]
+[09:20] [Carlinhos] [Local: Farm] Coletou 1x Sap
+[09:20] [Carlinhos] [Local: Farm] Coletou 2x Sap
+[09:20] [Carlinhos] [Local: Farm] [3x] Coletou 1x Wood
+[09:20] [Carlinhos] [Local: Farm] [3x] Coletou 2x Wood
 [09:20] [Carlinhos] [Local: Farm] Coletou 1x Wood
-[09:20] [Carlinhos] [Local: Farm] [2x] Quebrou Stone [Ferramenta: Pickaxe]
-[09:20] [Carlinhos] [Local: Farm] [2x] Coletou 1x Stone
-[09:50] [Carlinhos] [Local: Farm] [17x] Arou o solo [Ferramenta: Hoe]
-[10:30] [Carlinhos] [Local: Farm] [15x] Regou Chirívia [Ferramenta: Watering Can]
-[10:50] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Axe]
-[11:00] [Carlinhos] [Local: Farm] Cortou Arvore [Ferramenta: Axe]
-[11:00] [Carlinhos] [Local: Farm] Coletou 2x Wood
-[11:00] [Carlinhos] [Local: Farm] Coletou 1x Wood
-[11:00] [Carlinhos] [Local: Farm] Coletou 1x Sap
-[11:00] [Carlinhos] [Local: Farm] Coletou 1x Wood
-[11:00] [Carlinhos] [Local: Farm] [3x] Coletou 1x Sap
-[11:00] [Carlinhos] [Local: Farm] [3x] Coletou 1x Wood
-[11:00] [Carlinhos] [Local: Farm] Coletou 1x Sap
-[11:00] [Carlinhos] [Local: Farm] [3x] Coletou 1x Wood
-[11:00] [Carlinhos] [Local: Farm] Coletou 1x Sap
-[11:00] [Carlinhos] [Local: Farm] [4x] Coletou 1x Wood
-[11:00] [Carlinhos] [Local: Farm] Coletou 2x Wood
-[11:00] [Carlinhos] [Local: Farm] Quebrou Twig [Ferramenta: Axe]
-[11:10] [Carlinhos] [Local: Farm] [2x] Coletou 1x Wood
-[11:10] [Carlinhos] [Local: Farm] Quebrou Twig [Ferramenta: Axe]
-[11:10] [Carlinhos] [Local: Farm] Coletou 1x Wood
-[11:20] [Carlinhos] [Local: Farm] Craftou 1x Chest
-[11:30] [Carlinhos] [Local: BusStop] Saiu de 'Farm' para 'BusStop'
-[11:40] [Carlinhos] [Local: Town] Cortou Weeds [Ferramenta: Nenhuma]
-[11:40] [Carlinhos] [Local: Town] Saiu de 'BusStop' para 'Town'
-[12:00] [Carlinhos] [Local: Town] Conversou com Sam
-[12:00] [Carlinhos] [Local: SeedShop] Saiu de 'Town' para 'SeedShop'
-[12:10] [Carlinhos] [Local: SeedShop] Conversou com Marnie
-[12:10] [Carlinhos] [Local: SeedShop] [2x] Conversou com Abigail
-[12:10] [Carlinhos] [Local: SeedShop] [2x] Conversou com Pierre
-[12:20] [Carlinhos] [Local: SeedShop] [2x] Conversou com Caroline
-[12:30] [Carlinhos] [Local: SeedShop] [2x] Conversou com Leah
-[12:30] [Carlinhos] [Local: SeedShop] Coletou 5x Potato Seeds
-[12:40] [Carlinhos] [Local: Town] Saiu de 'SeedShop' para 'Town'
-[12:50] [Carlinhos] [Local: Town] Conversou com Harvey
-[12:50] [Carlinhos] [Local: Town] [5x] Cortou Weeds [Ferramenta: Watering Can]
-[12:50] [Carlinhos] [Local: BusStop] Saiu de 'Town' para 'BusStop'
-[13:10] [Carlinhos] [Local: Farm] Saiu de 'BusStop' para 'Farm'
-[13:20] [Carlinhos] [Local: Farm] Arou o solo [Ferramenta: Hoe]
-[13:20] [Carlinhos] [Local: Farm] Coletou 1x Clay
-[13:20] [Carlinhos] [Local: Farm] [4x] Arou o solo [Ferramenta: Hoe]
-[13:30] [Carlinhos] [Local: Farm] [5x] Regou Batata [Ferramenta: Watering Can]
-[13:40] [Carlinhos] [Local: Farm] [2x] Quebrou Stone [Ferramenta: Pickaxe]
-[13:40] [Carlinhos] [Local: Farm] [2x] Coletou 1x Stone
-[13:40] [Carlinhos] [Local: Farm] [2x] Quebrou Stone [Ferramenta: Pickaxe]
-[13:40] [Carlinhos] [Local: Farm] [2x] Coletou 1x Stone
-[13:50] [Carlinhos] [Local: BusStop] Saiu de 'Farm' para 'BusStop'
-[14:10] [Carlinhos] [Local: Town] Saiu de 'BusStop' para 'Town'
-[14:20] [Carlinhos] [Local: Town] Conversou com Vincent
-[14:30] [Carlinhos] [Local: Town] [2x] Conversou com Jodi
-[14:30] [Carlinhos] [Local: Town] Conversou com Evelyn
-[14:50] [Carlinhos] [Local: Beach] Saiu de 'Town' para 'Beach'
-[15:00] [Carlinhos] [Local: Beach] Conversou com Elliott
-[15:10] [Carlinhos] [Local: Beach] [2x] Arou o solo [Ferramenta: Hoe]
-[15:20] [Carlinhos] [Local: Town] Saiu de 'Beach' para 'Town'
-[15:40] [Carlinhos] [Local: ArchaeologyHouse] Saiu de 'Town' para 'ArchaeologyHouse'
-[15:40] [Carlinhos] [Local: ArchaeologyHouse] Conversou com Gunther
-[15:50] [Carlinhos] [Local: Town] Saiu de 'ArchaeologyHouse' para 'Town'
-[16:20] [Carlinhos] [Local: Town] [2x] Conversou com Maru
-[16:20] [Carlinhos] [Local: Town] Conversou com Penny
-[16:30] [Carlinhos] [Local: Town] [2x] Conversou com Alex
-[17:00] [Carlinhos] [Local: Mountain] Saiu de 'Town' para 'Mountain'
-[17:00] [Carlinhos] [Local: Mountain] [2x] Conversou com Demetrius
-[17:10] [Carlinhos] [Local: Mountain] Conversou com Robin
-[17:20] [Carlinhos] [Local: Mountain] [2x] Conversou com Linus
-[17:40] [Carlinhos] [Local: Mountain] Arou o solo [Ferramenta: Hoe]
-[17:50] [Carlinhos] [Local: Town] Saiu de 'Mountain' para 'Town'
-[17:50] [Carlinhos] [Local: Town] Regou Solo [Ferramenta: Watering Can]
-[18:20] [Carlinhos] [Local: Town] Quebrou Stone [Ferramenta: Pickaxe]
-[18:20] [Carlinhos] [Local: Town] Coletou 1x Stone
-[18:20] [Carlinhos] [Local: Town] Usou a foice [Ferramenta: Scythe]
-[18:20] [Carlinhos] [Local: Town] [10x] Cortou Weeds [Ferramenta: Scythe]
-[18:20] [Carlinhos] [Local: Town] Coletou 1x Fiber
-[18:20] [Carlinhos] [Local: Town] Usou a foice [Ferramenta: Scythe]
-[18:20] [Carlinhos] [Local: Town] [4x] Cortou Weeds [Ferramenta: Scythe]
-[18:20] [Carlinhos] [Local: Town] Coletou 1x Fiber
-[18:20] [Carlinhos] [Local: Town] [4x] Cortou Weeds [Ferramenta: Scythe]
-[18:20] [Carlinhos] [Local: Town] [2x] Coletou 1x Fiber
-[18:20] [Carlinhos] [Local: Town] Usou a foice [Ferramenta: Scythe]
-[18:20] [Carlinhos] [Local: Town] [2x] Cortou Weeds [Ferramenta: Scythe]
-[18:20] [Carlinhos] [Local: Town] Coletou 1x Fiber
-[18:20] [Carlinhos] [Local: Town] Usou a foice [Ferramenta: Scythe]
-[18:20] [Carlinhos] [Local: Town] [3x] Cortou Weeds [Ferramenta: Scythe]
-[18:20] [Carlinhos] [Local: Town] [4x] Coletou 1x Fiber
-[18:20] [Carlinhos] [Local: Town] Usou a foice [Ferramenta: Scythe]
-[18:30] [Carlinhos] [Local: Town] [7x] Cortou Weeds [Ferramenta: Scythe]
-[18:30] [Carlinhos] [Local: Town] Usou a foice [Ferramenta: Scythe]
-[18:30] [Carlinhos] [Local: Town] [2x] Cortou Weeds [Ferramenta: Scythe]
-[18:30] [Carlinhos] [Local: Town] [2x] Coletou 1x Fiber
-[18:30] [Carlinhos] [Local: Town] Cortou Weeds [Ferramenta: Scythe]
-[18:30] [Carlinhos] [Local: Town] Coletou 1x Fiber
-[18:30] [Carlinhos] [Local: Town] Usou a foice [Ferramenta: Scythe]
-[18:30] [Carlinhos] [Local: Town] [2x] Cortou Weeds [Ferramenta: Scythe]
-[18:30] [Carlinhos] [Local: Town] [5x] Coletou 1x Fiber
-[19:00] [Carlinhos] [Local: Saloon] Saiu de 'Town' para 'Saloon'
-[19:10] [Carlinhos] [Local: Saloon] [2x] Conversou com Gus
-[19:10] [Carlinhos] [Local: Saloon] Conversou com Emily
-[19:20] [Carlinhos] [Local: Saloon] Conversou com Shane
-[19:40] [Carlinhos] [Local: Town] Saiu de 'Saloon' para 'Town'
-[19:50] [Carlinhos] [Local: BusStop] Saiu de 'Town' para 'BusStop'
-[20:00] [Carlinhos] [Local: Farm] Saiu de 'BusStop' para 'Farm'
-[20:10] [Carlinhos] [Local: Farm] Quebrou Twig [Ferramenta: Axe]
-[20:10] [Carlinhos] [Local: Farm] Coletou 1x Wood
-[20:10] [Carlinhos] [Local: Farm] Quebrou Twig [Ferramenta: Axe]
-[20:10] [Carlinhos] [Local: Farm] Coletou 1x Wood
-[20:20] [Carlinhos] [Local: Farm] [6x] Usou a foice [Ferramenta: Scythe]
-[20:20] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
-[20:20] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
-[20:20] [Carlinhos] [Local: Farm] Coletou 1x Fiber
-[20:20] [Carlinhos] [Local: Farm] [2x] Usou a foice [Ferramenta: Scythe]
-[20:20] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
-[20:20] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
-[20:20] [Carlinhos] [Local: Farm] Coletou 1x Fiber
-[20:20] [Carlinhos] [Local: Farm] Quebrou Stone [Ferramenta: Pickaxe]
-[20:30] [Carlinhos] [Local: Farm] Coletou 1x Stone
-[20:30] [Carlinhos] [Local: FarmHouse] Saiu de 'Farm' para 'FarmHouse'
-[20:40] [Carlinhos] [Local: FarmHouse] faturou 0 no final do dia
-[20:40] [Carlinhos] [Local: FarmHouse] Foi dormir no final do dia Primavera 1 no ano 1
+[09:30] [Carlinhos] [Local: Farm] [2x] Cortou Arvore [Ferramenta: Axe]
+[09:30] [Carlinhos] [Local: Farm] Coletou 4x Wood
+[09:30] [Carlinhos] [Local: Farm] Quebrou Stone [Ferramenta: Pickaxe]
+[09:30] [Carlinhos] [Local: Farm] Coletou 1x Stone
+[09:40] [Carlinhos] [Local: Farm] [2x] Quebrou Stone [Ferramenta: Pickaxe]
+[09:40] [Carlinhos] [Local: Farm] [2x] Coletou 1x Stone
+[09:40] [Carlinhos] [Local: Farm] Quebrou Stone [Ferramenta: Pickaxe]
+[09:40] [Carlinhos] [Local: Farm] Coletou 1x Stone
+[09:40] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Pickaxe]
+[09:40] [Carlinhos] [Local: Farm] Coletou 1x Fiber
+[09:40] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[09:40] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
+[09:40] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[09:50] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
+[09:50] [Carlinhos] [Local: Farm] Coletou 1x Sap
+[09:50] [Carlinhos] [Local: Farm] [5x] Usou a foice [Ferramenta: Scythe]
+[09:50] [Carlinhos] [Local: Farm] [4x] Cortou Weeds [Ferramenta: Scythe]
+[09:50] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[09:50] [Carlinhos] [Local: Farm] Coletou 1x Fiber
+[09:50] [Carlinhos] [Local: Farm] Coletou 1x Mixed Seeds
+[09:50] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[09:50] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
+[09:50] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[09:50] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
+[09:50] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[09:50] [Carlinhos] [Local: Farm] [4x] Cortou Weeds [Ferramenta: Scythe]
+[10:00] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[10:00] [Carlinhos] [Local: Farm] [3x] Cortou Weeds [Ferramenta: Scythe]
+[10:00] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[10:00] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
+[10:00] [Carlinhos] [Local: Farm] [3x] Coletou 1x Fiber
+[10:00] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
+[10:00] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[10:00] [Carlinhos] [Local: Farm] Coletou 1x Fiber
+[10:00] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
+[10:00] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[10:00] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
+[10:00] [Carlinhos] [Local: Farm] Coletou 1x Mixed Seeds
+[10:00] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[10:00] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
+[10:00] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[10:00] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
+[10:00] [Carlinhos] [Local: Farm] Coletou 1x Fiber
+[10:00] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
+[10:00] [Carlinhos] [Local: Farm] Coletou 1x Fiber
+[10:00] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[10:00] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
+[10:00] [Carlinhos] [Local: Farm] Coletou 1x Fiber
+[10:00] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[10:00] [Carlinhos] [Local: Farm] [4x] Cortou Weeds [Ferramenta: Scythe]
+[10:10] [Carlinhos] [Local: Farm] [2x] Coletou 1x Fiber
+[10:10] [Carlinhos] [Local: Farm] [2x] Quebrou Stone [Ferramenta: Pickaxe]
+[10:10] [Carlinhos] [Local: Farm] [2x] Coletou 1x Stone
+[10:10] [Carlinhos] [Local: Farm] Quebrou Stone [Ferramenta: Pickaxe]
+[10:10] [Carlinhos] [Local: Farm] Coletou 1x Stone
+[10:10] [Carlinhos] [Local: Farm] Quebrou Stone [Ferramenta: Pickaxe]
+[10:10] [Carlinhos] [Local: Farm] Coletou 1x Stone
+[10:10] [Carlinhos] [Local: Farm] Quebrou Stone [Ferramenta: Pickaxe]
+[10:10] [Carlinhos] [Local: Farm] Coletou 1x Stone
+[10:10] [Carlinhos] [Local: Farm] Quebrou Stone [Ferramenta: Pickaxe]
+[10:20] [Carlinhos] [Local: Farm] Coletou 1x Stone
+[10:20] [Carlinhos] [Local: Farm] Quebrou Stone [Ferramenta: Pickaxe]
+[10:20] [Carlinhos] [Local: Farm] Coletou 1x Stone
+[10:20] [Carlinhos] [Local: Farm] Quebrou Stone [Ferramenta: Pickaxe]
+[10:20] [Carlinhos] [Local: Farm] Coletou 1x Stone
+[10:20] [Carlinhos] [Local: Farm] Coletou 1x Fiber
+[10:40] [Carlinhos] [Local: Farm] Coletou 1x Bamboo Pole
+[11:00] [Carlinhos] [Local: Farm] [2x] Usou a foice [Ferramenta: Scythe]
+[11:00] [Carlinhos] [Local: Farm] Cortou Weeds [Ferramenta: Scythe]
+[11:20] [Carlinhos] [Local: BusStop] Saiu de 'Farm' para 'BusStop'
+[11:30] [Carlinhos] [Local: BusStop] Coletou 1x Daffodil
+[11:40] [Carlinhos] [Local: BusStop] Coletou 1x Leek
+[11:40] [Carlinhos] [Local: Farm] Saiu de 'BusStop' para 'Farm'
+[11:50] [Carlinhos] [Local: Farm] Coletou 1x Coal
+[12:00] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[12:00] [Carlinhos] [Local: Farm] [3x] Cortou Weeds [Ferramenta: Scythe]
+[12:00] [Carlinhos] [Local: Farm] Coletou 1x Fiber
+[12:00] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[12:00] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
+[12:00] [Carlinhos] [Local: Farm] Coletou 1x Fiber
+[12:10] [Carlinhos] [Local: Farm] Usou a foice [Ferramenta: Scythe]
+[12:10] [Carlinhos] [Local: Farm] [2x] Cortou Weeds [Ferramenta: Scythe]
+[12:10] [Carlinhos] [Local: Farm] [2x] Coletou 1x Fiber
+[12:10] [Carlinhos] [Local: Forest] Saiu de 'Farm' para 'Forest'
+[12:40] [Carlinhos] [Local: Forest] [2x] Coletou 1x Dandelion
+[13:00] [Carlinhos] [Local: Forest] [8x] Coletou 1x Spring Onion
+[13:30] [Carlinhos] [Local: AnimalShop] Saiu de 'Forest' para 'AnimalShop'
+[13:30] [Carlinhos] [Local: AnimalShop] Conversou com Lewis: "Só estou aqui para garantir que todas as necessidades comerciais da Marnie sejam atendidas."
+[13:40] [Carlinhos] [Local: AnimalShop] Conversou com Jas: "..."
+[13:40] [Carlinhos] [Local: AnimalShop] Conversou com Marnie: "Você pode usar uma foice para cortar a grama."
+[13:50] [Carlinhos] [Local: AnimalShop] Conversou com Marnie: "Ou pode comprar uma comigo, é claro!"
+[13:50] [Carlinhos] [Local: AnimalShop] Conversou com Lewis: "Só estou aqui para garantir que todas as necessidades comerciais da Marnie sejam atendidas."
+[13:50] [Carlinhos] [Local: Forest] Saiu de 'AnimalShop' para 'Forest'
+[14:00] [Carlinhos] [Local: Farm] Saiu de 'Forest' para 'Farm'
+[14:30] [Carlinhos] [Local: FarmHouse] Saiu de 'Farm' para 'FarmHouse'
+[14:30] [Carlinhos] [Local: Farm] Saiu de 'FarmHouse' para 'Farm'
+[14:30] [Carlinhos] [Local: FarmHouse] Saiu de 'Farm' para 'FarmHouse'
+[14:40] [Carlinhos] [Local: FarmHouse] faturou 247 no final do dia
+[14:40] [Carlinhos] [Local: FarmHouse] Foi dormir no final do dia Primavera 3 no ano 1

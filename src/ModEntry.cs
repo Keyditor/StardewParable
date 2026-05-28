@@ -62,11 +62,57 @@ namespace ActionLogger
             helper.Events.World.ObjectListChanged += OnObjectListChanged;
             helper.Events.World.TerrainFeatureListChanged += OnTerrainFeatureListChanged;
             helper.Events.Display.MenuChanged += OnMenuChanged;
+            helper.Events.Input.ButtonPressed += OnButtonPressed;
+        }
+
+        private void OnButtonPressed(object sender, ButtonPressedEventArgs e)
+        {
+            if (!Context.IsWorldReady || Game1.player == null) return;
+
+            if (e.Button.IsActionButton())
+            {
+                Microsoft.Xna.Framework.Vector2 tile = e.Cursor.GrabTile;
+                var location = Game1.currentLocation;
+
+                if (location != null)
+                {
+                    if (location.objects.TryGetValue(tile, out var obj))
+                    {
+                        if (obj.Name.Contains("TV")) LogAction("Assistiu TV", false);
+                        else if (obj.Name.Contains("Sign")) LogAction("Leu uma placa", false);
+                        else if (obj.Name.Contains("Fireplace")) LogAction("Interagiu com a lareira", false);
+                        else if (obj.Name.Contains("Trash") || obj.Name.Contains("Garbage")) LogAction("Mexeu no lixo", false);
+                    }
+
+                    foreach (var furniture in location.furniture)
+                    {
+                        if (furniture.TileLocation == tile || furniture.GetBoundingBox().Contains((int)e.Cursor.AbsolutePixels.X, (int)e.Cursor.AbsolutePixels.Y))
+                        {
+                            if (furniture.Name.Contains("TV")) LogAction("Assistiu TV", false);
+                            else if (furniture.Name.Contains("Fireplace")) LogAction("Interagiu com a lareira", false);
+                        }
+                    }
+
+                    string action = location.doesTileHaveProperty((int)tile.X, (int)tile.Y, "Action", "Buildings");
+                    if (action != null)
+                    {
+                        if (action.Contains("Garbage")) LogAction("Mexeu no lixo", false);
+                    }
+                }
+            }
         }
 
         private int TimeToMinutes(int time)
         {
             return (time / 100) * 60 + (time % 100);
+        }
+
+        private int GetHalfHourChunk(int time)
+        {
+            int hour = time / 100;
+            int minutes = time % 100;
+            if (minutes >= 30) return hour * 100 + 30;
+            return hour * 100;
         }
 
         private void OnUpdateTicked(object? sender, UpdateTickedEventArgs e)
@@ -322,10 +368,26 @@ namespace ActionLogger
             if (e.NewMenu is DialogueBox dialogueBox)
             {
                 var speaker = Game1.currentSpeaker?.Name;
-                if (speaker != null && speaker != lastTalkedNPC)
+                if (speaker != null)
                 {
-                    LogAction($"Conversou com {speaker}", false);
-                    lastTalkedNPC = speaker;
+                    string text = "";
+                    try
+                    {
+                        text = dialogueBox.getCurrentString();
+                    }
+                    catch { }
+
+                    // Se mudou de NPC ou se há texto capturado novo, registra a ação.
+                    if (speaker != lastTalkedNPC || !string.IsNullOrEmpty(text))
+                    {
+                        string msg = $"Conversou com {speaker}";
+                        if (!string.IsNullOrEmpty(text))
+                        {
+                            msg += $": \"{text}\"";
+                        }
+                        LogAction(msg, false);
+                        lastTalkedNPC = speaker;
+                    }
                 }
             }
             else if (e.NewMenu == null)

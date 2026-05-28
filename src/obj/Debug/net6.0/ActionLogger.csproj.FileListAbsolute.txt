@@ -6,3 +6,12 @@ F:\StardewParable\obj\Debug\net6.0\ActionLogger.AssemblyInfoInputs.cache
 F:\StardewParable\obj\Debug\net6.0\ActionLogger.AssemblyInfo.cs
 F:\StardewParable\obj\Debug\net6.0\ActionLogger.csproj.CoreCompileInputs.cache
 F:\StardewParable\obj\Debug\net6.0\ActionLogger.dll
+F:\StardewParable\src\obj\Debug\net6.0\ActionLogger.csproj.AssemblyReference.cache
+F:\StardewParable\src\obj\Debug\net6.0\ActionLogger.GeneratedMSBuildEditorConfig.editorconfig
+F:\StardewParable\src\obj\Debug\net6.0\ActionLogger.AssemblyInfoInputs.cache
+F:\StardewParable\src\obj\Debug\net6.0\ActionLogger.AssemblyInfo.cs
+F:\StardewParable\src\obj\Debug\net6.0\ActionLogger.csproj.CoreCompileInputs.cache
+F:\StardewParable\src\obj\Debug\net6.0\ActionLogger.sourcelink.json
+F:\StardewParable\src\obj\Debug\net6.0\ActionLogger.dll
+F:\StardewParable\src\bin\Debug\net6.0\ActionLogger.deps.json
+F:\StardewParable\src\bin\Debug\net6.0\ActionLogger.dll
