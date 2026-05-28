@@ -26,11 +26,11 @@ namespace ActionLogger
             public string PlayerName { get; set; }
             public string LocationName { get; set; }
 
-            public ActionLog(string baseMessage, string toolName)
+            public ActionLog(string baseMessage, string toolName, int timeChunk)
             {
                 BaseMessage = baseMessage;
                 ToolName = toolName;
-                InGameTime = Game1.timeOfDay;
+                InGameTime = timeChunk;
                 PlayerName = Game1.player?.Name ?? "Nenhum";
                 LocationName = Game1.currentLocation?.Name ?? "Desconhecido";
                 Count = 1;
@@ -40,8 +40,8 @@ namespace ActionLogger
             {
                 string timeStr = Game1.getTimeOfDayString(InGameTime);
                 string countStr = Count > 1 ? $" [{Count}x]" : "";
-                string toolStr = string.IsNullOrEmpty(ToolName) ? "" : $" [Ferramenta: {ToolName}]";
-                return $"[{timeStr}] [{PlayerName}] [Local: {LocationName}]{countStr} {BaseMessage}{toolStr}";
+                string toolStr = string.IsNullOrEmpty(ToolName) || ToolName == "Nenhuma" ? "" : $" [{ToolName}]";
+                return $"[{timeStr}] [{PlayerName}] [{LocationName}]{countStr} {BaseMessage}{toolStr}";
             }
         }
 
@@ -167,28 +167,27 @@ namespace ActionLogger
             wasUsingTool = isUsingTool;
         }
 
-        private void LogAction(string message, bool includeTool = true)
+        private void LogAction(string message, bool includeTool = true, int amount = 1)
         {
             if (Game1.player == null) return;
             
             string toolName = includeTool ? (Game1.player.CurrentTool?.Name ?? "Nenhuma") : "";
+            int currentChunk = GetHalfHourChunk(Game1.timeOfDay);
             
-            if (dailyLogs.Count > 0)
+            var existingLog = dailyLogs.FindLast(l => 
+                l.BaseMessage == message && 
+                l.ToolName == toolName && 
+                l.InGameTime == currentChunk);
+
+            if (existingLog != null)
             {
-                var lastLog = dailyLogs[dailyLogs.Count - 1];
-                // Agrupar se a mensagem e ferramenta forem as mesmas, e ocorreu nos últimos 20 minutos de jogo
-                if (lastLog.BaseMessage == message && 
-                    lastLog.ToolName == toolName && 
-                    Math.Abs(TimeToMinutes(Game1.timeOfDay) - TimeToMinutes(lastLog.InGameTime)) <= 20)
-                {
-                    lastLog.Count++;
-                    lastLog.InGameTime = Game1.timeOfDay;
-                    Monitor.Log($"Ação agrupada: {lastLog.GetFormattedString()}", LogLevel.Info);
-                    return;
-                }
+                existingLog.Count += amount;
+                Monitor.Log($"Ação agrupada: {existingLog.GetFormattedString()}", LogLevel.Info);
+                return;
             }
 
-            var newLog = new ActionLog(message, toolName);
+            var newLog = new ActionLog(message, toolName, currentChunk);
+            newLog.Count = amount;
             dailyLogs.Add(newLog);
             Monitor.Log($"Ação registrada: {newLog.GetFormattedString()}", LogLevel.Info);
         }
@@ -298,9 +297,9 @@ namespace ActionLogger
             foreach (var item in e.Added)
             {
                 if (isCrafting)
-                    LogAction($"Craftou {item.Stack}x {item.Name}", false);
+                    LogAction($"Craftou {item.Name}", false, item.Stack);
                 else
-                    LogAction($"Coletou {item.Stack}x {item.Name}", false);
+                    LogAction($"Coletou {item.Name}", false, item.Stack);
             }
 
             foreach (var change in e.QuantityChanged)
@@ -309,13 +308,13 @@ namespace ActionLogger
                 if (amount > 0)
                 {
                     if (isCrafting)
-                        LogAction($"Craftou {amount}x {change.Item.Name}", false);
+                        LogAction($"Craftou {change.Item.Name}", false, amount);
                     else
-                        LogAction($"Coletou {amount}x {change.Item.Name}", false);
+                        LogAction($"Coletou {change.Item.Name}", false, amount);
                 }
                 else if (amount < 0 && Game1.activeClickableMenu is ShopMenu)
                 {
-                    LogAction($"Vendeu {-amount}x {change.Item.Name}", false);
+                    LogAction($"Vendeu {change.Item.Name}", false, -amount);
                 }
             }
 
@@ -323,7 +322,7 @@ namespace ActionLogger
             {
                 foreach (var item in e.Removed)
                 {
-                    LogAction($"Vendeu {item.Stack}x {item.Name}", false);
+                    LogAction($"Vendeu {item.Name}", false, item.Stack);
                 }
             }
         }
