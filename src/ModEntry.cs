@@ -50,6 +50,7 @@ namespace ActionLogger
         private string lastTalkedNPC = null;
 
         private bool wasUsingTool = false;
+        private bool wasInEvent = false;
 
         public override void Entry(IModHelper helper)
         {
@@ -57,6 +58,7 @@ namespace ActionLogger
             helper.Events.GameLoop.DayEnding += OnDayEnding;
             helper.Events.GameLoop.UpdateTicked += OnUpdateTicked;
             helper.Events.Player.InventoryChanged += OnInventoryChanged;
+            helper.Events.Player.Warped += OnWarped;
             helper.Events.World.ObjectListChanged += OnObjectListChanged;
             helper.Events.World.TerrainFeatureListChanged += OnTerrainFeatureListChanged;
             helper.Events.Display.MenuChanged += OnMenuChanged;
@@ -70,6 +72,13 @@ namespace ActionLogger
         private void OnUpdateTicked(object? sender, UpdateTickedEventArgs e)
         {
             if (!Context.IsWorldReady || Game1.player == null) return;
+
+            bool isInEvent = Game1.CurrentEvent != null;
+            if (isInEvent && !wasInEvent)
+            {
+                LogAction($"Assistiu a uma cutscene", false);
+            }
+            wasInEvent = isInEvent;
 
             bool isUsingTool = Game1.player.UsingTool;
             
@@ -97,6 +106,14 @@ namespace ActionLogger
                     else if (tool is StardewValley.Tools.MeleeWeapon weapon && weapon.isScythe())
                     {
                         LogAction($"Usou a foice", true);
+                    }
+                    else if (tool is StardewValley.Tools.Hoe)
+                    {
+                        LogAction($"Arou o solo", true);
+                    }
+                    else if (tool is StardewValley.Tools.FishingRod)
+                    {
+                        LogAction($"Começou a pescar", true);
                     }
                 }
             }
@@ -210,13 +227,34 @@ namespace ActionLogger
             }
         }
 
+        private void OnWarped(object sender, WarpedEventArgs e)
+        {
+            if (e.IsLocalPlayer)
+            {
+                LogAction($"Saiu de '{e.OldLocation.Name}' para '{e.NewLocation.Name}'", false);
+            }
+        }
+
         private void OnInventoryChanged(object sender, InventoryChangedEventArgs e)
         {
             if (!e.IsLocalPlayer) return;
 
+            bool isCrafting = false;
+            if (Game1.activeClickableMenu is CraftingPage)
+            {
+                isCrafting = true;
+            }
+            else if (Game1.activeClickableMenu is GameMenu gameMenu && gameMenu.currentTab == GameMenu.craftingTab)
+            {
+                isCrafting = true;
+            }
+
             foreach (var item in e.Added)
             {
-                LogAction($"Coletou {item.Stack}x {item.Name}", false);
+                if (isCrafting)
+                    LogAction($"Craftou {item.Stack}x {item.Name}", false);
+                else
+                    LogAction($"Coletou {item.Stack}x {item.Name}", false);
             }
 
             foreach (var change in e.QuantityChanged)
@@ -224,7 +262,10 @@ namespace ActionLogger
                 int amount = change.NewSize - change.OldSize;
                 if (amount > 0)
                 {
-                    LogAction($"Coletou {amount}x {change.Item.Name}", false);
+                    if (isCrafting)
+                        LogAction($"Craftou {amount}x {change.Item.Name}", false);
+                    else
+                        LogAction($"Coletou {amount}x {change.Item.Name}", false);
                 }
                 else if (amount < 0 && Game1.activeClickableMenu is ShopMenu)
                 {
