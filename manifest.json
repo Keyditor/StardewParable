@@ -1,0 +1,10 @@
+{
+  "Name": "Action Logger",
+  "Author": "Keyditor",
+  "Version": "1.0.0",
+  "Description": "Registra ações do jogador como quebrar pedras, dialogos, coleta e venda de itens.",
+  "UniqueID": "Keyditor.ActionLogger",
+  "EntryDll": "ActionLogger.dll",
+  "MinimumApiVersion": "4.0.0",
+  "UpdateKeys": []
+}

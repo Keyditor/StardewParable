@@ -1,0 +1,110 @@
+[06:00] [Keyd] Regou com Watering Can
+[06:00] [Keyd] Regou com Watering Can
+[06:10] [Keyd] Regou com Watering Can
+[06:10] [Keyd] Regou com Watering Can
+[06:10] [Keyd] Regou com Watering Can
+[06:10] [Keyd] Regou com Watering Can
+[06:10] [Keyd] Regou com Watering Can
+[06:10] [Keyd] Regou com Watering Can
+[06:10] [Keyd] Regou com Watering Can
+[06:10] [Keyd] Regou com Watering Can
+[06:20] [Keyd] Regou com Watering Can
+[06:20] [Keyd] Regou com Watering Can
+[06:20] [Keyd] Regou com Watering Can
+[06:20] [Keyd] Regou com Watering Can
+[06:20] [Keyd] Regou com Watering Can
+[06:20] [Keyd] Regou com Watering Can
+[06:20] [Keyd] Regou com Watering Can
+[06:20] [Keyd] Regou com Watering Can
+[06:30] [Keyd] Regou com Watering Can
+[06:30] [Keyd] Regou com Watering Can
+[06:30] [Keyd] Regou com Watering Can
+[06:30] [Keyd] Regou com Watering Can
+[06:30] [Keyd] Regou com Watering Can
+[06:30] [Keyd] Regou com Watering Can
+[06:40] [Keyd] Regou com Watering Can
+[06:50] [Keyd] Usou a foice (Scythe)
+[06:50] [Keyd] Cortou Weeds [Ferramenta: Scythe]
+[06:50] [Keyd] Cortou Weeds [Ferramenta: Scythe]
+[06:50] [Keyd] Usou a foice (Scythe)
+[06:50] [Keyd] Cortou Weeds [Ferramenta: Scythe]
+[06:50] [Keyd] Usou a foice (Scythe)
+[06:50] [Keyd] Cortou Weeds [Ferramenta: Scythe]
+[06:50] [Keyd] Coletou 1x Fiber [Ferramenta: Scythe]
+[06:50] [Keyd] Usou a foice (Scythe)
+[06:50] [Keyd] Usou a foice (Scythe)
+[07:00] [Keyd] Usou a foice (Scythe)
+[07:00] [Keyd] Usou a foice (Scythe)
+[07:00] [Keyd] Usou a foice (Scythe)
+[07:00] [Keyd] Usou a foice (Scythe)
+[07:00] [Keyd] Usou a foice (Scythe)
+[07:00] [Keyd] Quebrou Stone [Ferramenta: Pickaxe]
+[07:00] [Keyd] Coletou 1x Stone [Ferramenta: Pickaxe]
+[07:00] [Keyd] Quebrou Stone [Ferramenta: Pickaxe]
+[07:00] [Keyd] Coletou 1x Stone [Ferramenta: Pickaxe]
+[07:10] [Keyd] Quebrou Stone [Ferramenta: Pickaxe]
+[07:10] [Keyd] Coletou 1x Stone [Ferramenta: Pickaxe]
+[07:10] [Keyd] Quebrou Stone [Ferramenta: Pickaxe]
+[07:10] [Keyd] Coletou 1x Stone [Ferramenta: Pickaxe]
+[07:10] [Keyd] Coletou 1x Floppy Beanie [Ferramenta: Axe]
+[07:20] [Keyd] Cortou Arvore [Ferramenta: Axe]
+[07:20] [Keyd] Coletou 2x Wood [Ferramenta: Axe]
+[07:20] [Keyd] Coletou 1x Wood [Ferramenta: Axe]
+[07:20] [Keyd] Coletou 1x Wood [Ferramenta: Axe]
+[07:20] [Keyd] Coletou 1x Acorn [Ferramenta: Axe]
+[07:20] [Keyd] Coletou 1x Sap [Ferramenta: Axe]
+[07:20] [Keyd] Coletou 1x Wood [Ferramenta: Axe]
+[07:20] [Keyd] Coletou 1x Sap [Ferramenta: Axe]
+[07:20] [Keyd] Coletou 1x Sap [Ferramenta: Axe]
+[07:30] [Keyd] Coletou 1x Sap [Ferramenta: Axe]
+[07:30] [Keyd] Coletou 1x Wood [Ferramenta: Axe]
+[07:30] [Keyd] Coletou 1x Wood [Ferramenta: Axe]
+[07:30] [Keyd] Coletou 1x Acorn [Ferramenta: Axe]
+[07:30] [Keyd] Coletou 1x Sap [Ferramenta: Axe]
+[07:30] [Keyd] Coletou 1x Sap [Ferramenta: Axe]
+[07:30] [Keyd] Coletou 1x Wood [Ferramenta: Axe]
+[07:30] [Keyd] Coletou 1x Wood [Ferramenta: Axe]
+[07:30] [Keyd] Coletou 1x Wood [Ferramenta: Axe]
+[07:30] [Keyd] Coletou 1x Wood [Ferramenta: Axe]
+[07:30] [Keyd] Coletou 1x Wood [Ferramenta: Axe]
+[07:30] [Keyd] Coletou 1x Wood [Ferramenta: Axe]
+[07:30] [Keyd] Coletou 1x Wood [Ferramenta: Axe]
+[07:30] [Keyd] Coletou 2x Wood [Ferramenta: Axe]
+[07:30] [Keyd] Coletou 1x Wood [Ferramenta: Axe]
+[07:30] [Keyd] Cortou Arvore [Ferramenta: Axe]
+[07:30] [Keyd] Coletou 1x Acorn [Ferramenta: Axe]
+[07:40] [Keyd] Cortou Arvore [Ferramenta: Axe]
+[07:40] [Keyd] Coletou 1x Wood [Ferramenta: Axe]
+[07:40] [Keyd] Coletou 1x Wood [Ferramenta: Axe]
+[07:40] [Keyd] Coletou 1x Wood [Ferramenta: Axe]
+[07:40] [Keyd] Coletou 1x Wood [Ferramenta: Axe]
+[07:40] [Keyd] Coletou 1x Sap [Ferramenta: Axe]
+[07:40] [Keyd] Coletou 1x Wood [Ferramenta: Axe]
+[07:40] [Keyd] Cortou Weeds [Ferramenta: Axe]
+[07:40] [Keyd] Coletou 1x Sap [Ferramenta: Axe]
+[07:40] [Keyd] Coletou 1x Sap [Ferramenta: Axe]
+[07:40] [Keyd] Coletou 3x Sap [Ferramenta: Axe]
+[07:50] [Keyd] Coletou 1x Wood [Ferramenta: Axe]
+[07:50] [Keyd] Coletou 1x Wood [Ferramenta: Axe]
+[07:50] [Keyd] Coletou 1x Wood [Ferramenta: Axe]
+[07:50] [Keyd] Coletou 2x Wood [Ferramenta: Axe]
+[07:50] [Keyd] Coletou 1x Wood [Ferramenta: Axe]
+[07:50] [Keyd] Coletou 3x Wood [Ferramenta: Axe]
+[07:50] [Keyd] Coletou 1x Wood [Ferramenta: Axe]
+[07:50] [Keyd] Coletou 1x Wood [Ferramenta: Axe]
+[07:50] [Keyd] Coletou 1x Wood [Ferramenta: Axe]
+[07:50] [Keyd] Quebrou Stone [Ferramenta: Pickaxe]
+[07:50] [Keyd] Coletou 1x Stone [Ferramenta: Pickaxe]
+[07:50] [Keyd] Quebrou Stone [Ferramenta: Pickaxe]
+[07:50] [Keyd] Coletou 1x Coal [Ferramenta: Pickaxe]
+[07:50] [Keyd] Coletou 1x Stone [Ferramenta: Pickaxe]
+[07:50] [Keyd] Quebrou Stone [Ferramenta: Pickaxe]
+[07:50] [Keyd] Coletou 1x Stone [Ferramenta: Pickaxe]
+[07:50] [Keyd] Coletou 2x Coal [Ferramenta: Pickaxe]
+[08:00] [Keyd] Quebrou Stone [Ferramenta: Pickaxe]
+[08:00] [Keyd] Coletou 1x Stone [Ferramenta: Pickaxe]
+[08:20] [Keyd] Coletou 1x Clay [Ferramenta: Hoe]
+[08:30] [Keyd] Coletou 1x Mixed Seeds [Ferramenta: Hoe]
+[08:40] [Keyd] Regou com Watering Can
+[08:50] [Keyd] faturou 886 no final do dia
+[08:50] [Keyd] Foi dormir no final do dia Primavera 9 no ano 1
