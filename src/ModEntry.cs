@@ -47,10 +47,11 @@ namespace ActionLogger
 
         private List<ActionLog> dailyLogs = new List<ActionLog>();
         private int moneyAtStartOfDay = 0;
-        private string lastTalkedNPC = null;
+        private string? lastTalkedNPC = null;
 
         private bool wasUsingTool = false;
         private bool wasInEvent = false;
+        private bool wasEating = false;
 
         public override void Entry(IModHelper helper)
         {
@@ -65,7 +66,7 @@ namespace ActionLogger
             helper.Events.Input.ButtonPressed += OnButtonPressed;
         }
 
-        private void OnButtonPressed(object sender, ButtonPressedEventArgs e)
+        private void OnButtonPressed(object? sender, ButtonPressedEventArgs e)
         {
             if (!Context.IsWorldReady || Game1.player == null) return;
 
@@ -125,6 +126,17 @@ namespace ActionLogger
                 LogAction($"Assistiu a uma cutscene", false);
             }
             wasInEvent = isInEvent;
+
+            bool isEating = Game1.player.isEating;
+            if (isEating && !wasEating)
+            {
+                var item = Game1.player.itemToEat;
+                if (item != null)
+                {
+                    LogAction($"Consumiu {item.Name}", false);
+                }
+            }
+            wasEating = isEating;
 
             bool isUsingTool = Game1.player.UsingTool;
             
@@ -192,14 +204,14 @@ namespace ActionLogger
             Monitor.Log($"Ação registrada: {newLog.GetFormattedString()}", LogLevel.Info);
         }
 
-        private void OnDayStarted(object sender, DayStartedEventArgs e)
+        private void OnDayStarted(object? sender, DayStartedEventArgs e)
         {
             dailyLogs.Clear();
             moneyAtStartOfDay = Game1.player.Money;
             lastTalkedNPC = null;
         }
 
-        private void OnDayEnding(object sender, DayEndingEventArgs e)
+        private void OnDayEnding(object? sender, DayEndingEventArgs e)
         {
             int earnedToday = Game1.player.Money - moneyAtStartOfDay;
             int shippingValue = 0;
@@ -272,7 +284,7 @@ namespace ActionLogger
             }
         }
 
-        private void OnWarped(object sender, WarpedEventArgs e)
+        private void OnWarped(object? sender, WarpedEventArgs e)
         {
             if (e.IsLocalPlayer)
             {
@@ -280,7 +292,7 @@ namespace ActionLogger
             }
         }
 
-        private void OnInventoryChanged(object sender, InventoryChangedEventArgs e)
+        private void OnInventoryChanged(object? sender, InventoryChangedEventArgs e)
         {
             if (!e.IsLocalPlayer) return;
 
@@ -327,8 +339,14 @@ namespace ActionLogger
             }
         }
 
-        private void OnObjectListChanged(object sender, ObjectListChangedEventArgs e)
+        private void OnObjectListChanged(object? sender, ObjectListChangedEventArgs e)
         {
+            foreach (var pair in e.Added)
+            {
+                var obj = pair.Value;
+                LogAction($"Colocou {obj.Name} no chão", false);
+            }
+
             foreach (var pair in e.Removed)
             {
                 var obj = pair.Value;
@@ -347,7 +365,7 @@ namespace ActionLogger
             }
         }
 
-        private void OnTerrainFeatureListChanged(object sender, TerrainFeatureListChangedEventArgs e)
+        private void OnTerrainFeatureListChanged(object? sender, TerrainFeatureListChangedEventArgs e)
         {
             foreach (var pair in e.Removed)
             {
@@ -362,7 +380,7 @@ namespace ActionLogger
             }
         }
 
-        private void OnMenuChanged(object sender, MenuChangedEventArgs e)
+        private void OnMenuChanged(object? sender, MenuChangedEventArgs e)
         {
             if (e.NewMenu is DialogueBox dialogueBox)
             {

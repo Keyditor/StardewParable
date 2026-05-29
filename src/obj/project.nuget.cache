@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "meXjsI4djKo=",
+  "dgSpecHash": "eUtV9z/mlDk=",
   "success": true,
-  "projectFilePath": "F:\\StardewParable\\src\\ActionLogger.csproj",
+  "projectFilePath": "f:\\StardewParable\\src\\ActionLogger.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Keyditor\\.nuget\\packages\\pathoschild.stardew.modbuildconfig\\4.1.1\\pathoschild.stardew.modbuildconfig.4.1.1.nupkg.sha512",
     "C:\\Users\\Keyditor\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.36\\microsoft.netcore.app.ref.6.0.36.nupkg.sha512",
