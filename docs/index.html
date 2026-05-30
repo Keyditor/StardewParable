@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StardewParable</title>
+    <title>StardewParable - Sua Fazenda Está Sendo Julgada</title>
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
+        /* --- Variables & Global Styles (Stardew + Stanley) --- */
         :root {
             --stanley-yellow: #FFD700;
             --stanley-dark: #2C3E50;
@@ -57,6 +58,7 @@
             font-style: italic;
         }
 
+        /* --- Layout Components --- */
         header {
             text-align: center;
             padding: 10vh 20px;
@@ -83,14 +85,16 @@
         }
 
         h2 {
-            font-size: 1.5rem;
+            font-size: 2.5rem; /* Slightly adjusted for better flow */
             margin-top: 10px;
             color: var(--stanley-dark);
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
         }
 
         .section {
-            padding: 80px 20px;
-            max-width: 800px;
+            padding: 80px 40px; /* Increased horizontal padding */
+            max-width: 1000px; /* Wider container for better readability */
             margin: 0 auto;
             background-color: #fff;
             border: 2px solid var(--stanley-gray);
@@ -101,6 +105,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
+        /* Specific Section Styles */
         .office-section {
             background-color: #f4f4f4;
             border-radius: 4px;
@@ -113,18 +118,35 @@
             background-color: #fcf3d9;
         }
 
-        .typing-container {
-            min-height: 80px;
-            margin-bottom: 20px;
-            border-left: 4px solid var(--stanley-dark);
-            padding-left: 20px;
+        /* Feature Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+            gap: 25px;
+            margin-top: 40px;
         }
 
+        .feature-card {
+            background: #fff;
+            padding: 25px;
+            border: 2px solid var(--stanley-gray);
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .feature-card h3 {
+            font-family: 'VT323', monospace;
+            font-size: 1.8rem; /* Slightly smaller */
+            color: var(--stardew-green);
+            margin-bottom: 10px;
+        }
+
+        /* Door Choices (The Stanley Parable element) */
         .door-choices {
             display: flex;
             justify-content: center;
-            gap: 40px;
-            margin-top: 40px;
+            gap: 50px; /* Increased gap */
+            margin-top: 60px;
         }
 
         .door {
@@ -133,18 +155,19 @@
             color: white;
             padding: 20px 40px;
             font-family: 'VT323', monospace;
-            font-size: 2rem;
+            font-size: 1.8rem; /* Slightly smaller */
             cursor: pointer;
             text-decoration: none;
-            transition: transform 0.2s, background-color 0.2s;
+            transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
             box-shadow: inset -4px -4px 0px rgba(0,0,0,0.3);
             text-align: center;
-            width: 250px;
+            width: 280px; /* Slightly wider */
         }
 
         .door:hover {
-            transform: scale(1.05);
+            transform: scale(1.05) translateY(-5px); /* Added vertical lift on hover */
             background-color: #e67e22;
+            box-shadow: inset -4px -4px 0px rgba(0,0,0,0.3), 0 8px 15px rgba(0,0,0,0.2); /* Enhanced shadow */
         }
 
         .door.stanley {
@@ -153,41 +176,18 @@
             color: var(--stanley-dark);
             font-family: 'Inter', sans-serif;
             font-weight: bold;
-            font-size: 1.2rem;
+            font-size: 1.3rem; /* Slightly larger */
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
         .door.stanley:hover {
             background-color: var(--stanley-yellow);
             color: #000;
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
         }
 
-        .features-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .feature-card {
-            background: #fff;
-            padding: 20px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-        }
-
-        .feature-card h3 {
-            font-family: 'VT323', monospace;
-            font-size: 2rem;
-            color: var(--stardew-green);
-            margin-bottom: 10px;
-        }
-
-        .feature-card p {
-            font-size: 1rem;
-            line-height: 1.5;
-        }
-
+        /* Footer */
         footer {
             text-align: center;
             padding: 40px;
@@ -196,15 +196,23 @@
             margin-top: 100px;
         }
 
-        @media (max-width: 768px) {
+        /* --- Media Queries (Responsiveness) --- */
+        @media (max-width: 900px) {
             .door-choices {
                 flex-direction: column;
                 align-items: center;
             }
-            .features-grid {
-                grid-template-columns: 1fr;
+            .door {
+                width: 80%; /* Use more width on smaller screens */
+                max-width: 400px;
             }
+        }
+
+        @media (max-width: 768px) {
             h1 { font-size: 3.5rem; }
+            h2 { font-size: 2rem; }
+            .section { padding: 40px 20px; }
+            .door-choices { gap: 30px; }
         }
     </style>
 </head>
@@ -215,65 +223,109 @@
     <header>
         <div class="title-box">
             <h1 class="pixel-text">StardewParable</h1>
-            <h2 class="narrator-text">"Esta é a história de um fazendeiro chamado..."</h2>
-        </div>
+            <h2 class="narrator-text">"A vida na fazenda nunca foi tão observada."</h2>
+        </div >
     </header>
 
+    <!-- SECTION 1: The Hook (Office/Narrative Style) -->
     <div class="section office-section">
         <div class="typing-container">
             <p id="narrator-typing" class="narrator-text"></p>
         </div>
         <p style="margin-top: 20px; line-height: 1.6;">
-            <strong>StardewParable</strong> é um mod focado em narrativa para Stardew Valley que se recusa a observar silenciosamente suas escolhas rurais questionáveis.
-            Ele rastreia todas as suas ações — desde plantar cherívias até fuçar no lixo alheio — e usa uma Inteligência Artificial para gerar um monólogo sarcástico julgando o seu dia.
+            <strong>StardewParable</strong> é um mod narrativo para Stardew Valley que se recusa a observar silenciosamente suas escolhas rurais questionáveis. Ele rastreia todas as suas ações — desde plantar cherívias até fuçar no lixo alheio — e usa uma Inteligência Artificial avançada para gerar um monólogo sarcástico, julgando cada detalhe do seu dia.
         </p>
     </div>
 
+    <!-- SECTION 2: Features (Farm/Gameplay Style) -->
     <div class="section farm-section">
-        <h2 class="pixel-text" style="font-size: 3rem; text-align: center; margin-bottom: 30px;">O que a IA observa?</h2>
+        <h2>✨ O que a IA observa?</h2>
         
         <div class="features-grid">
             <div class="feature-card">
-                <h3>🎮 Rastreamento Preciso</h3>
-                <p>O mod sabe quando você planta, colhe, mina ou quando coloca uma cerca exatamente no lugar errado. 100% integrado ao inventário do jogo.</p>
+                <h3>🎮 Rastreamento de Gameplay Detalhado</h3>
+                <p>Registra automaticamente e com precisão: Ações agrícolas (plantio, colheita, rega), Colocação de móveis/baús, Uso de ferramentas/armas, Mineração/combate, Pesca, Interações com NPCs, Crafting e vendas. 100% integrado ao inventário do jogo.</p>
             </div>
             <div class="feature-card">
-                <h3>🧠 Memória de Continuidade</h3>
-                <p>O Narrador não esquece os dias anteriores. Ele usará seus erros passados como munição para os julgamentos futuros (Graças ao contexto da IA).</p>
+                <h3>🧠 Memória de Continuidade (IA)</h3>
+                <p>O Narrador não esquece os dias anteriores. Ele usa seus erros passados como munição para julgamentos futuros, mantendo uma coesão narrativa profunda e um senso de inevitabilidade.</p>
             </div>
             <div class="feature-card">
-                <h3>🔊 Voz Text-to-Speech</h3>
-                <p>Suporte integrado para a API do <strong>ElevenLabs</strong> para que as broncas sejam verbalizadas com elegância. Ou use a voz robótica local, se preferir o caos.</p>
+                <h3>🔊 Integração de Voz (TTS)</h3>
+                <p>As histórias geradas são lidas em voz alta. Suporte nativo para <strong style="color: #e74c3c;">ElevenLabs</strong> e fallback para serviços TTS locais, garantindo que o julgamento seja ouvido com clareza.</p>
             </div>
             <div class="feature-card">
-                <h3>📊 Dashboard Web</h3>
-                <p>Acompanha um painel interativo (Gradio) no backend. Lá você monitora os logs em tempo real e pode até escrever prompts customizados para testar a paciência da IA.</p>
+                <h3>📊 Dashboard Interativo (Gradio)</h3>
+                <p>Painel web integrado ao backend. Permite monitorar logs em tempo real das ações enviadas, acompanhar o histórico de contexto da IA e testar narrativas customizadas diretamente pelo navegador.</p>
             </div>
         </div>
     </div>
 
+    <!-- SECTION 3: Narration Modes (Office/Choice Style) -->
     <div class="section office-section" style="text-align: center;">
-        <h2 style="margin-bottom: 20px;">O Fazendeiro chegou a duas portas.</h2>
-        <p style="margin-bottom: 30px; font-style: italic; color: #555;">Ele tomou a porta da esquerda para ler o código-fonte, ou a porta da direita para ignorar tudo e baixar o mod?</p>
+        <h2>⏳ Escolha seu Modo de Julgamento</h2>
+        <p style="margin-bottom: 40px; font-style: italic; color: #555;">O Narrador pode ser acionado em diferentes momentos. Qual será o seu destino?</p>
         
         <div class="door-choices">
+            <!-- Door 1: Daily -->
+            <a href="#daily" class="door" target="_blank" style="border-color: #2ecc71; background-color: #d4efdf;">
+                MODO DIÁRIO (Fim do Dia)<br>
+                <span style="font-size: 0.9rem;">Julgamento ao dormir</span>
+            </a>
+            <!-- Door 2: Per Turn -->
+            <a href="#perturn" class="door stanley" onclick="alert('O Narrador nota que você clicou no botão de Turno, mas ele está esperando o momento certo para começar. Tente configurar o GMCM!')">
+                MODO POR TURNO (12:00 / 18:00)<br>
+                <span style="font-weight: normal; font-size: 0.9rem;">Julgamento em momentos chave</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- SECTION 4: Installation & Architecture -->
+    <div class="section farm-section">
+        <h2>🏗 Arquitetura e Instalação</h2>
+        
+        <h3>⚙️ Requisitos</h3>
+        <ul style="list-style-type: disc; margin-left: 20px;">
+            <li>Stardew Valley</li>
+            <li>SMAPI e Generic Mod Config Menu (GMCM)</li>
+            <li>Python 3.8+</li>
+            <li>Chave API LLM (OpenAI/Groq, etc.) ou Serviço TTS Local</li>
+        </ul>
+
+        <h3 style="margin-top: 20px;">🚀 Instalação do Backend</h3>
+        <p>Na raiz do projeto, instale as dependências e execute o servidor:</p>
+        <pre style="background-color: #eee; padding: 15px; border-radius: 4px; overflow-x: auto;"><code class="pixel-text">cd backend
+pip install -r requirements.txt</code></pre>
+        <p>Configure seu arquivo `.env` e execute:</p>
+        <pre style="background-color: #eee; padding: 15px; border-radius: 4px; overflow-x: auto;"><code class="pixel-text">uvicorn main:app --reload --port 8000</code></pre>
+    </div>
+
+    <!-- SECTION 5: Call to Action (Final Door) -->
+    <div class="section office-section" style="text-align: center;">
+        <h2>O Fazendeiro chegou a duas portas.</h2>
+        <p style="margin-bottom: 30px; font-style: italic; color: #555;">Ele tomou a porta da esquerda para ler o código-fonte, ou a porta da direita para baixar e começar a ser julgado?</p>
+        
+        <div class="door-choices">
+            <!-- Door 1: GitHub (Left) -->
             <a href="https://github.com/Keyditor/StardewParable" class="door" target="_blank">
                 PORTA ESQUERDA<br>
-                <span style="font-size: 1rem;">(Ver GitHub)</span>
+                <span style="font-size: 1rem;">(Ver Repositório GitHub)</span>
             </a>
-            <a href="#download" class="door stanley" onclick="alert('O Narrador nota que você clicou no botão de Download, mas infelizmente este link ainda é uma ilusão. Visite o GitHub.')">
+            <!-- Door 2: Download (Right - Primary CTA) -->
+            <a href="#download" class="door stanley" onclick="alert('O Narrador nota que você clicou no botão de Download, mas infelizmente este link ainda é uma ilusão. Por favor, siga as instruções do backend para começar!')">
                 PORTA DIREITA<br>
-                <span style="font-weight: normal; font-size: 0.9rem;">(Download Mod)</span>
+                <span style="font-weight: normal; font-size: 0.9rem;">(Baixar e Configurar o Mod)</span>
             </a>
         </div>
     </div>
 
     <footer>
         <p class="pixel-text" style="font-size: 1.5rem; margin-bottom: 10px;">StardewParable &copy; 2026</p>
-        <p class="narrator-text" style="font-size: 1rem; color: #aaa;">"E assim, o jogador desceu até o final da página, buscando respostas que não estavam lá."</p>
+        <p class="narrator-text" style="font-size: 1rem; color: #aaa;">"E assim, o jogador desceu até o final da página, buscando respostas que não estavam lá. Mas a IA está sempre observando."</p>
     </footer>
 
     <script>
+        // Script de digitação (Mantido e ligeiramente ajustado)
         const text = "\"Ele regou a mesma planta duas vezes. Como se a rotina pudesse, de alguma forma, preencher o vazio. Que perda de tempo monumental. Mas tudo bem, vamos continuar fingindo que essa fazenda tem futuro.\"";
         let index = 0;
         const speed = 40; // typing speed in ms

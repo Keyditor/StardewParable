@@ -4,3 +4,8 @@ python-dotenv
 requests
 pygame
 gradio
+flask
+pyngrok
+werkzeug
+pocket-tts
+scipy
