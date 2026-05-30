@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ActionLogger")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+505ed5c294af4e1192ec6d4d8fadf89e480936ff")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2da612af4dae0c559c691c819f323d846801b1ed")]
 [assembly: System.Reflection.AssemblyProductAttribute("ActionLogger")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ActionLogger")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

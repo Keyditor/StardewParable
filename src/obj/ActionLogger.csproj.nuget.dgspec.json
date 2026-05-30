@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "f:\\StardewParable\\src\\ActionLogger.csproj": {}
+    "F:\\StardewParable\\src\\ActionLogger.csproj": {}
   },
   "projects": {
-    "f:\\StardewParable\\src\\ActionLogger.csproj": {
+    "F:\\StardewParable\\src\\ActionLogger.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "f:\\StardewParable\\src\\ActionLogger.csproj",
+        "projectUniqueName": "F:\\StardewParable\\src\\ActionLogger.csproj",
         "projectName": "ActionLogger",
-        "projectPath": "f:\\StardewParable\\src\\ActionLogger.csproj",
+        "projectPath": "F:\\StardewParable\\src\\ActionLogger.csproj",
         "packagesPath": "C:\\Users\\Keyditor\\.nuget\\packages\\",
-        "outputPath": "f:\\StardewParable\\src\\obj\\",
+        "outputPath": "F:\\StardewParable\\src\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Keyditor\\AppData\\Roaming\\NuGet\\NuGet.Config"

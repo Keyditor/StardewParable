@@ -12,11 +12,27 @@ using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Menus;
 using StardewValley.TerrainFeatures;
+using StardewValley.Locations;
+using StardewValley.Monsters;
 
 namespace ActionLogger
 {
+    public class ModConfig
+    {
+        public string BackendUrl { get; set; } = "http://localhost:8000/actions";
+        public string TtsApiUrl { get; set; } = "http://localhost:8000/tts";
+    }
+
+    public interface IGenericModConfigMenuApi
+    {
+        void Register(IManifest mod, Action reset, Action save, bool titleScreenOnly = false);
+        void AddTextOption(IManifest mod, Func<string> getValue, Action<string> setValue, Func<string> name, Func<string> tooltip = null, string[] allowedValues = null, Func<string, string> formatAllowedValue = null, string fieldId = null);
+    }
+
     public class ModEntry : Mod
     {
+        private ModConfig Config;
+
         private class ActionLog
         {
             public string BaseMessage { get; set; }
@@ -32,7 +48,7 @@ namespace ActionLogger
                 ToolName = toolName;
                 InGameTime = timeChunk;
                 PlayerName = Game1.player?.Name ?? "Nenhum";
-                LocationName = Game1.currentLocation?.Name ?? "Desconhecido";
+                LocationName = GetLocationName(Game1.currentLocation);
                 Count = 1;
             }
 
@@ -47,7 +63,8 @@ namespace ActionLogger
 
         private List<ActionLog> dailyLogs = new List<ActionLog>();
         private int moneyAtStartOfDay = 0;
-        private string? lastTalkedNPC = null;
+
+        private string? lastDialogueText = null;
 
         private bool wasUsingTool = false;
         private bool wasInEvent = false;
@@ -55,6 +72,9 @@ namespace ActionLogger
 
         public override void Entry(IModHelper helper)
         {
+            this.Config = this.Helper.ReadConfig<ModConfig>();
+
+            helper.Events.GameLoop.GameLaunched += OnGameLaunched;
             helper.Events.GameLoop.DayStarted += OnDayStarted;
             helper.Events.GameLoop.DayEnding += OnDayEnding;
             helper.Events.GameLoop.UpdateTicked += OnUpdateTicked;
@@ -62,8 +82,93 @@ namespace ActionLogger
             helper.Events.Player.Warped += OnWarped;
             helper.Events.World.ObjectListChanged += OnObjectListChanged;
             helper.Events.World.TerrainFeatureListChanged += OnTerrainFeatureListChanged;
-            helper.Events.Display.MenuChanged += OnMenuChanged;
             helper.Events.Input.ButtonPressed += OnButtonPressed;
+            helper.Events.World.NpcListChanged += OnNpcListChanged;
+        }
+
+        private void OnGameLaunched(object? sender, GameLaunchedEventArgs e)
+        {
+            var configMenu = this.Helper.ModRegistry.GetApi<IGenericModConfigMenuApi>("spacechase0.GenericModConfigMenu");
+            
+            if (configMenu is null)
+                return;
+
+            configMenu.Register(
+                mod: this.ModManifest,
+                reset: () => this.Config = new ModConfig(),
+                save: () => this.Helper.WriteConfig(this.Config)
+            );
+
+            configMenu.AddTextOption(
+                mod: this.ModManifest,
+                name: () => "URL do Backend",
+                tooltip: () => "A URL para enviar o relatório de ações diárias.",
+                getValue: () => this.Config.BackendUrl,
+                setValue: value => this.Config.BackendUrl = value
+            );
+
+            configMenu.AddTextOption(
+                mod: this.ModManifest,
+                name: () => "URL da API de TTS",
+                tooltip: () => "A URL para o gerador de voz (Text-To-Speech).",
+                getValue: () => this.Config.TtsApiUrl,
+                setValue: value => this.Config.TtsApiUrl = value
+            );
+        }
+
+        private static string GetLocationName(GameLocation location, string fallbackName = null)
+        {
+            string locName = location?.Name ?? fallbackName ?? "Desconhecido";
+            switch (locName)
+            {
+                case "Farm": return $"Fazenda {Game1.player?.farmName.Value ?? ""}".Trim();
+                case "Town": return "Vila Pelicanos";
+                case "Saloon": return "Saloon Fruta Estrelar";
+                case "SeedShop": return "Armazém do Pierre";
+                case "Blacksmith": return "Ferreiro";
+                case "AnimalShop": return "Rancho da Marnie";
+                case "JojaMart": return "Mercado Joja";
+                case "Hospital": return "Clínica do Harvey";
+                case "ScienceHouse": return "Carpintaria";
+                case "Mountain": return "Montanha";
+                case "Forest": return "Floresta Cinzaseiva";
+                case "Beach": return "Praia";
+                case "Mine": return "Minas";
+                case "Desert": return "Deserto Calico";
+                case "Woods": return "Bosque Secreto";
+                case "Sewer": return "Esgotos";
+                case "BugLand": return "Covil dos Insetos Mutantes";
+                case "WitchSwamp": return "Pântano da Bruxa";
+                case "WitchHut": return "Cabana da Bruxa";
+                case "Greenhouse": return "Estufa";
+                case "FarmCave": return "Caverna da Fazenda";
+                case "CommunityCenter": return "Centro Comunitário";
+                case "ArchaeologyHouse": return "Museu e Biblioteca";
+                case "FarmHouse": return "Casa da Fazenda";
+                case "Cellar": return "Porão";
+                case "Club": return "Cassino";
+                case "SandyHouse": return "Oásis";
+                case "Trailer": return "Trailer da Penny";
+                case "Tent": return "Tenda do Linus";
+                case "ElliottHouse": return "Cabana do Elliott";
+                case "JoshHouse": return "Casa do Alex";
+                case "HaleyHouse": return "Casa da Haley";
+                case "SamHouse": return "Casa do Sam";
+                case "LeahHouse": return "Cabana da Leah";
+                case "SebastianRoom": return "Quarto do Sebastian";
+                case "HarveyRoom": return "Quarto do Harvey";
+                case "IslandSouth": return "Ilha Gengibre (Sul)";
+                case "IslandEast": return "Ilha Gengibre (Leste)";
+                case "IslandNorth": return "Ilha Gengibre (Norte)";
+                case "IslandWest": return "Ilha Gengibre (Oeste)";
+                case "IslandHut": return "Cabana do Leo";
+                case "VolcanoDungeon0": return "Vulcão";
+                default:
+                    if (locName.StartsWith("UndergroundMine")) return "Minas";
+                    if (locName.StartsWith("BathHouse")) return "Casa de Banho";
+                    if (locName.StartsWith("Cabin")) return "Cabana";
+                    return locName;
+            }
         }
 
         private void OnButtonPressed(object? sender, ButtonPressedEventArgs e)
@@ -133,7 +238,7 @@ namespace ActionLogger
                 var item = Game1.player.itemToEat;
                 if (item != null)
                 {
-                    LogAction($"Consumiu {item.Name}", false);
+                    LogAction($"Consumiu {item.DisplayName}", false);
                 }
             }
             wasEating = isEating;
@@ -177,13 +282,41 @@ namespace ActionLogger
             }
             
             wasUsingTool = isUsingTool;
+
+            if (Game1.activeClickableMenu is DialogueBox dialogueBox)
+            {
+                string text = "";
+                try
+                {
+                    text = dialogueBox.getCurrentString();
+                }
+                catch { }
+
+                if (!string.IsNullOrEmpty(text) && text != lastDialogueText)
+                {
+                    var speaker = Game1.currentSpeaker?.Name;
+                    if (speaker != null)
+                    {
+                        LogAction($"Conversou com {speaker}: \"{text}\"", false);
+                    }
+                    else
+                    {
+                        LogAction($"Leu: \"{text}\"", false);
+                    }
+                    lastDialogueText = text;
+                }
+            }
+            else if (Game1.activeClickableMenu == null)
+            {
+                lastDialogueText = null;
+            }
         }
 
         private void LogAction(string message, bool includeTool = true, int amount = 1)
         {
             if (Game1.player == null) return;
             
-            string toolName = includeTool ? (Game1.player.CurrentTool?.Name ?? "Nenhuma") : "";
+            string toolName = includeTool ? (Game1.player.CurrentTool?.DisplayName ?? "Nenhuma") : "";
             int currentChunk = GetHalfHourChunk(Game1.timeOfDay);
             
             var existingLog = dailyLogs.FindLast(l => 
@@ -208,7 +341,17 @@ namespace ActionLogger
         {
             dailyLogs.Clear();
             moneyAtStartOfDay = Game1.player.Money;
-            lastTalkedNPC = null;
+        }
+
+        private string GetQualityString(int quality)
+        {
+            switch (quality)
+            {
+                case 1: return " (Prata)";
+                case 2: return " (Ouro)";
+                case 4: return " (Irídio)";
+                default: return "";
+            }
         }
 
         private void OnDayEnding(object? sender, DayEndingEventArgs e)
@@ -217,17 +360,38 @@ namespace ActionLogger
             int shippingValue = 0;
             
             var shippingBin = Game1.getFarm().getShippingBin(Game1.player);
+            var shippedItems = new Dictionary<string, (int amount, int value)>();
+
             foreach (var item in shippingBin)
             {
                 if (item is StardewValley.Object obj)
                 {
-                    shippingValue += obj.sellToStorePrice() * obj.Stack;
+                    int itemValue = obj.sellToStorePrice() * obj.Stack;
+                    shippingValue += itemValue;
+                    
+                    string qualityStr = GetQualityString(obj.Quality);
+                    string key = $"{obj.DisplayName}{qualityStr}";
+                    
+                    if (shippedItems.ContainsKey(key))
+                    {
+                        var current = shippedItems[key];
+                        shippedItems[key] = (current.amount + obj.Stack, current.value + itemValue);
+                    }
+                    else
+                    {
+                        shippedItems[key] = (obj.Stack, itemValue);
+                    }
                 }
+            }
+
+            foreach (var kvp in shippedItems)
+            {
+                LogAction($"Enviou {kvp.Key} (Lucro: {kvp.Value.value} ouros)", false, kvp.Value.amount);
             }
 
             int totalEarned = Math.Max(0, earnedToday + shippingValue);
 
-            LogAction($"faturou {totalEarned} no final do dia", false);
+            LogAction($"Faturou {totalEarned} ouros no final do dia", false);
             LogAction($"Foi dormir no final do dia {SDate.Now().ToLocaleString()}", false);
 
             WriteLogToFile();
@@ -267,7 +431,7 @@ namespace ActionLogger
                 var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
                 
                 Monitor.Log("Enviando ações para o backend...", LogLevel.Info);
-                HttpResponseMessage response = await httpClient.PostAsync("http://localhost:8000/actions", content);
+                HttpResponseMessage response = await httpClient.PostAsync(this.Config.BackendUrl, content);
                 
                 if (response.IsSuccessStatusCode)
                 {
@@ -288,7 +452,34 @@ namespace ActionLogger
         {
             if (e.IsLocalPlayer)
             {
-                LogAction($"Saiu de '{e.OldLocation.Name}' para '{e.NewLocation.Name}'", false);
+                string oldLoc = GetLocationName(e.OldLocation, e.OldLocation.Name);
+                string newLoc = GetLocationName(e.NewLocation, e.NewLocation.Name);
+                LogAction($"Saiu de '{oldLoc}' para '{newLoc}'", false);
+
+                if (e.NewLocation is MineShaft newShaft)
+                {
+                    if (newShaft.mineLevel > 120)
+                    {
+                        LogAction($"Chegou ao andar {newShaft.mineLevel - 120} da Caverna da Caveira", false);
+                    }
+                    else
+                    {
+                        LogAction($"Chegou ao andar {newShaft.mineLevel} das Minas", false);
+                    }
+                }
+            }
+        }
+
+        private void OnNpcListChanged(object? sender, NpcListChangedEventArgs e)
+        {
+            if (e.Location != Game1.currentLocation) return;
+
+            foreach (var npc in e.Removed)
+            {
+                if (npc is Monster monster && monster.Health <= 0)
+                {
+                    LogAction($"Derrotou um monstro: {monster.Name}", false);
+                }
             }
         }
 
@@ -308,25 +499,27 @@ namespace ActionLogger
 
             foreach (var item in e.Added)
             {
+                string qualityStr = item is StardewValley.Object obj ? GetQualityString(obj.Quality) : "";
                 if (isCrafting)
-                    LogAction($"Craftou {item.Name}", false, item.Stack);
+                    LogAction($"Craftou {item.DisplayName}{qualityStr}", false, item.Stack);
                 else
-                    LogAction($"Coletou {item.Name}", false, item.Stack);
+                    LogAction($"Coletou {item.DisplayName}{qualityStr}", false, item.Stack);
             }
 
             foreach (var change in e.QuantityChanged)
             {
                 int amount = change.NewSize - change.OldSize;
+                string qualityStr = change.Item is StardewValley.Object obj ? GetQualityString(obj.Quality) : "";
                 if (amount > 0)
                 {
                     if (isCrafting)
-                        LogAction($"Craftou {change.Item.Name}", false, amount);
+                        LogAction($"Craftou {change.Item.DisplayName}{qualityStr}", false, amount);
                     else
-                        LogAction($"Coletou {change.Item.Name}", false, amount);
+                        LogAction($"Coletou {change.Item.DisplayName}{qualityStr}", false, amount);
                 }
                 else if (amount < 0 && Game1.activeClickableMenu is ShopMenu)
                 {
-                    LogAction($"Vendeu {change.Item.Name}", false, -amount);
+                    LogAction($"Vendeu {change.Item.DisplayName}{qualityStr}", false, -amount);
                 }
             }
 
@@ -334,7 +527,8 @@ namespace ActionLogger
             {
                 foreach (var item in e.Removed)
                 {
-                    LogAction($"Vendeu {item.Name}", false, item.Stack);
+                    string qualityStr = item is StardewValley.Object obj ? GetQualityString(obj.Quality) : "";
+                    LogAction($"Vendeu {item.DisplayName}{qualityStr}", false, item.Stack);
                 }
             }
         }
@@ -344,7 +538,7 @@ namespace ActionLogger
             foreach (var pair in e.Added)
             {
                 var obj = pair.Value;
-                LogAction($"Colocou {obj.Name} no chão", false);
+                LogAction($"Colocou {obj.DisplayName} no chão", false);
             }
 
             foreach (var pair in e.Removed)
@@ -352,15 +546,19 @@ namespace ActionLogger
                 var obj = pair.Value;
                 if (obj.Name.Contains("Stone") || obj.Name.Contains("Rock"))
                 {
-                    LogAction($"Quebrou {obj.Name}");
+                    LogAction($"Quebrou {obj.DisplayName}");
                 }
                 else if (obj.Name.Contains("Weed"))
                 {
-                    LogAction($"Cortou {obj.Name}");
+                    LogAction($"Cortou {obj.DisplayName}");
                 }
                 else if (obj.Name.Contains("Twig") || obj.Name.Contains("Wood"))
                 {
-                    LogAction($"Quebrou {obj.Name}");
+                    LogAction($"Quebrou {obj.DisplayName}");
+                }
+                else
+                {
+                    LogAction($"Removeu {obj.DisplayName}");
                 }
             }
         }
@@ -371,45 +569,12 @@ namespace ActionLogger
             {
                 if (pair.Value is Tree)
                 {
-                    LogAction("Cortou Arvore");
+                    LogAction("Cortou uma Árvore");
                 }
                 else if (pair.Value is FruitTree)
                 {
-                    LogAction("Cortou Arvore Frutifera");
+                    LogAction("Cortou uma Árvore Frutífera");
                 }
-            }
-        }
-
-        private void OnMenuChanged(object? sender, MenuChangedEventArgs e)
-        {
-            if (e.NewMenu is DialogueBox dialogueBox)
-            {
-                var speaker = Game1.currentSpeaker?.Name;
-                if (speaker != null)
-                {
-                    string text = "";
-                    try
-                    {
-                        text = dialogueBox.getCurrentString();
-                    }
-                    catch { }
-
-                    // Se mudou de NPC ou se há texto capturado novo, registra a ação.
-                    if (speaker != lastTalkedNPC || !string.IsNullOrEmpty(text))
-                    {
-                        string msg = $"Conversou com {speaker}";
-                        if (!string.IsNullOrEmpty(text))
-                        {
-                            msg += $": \"{text}\"";
-                        }
-                        LogAction(msg, false);
-                        lastTalkedNPC = speaker;
-                    }
-                }
-            }
-            else if (e.NewMenu == null)
-            {
-                lastTalkedNPC = null;
             }
         }
     }
