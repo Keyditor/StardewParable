@@ -3,344 +3,462 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StardewParable - Sua Fazenda Está Sendo Julgada</title>
-    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>Stardew Parable - O Fazendeiro estava em paz.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@300;400;500;600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
-        /* --- Variables & Global Styles (Stardew + Stanley) --- */
         :root {
-            --stanley-yellow: #FFD700;
-            --stanley-dark: #2C3E50;
-            --stanley-gray: #BDC3C7;
-            --stardew-green: #4CAF50;
-            --stardew-wood: #8B4513;
-            --stardew-bg: #87CEEB; /* Sky blue */
+            --bg-dark: #0d0d0b;
+            --bg-card: #1f201d;
+            --border-card: #2f302b;
+            --text-light: #e6e4d9;
+            --text-dim: #9e9c93;
+            --accent-gold: #e0a96d;
+            --accent-gold-dim: #8b6b44;
+            --font-serif: 'Crimson Text', Georgia, serif;
+            --font-sans: 'Inter', sans-serif;
+            --font-mono: 'Space Mono', monospace;
         }
 
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
 
         body {
-            background-color: var(--stardew-bg);
-            color: var(--stanley-dark);
-            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: var(--font-sans);
+            line-height: 1.6;
             overflow-x: hidden;
-            position: relative;
         }
 
-        /* The iconic yellow line */
-        .yellow-line {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 10px;
-            height: 100%;
-            background-color: var(--stanley-yellow);
-            z-index: -1;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+        ::selection {
+            background: var(--accent-gold);
+            color: var(--bg-dark);
         }
 
-        /* Pixel art font for Stardew elements */
-        .pixel-text {
-            font-family: 'VT323', monospace;
-            text-shadow: 2px 2px 0px rgba(0,0,0,0.3);
-        }
-
-        /* Office font for Stanley elements */
-        .narrator-text {
-            font-family: 'Inter', sans-serif;
-            font-weight: 300;
-            font-size: 1.5rem;
-            color: #333;
-            font-style: italic;
-        }
-
-        /* --- Layout Components --- */
-        header {
-            text-align: center;
-            padding: 10vh 20px;
-            background: url('data:image/svg+xml;utf8,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="%2387CEEB"/><circle cx="50" cy="50" r="40" fill="%23FFF" opacity="0.3"/></svg>');
-            background-size: cover;
-            border-bottom: 8px solid var(--stardew-wood);
-            position: relative;
-        }
-
-        .title-box {
-            background-color: rgba(255, 255, 255, 0.9);
-            border: 4px solid var(--stardew-wood);
-            border-radius: 8px;
-            display: inline-block;
-            padding: 20px 40px;
-            box-shadow: 0 10px 0 rgba(0,0,0,0.2);
-            position: relative;
-            z-index: 1;
+        /* Typography */
+        h1, h2, h3 {
+            font-family: var(--font-serif);
+            font-weight: 600;
         }
 
         h1 {
-            font-size: 5rem;
-            color: var(--stardew-green);
+            font-size: 4.5rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+        }
+
+        h1 span {
+            color: var(--accent-gold);
+            font-style: italic;
         }
 
         h2 {
-            font-size: 2.5rem; /* Slightly adjusted for better flow */
-            margin-top: 10px;
-            color: var(--stanley-dark);
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
+            font-size: 3rem;
+            margin-bottom: 1rem;
         }
 
-        .section {
-            padding: 80px 40px; /* Increased horizontal padding */
-            max-width: 1000px; /* Wider container for better readability */
-            margin: 0 auto;
-            background-color: #fff;
-            border: 2px solid var(--stanley-gray);
-            margin-top: 40px;
-            margin-bottom: 40px;
-            position: relative;
-            z-index: 1;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        /* Specific Section Styles */
-        .office-section {
-            background-color: #f4f4f4;
-            border-radius: 4px;
-            border-left: 10px solid var(--stanley-yellow);
-        }
-
-        .farm-section {
-            border: 6px solid var(--stardew-wood);
-            border-radius: 12px;
-            background-color: #fcf3d9;
-        }
-
-        /* Feature Grid */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
-            gap: 25px;
-            margin-top: 40px;
-        }
-
-        .feature-card {
-            background: #fff;
-            padding: 25px;
-            border: 2px solid var(--stanley-gray);
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-
-        .feature-card h3 {
-            font-family: 'VT323', monospace;
-            font-size: 1.8rem; /* Slightly smaller */
-            color: var(--stardew-green);
-            margin-bottom: 10px;
-        }
-
-        /* Door Choices (The Stanley Parable element) */
-        .door-choices {
+        .section-tag {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
             display: flex;
-            justify-content: center;
-            gap: 50px; /* Increased gap */
-            margin-top: 60px;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .door {
-            border: 4px solid var(--stardew-wood);
-            background-color: #d35400;
-            color: white;
-            padding: 20px 40px;
-            font-family: 'VT323', monospace;
-            font-size: 1.8rem; /* Slightly smaller */
-            cursor: pointer;
+        .section-tag::before {
+            content: "▸";
+        }
+
+        /* Navbar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 5%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-weight: 600;
+            font-style: italic;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo span {
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            font-style: normal;
+            background: var(--accent-gold);
+            color: var(--bg-dark);
+            padding: 0.1rem 0.3rem;
+            border-radius: 2px;
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-dim);
             text-decoration: none;
-            transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
-            box-shadow: inset -4px -4px 0px rgba(0,0,0,0.3);
-            text-align: center;
-            width: 280px; /* Slightly wider */
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: color 0.3s ease;
         }
 
-        .door:hover {
-            transform: scale(1.05) translateY(-5px); /* Added vertical lift on hover */
-            background-color: #e67e22;
-            box-shadow: inset -4px -4px 0px rgba(0,0,0,0.3), 0 8px 15px rgba(0,0,0,0.2); /* Enhanced shadow */
+        .nav-links a:hover {
+            color: var(--text-light);
         }
 
-        .door.stanley {
-            border: 2px solid var(--stanley-dark);
-            background-color: #fff;
-            color: var(--stanley-dark);
-            font-family: 'Inter', sans-serif;
-            font-weight: bold;
-            font-size: 1.3rem; /* Slightly larger */
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border-card);
+            color: var(--text-light);
+            padding: 0.6rem 1.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            border-radius: 2px;
         }
 
-        .door.stanley:hover {
-            background-color: var(--stanley-yellow);
-            color: #000;
-            transform: scale(1.05) translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        .btn-outline:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
         }
 
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 40px;
-            background-color: var(--stanley-dark);
-            color: #fff;
-            margin-top: 100px;
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            /* Using the 3rd image as background */
+            background-image: 
+                linear-gradient(90deg, rgba(13,13,11,1) 0%, rgba(13,13,11,0.9) 40%, rgba(13,13,11,0.4) 100%),
+                url('background.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
-        /* --- Media Queries (Responsiveness) --- */
+        .hero-content {
+            max-width: 600px;
+            z-index: 10;
+            padding-top: 5rem;
+        }
+
+        .hero-quote {
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            font-style: italic;
+            color: var(--accent-gold);
+            border-left: 2px solid var(--accent-gold-dim);
+            padding-left: 1.5rem;
+            margin: 2.5rem 0;
+            line-height: 1.8;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .hero-actions .btn-outline {
+            background: rgba(31, 32, 29, 0.6);
+            backdrop-filter: blur(5px);
+        }
+
+        .hero-meta {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .hero-meta span {
+            color: var(--accent-gold);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 8rem 5%;
+            background: linear-gradient(180deg, transparent 0%, var(--bg-dark) 100%);
+            position: relative;
+        }
+
+        .features-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 4rem;
+        }
+
+        .features-subtitle {
+            max-width: 350px;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-dim);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-card);
+            padding: 2.5rem 2rem;
+            position: relative;
+            border-radius: 4px;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: #4a4b44;
+        }
+
+        .card-tag {
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background: var(--accent-gold);
+            color: var(--bg-dark);
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 0.3rem 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .card-title {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .card-desc {
+            font-size: 0.95rem;
+            color: var(--text-dim);
+            margin-bottom: 1.5rem;
+        }
+
+        .card-quote {
+            font-family: var(--font-serif);
+            font-style: italic;
+            color: var(--accent-gold);
+            font-size: 1.1rem;
+            border-left: 2px solid var(--accent-gold-dim);
+            padding-left: 1rem;
+        }
+
+        /* Log Component specifically for card 5 */
+        .dialogue-log {
+            font-family: var(--font-serif);
+            font-size: 0.95rem;
+        }
+        
+        .dialogue-log p {
+            margin-bottom: 0.8rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .dialogue-log span.time {
+            font-family: var(--font-mono);
+            color: var(--accent-gold);
+            font-size: 0.8rem;
+            min-width: 45px;
+            padding-top: 0.2rem;
+        }
+
+        .dialogue-log .italic-log {
+            font-style: italic;
+            color: var(--accent-gold);
+        }
+
+        /* Floating Memo Component in Hero */
+        .floating-memo {
+            position: absolute;
+            right: 15%;
+            top: 60%;
+            background: #2a2b26;
+            padding: 1.5rem;
+            border: 1px solid #444;
+            max-width: 300px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            transform: rotate(-2deg);
+            z-index: 20;
+            border-left: 3px solid var(--accent-gold);
+        }
+
+        .floating-memo-title {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.1em;
+        }
+
+        .floating-memo-text {
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-size: 1.1rem;
+        }
+
         @media (max-width: 900px) {
-            .door-choices {
-                flex-direction: column;
-                align-items: center;
-            }
-            .door {
-                width: 80%; /* Use more width on smaller screens */
-                max-width: 400px;
-            }
-        }
-
-        @media (max-width: 768px) {
             h1 { font-size: 3.5rem; }
-            h2 { font-size: 2rem; }
-            .section { padding: 40px 20px; }
-            .door-choices { gap: 30px; }
+            .nav-links { display: none; }
+            .features-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+            .hero { background-position: right center; }
+            .floating-memo { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <div class="yellow-line"></div>
-
-    <header>
-        <div class="title-box">
-            <h1 class="pixel-text">StardewParable</h1>
-            <h2 class="narrator-text">"A vida na fazenda nunca foi tão observada."</h2>
-        </div >
-    </header>
-
-    <!-- SECTION 1: The Hook (Office/Narrative Style) -->
-    <div class="section office-section">
-        <div class="typing-container">
-            <p id="narrator-typing" class="narrator-text"></p>
+    <nav>
+        <div class="logo">
+            <span>KEYD</span> Stardew Parable
         </div>
-        <p style="margin-top: 20px; line-height: 1.6;">
-            <strong>StardewParable</strong> é um mod narrativo para Stardew Valley que se recusa a observar silenciosamente suas escolhas rurais questionáveis. Ele rastreia todas as suas ações — desde plantar cherívias até fuçar no lixo alheio — e usa uma Inteligência Artificial avançada para gerar um monólogo sarcástico, julgando cada detalhe do seu dia.
-        </p>
-    </div>
+        <div class="nav-links">
+            <a href="#historia">A História</a>
+            <a href="#recursos">Recursos</a>
+            <a href="#instalacao">Instalação</a>
+            <a href="#perguntas">Perguntas</a>
+        </div>
+        <a href="https://github.com/Keyditor/StardewParable" class="btn-outline">GITHUB</a>
+    </nav>
 
-    <!-- SECTION 2: Features (Farm/Gameplay Style) -->
-    <div class="section farm-section">
-        <h2>✨ O que a IA observa?</h2>
-        
-        <div class="features-grid">
-            <div class="feature-card">
-                <h3>🎮 Rastreamento de Gameplay Detalhado</h3>
-                <p>Registra automaticamente e com precisão: Ações agrícolas (plantio, colheita, rega), Colocação de móveis/baús, Uso de ferramentas/armas, Mineração/combate, Pesca, Interações com NPCs, Crafting e vendas. 100% integrado ao inventário do jogo.</p>
+    <section class="hero" id="historia">
+        <div class="hero-content">
+            <div class="section-tag">Capítulo 1 — A Fazenda</div>
+            <h1>O Fazendeiro <span>estava em paz.</span><br>Até a porta aparecer.</h1>
+            
+            <div class="hero-quote">
+                "Quando o Fazendeiro plantou doze chirívias em uma fileira perfeita, ele sentiu — pela primeira vez em anos — que alguém, em algum lugar, o observava. E ele estava, é claro, absolutamente correto."
             </div>
-            <div class="feature-card">
-                <h3>🧠 Memória de Continuidade (IA)</h3>
-                <p>O Narrador não esquece os dias anteriores. Ele usa seus erros passados como munição para julgamentos futuros, mantendo uma coesão narrativa profunda e um senso de inevitabilidade.</p>
+
+            <div class="hero-actions">
+                <a href="https://github.com/Keyditor/StardewParable/releases" class="btn-outline">BAIXAR O MOD</a>
+                <a href="#" class="btn-outline">OUVIR O NARRADOR</a>
             </div>
-            <div class="feature-card">
-                <h3>🔊 Integração de Voz (TTS)</h3>
-                <p>As histórias geradas são lidas em voz alta. Suporte nativo para <strong style="color: #e74c3c;">ElevenLabs</strong> e fallback para serviços TTS locais, garantindo que o julgamento seja ouvido com clareza.</p>
-            </div>
-            <div class="feature-card">
-                <h3>📊 Dashboard Interativo (Gradio)</h3>
-                <p>Painel web integrado ao backend. Permite monitorar logs em tempo real das ações enviadas, acompanhar o histórico de contexto da IA e testar narrativas customizadas diretamente pelo navegador.</p>
+
+            <div class="hero-meta">
+                SMAPI 4.0+ • Stardew Valley 1.6 • Mod Gratuito <span>■</span>
             </div>
         </div>
-    </div>
 
-    <!-- SECTION 3: Narration Modes (Office/Choice Style) -->
-    <div class="section office-section" style="text-align: center;">
-        <h2>⏳ Escolha seu Modo de Julgamento</h2>
-        <p style="margin-bottom: 40px; font-style: italic; color: #555;">O Narrador pode ser acionado em diferentes momentos. Qual será o seu destino?</p>
-        
-        <div class="door-choices">
-            <!-- Door 1: Daily -->
-            <a href="#daily" class="door" target="_blank" style="border-color: #2ecc71; background-color: #d4efdf;">
-                MODO DIÁRIO (Fim do Dia)<br>
-                <span style="font-size: 0.9rem;">Julgamento ao dormir</span>
-            </a>
-            <!-- Door 2: Per Turn -->
-            <a href="#perturn" class="door stanley" onclick="alert('O Narrador nota que você clicou no botão de Turno, mas ele está esperando o momento certo para começar. Tente configurar o GMCM!')">
-                MODO POR TURNO (12:00 / 18:00)<br>
-                <span style="font-weight: normal; font-size: 0.9rem;">Julgamento em momentos chave</span>
-            </a>
+        <div class="floating-memo">
+            <div class="floating-memo-title">Memorando do Escritório</div>
+            <div class="floating-memo-text">"A porta não estava no mapa. O Fazendeiro percebeu isso. Mesmo assim, entrou."</div>
         </div>
-    </div>
+    </section>
 
-    <!-- SECTION 4: Installation & Architecture -->
-    <div class="section farm-section">
-        <h2>🏗 Arquitetura e Instalação</h2>
-        
-        <h3>⚙️ Requisitos</h3>
-        <ul style="list-style-type: disc; margin-left: 20px;">
-            <li>Stardew Valley</li>
-            <li>SMAPI e Generic Mod Config Menu (GMCM)</li>
-            <li>Python 3.8+</li>
-            <li>Chave API LLM (OpenAI/Groq, etc.) ou Serviço TTS Local</li>
-        </ul>
-
-        <h3 style="margin-top: 20px;">🚀 Instalação do Backend</h3>
-        <p>Na raiz do projeto, instale as dependências e execute o servidor:</p>
-        <pre style="background-color: #eee; padding: 15px; border-radius: 4px; overflow-x: auto;"><code class="pixel-text">cd backend
-pip install -r requirements.txt</code></pre>
-        <p>Configure seu arquivo `.env` e execute:</p>
-        <pre style="background-color: #eee; padding: 15px; border-radius: 4px; overflow-x: auto;"><code class="pixel-text">uvicorn main:app --reload --port 8000</code></pre>
-    </div>
-
-    <!-- SECTION 5: Call to Action (Final Door) -->
-    <div class="section office-section" style="text-align: center;">
-        <h2>O Fazendeiro chegou a duas portas.</h2>
-        <p style="margin-bottom: 30px; font-style: italic; color: #555;">Ele tomou a porta da esquerda para ler o código-fonte, ou a porta da direita para baixar e começar a ser julgado?</p>
-        
-        <div class="door-choices">
-            <!-- Door 1: GitHub (Left) -->
-            <a href="https://github.com/Keyditor/StardewParable" class="door" target="_blank">
-                PORTA ESQUERDA<br>
-                <span style="font-size: 1rem;">(Ver Repositório GitHub)</span>
-            </a>
-            <!-- Door 2: Download (Right - Primary CTA) -->
-            <a href="#download" class="door stanley" onclick="alert('O Narrador nota que você clicou no botão de Download, mas infelizmente este link ainda é uma ilusão. Por favor, siga as instruções do backend para começar!')">
-                PORTA DIREITA<br>
-                <span style="font-weight: normal; font-size: 0.9rem;">(Baixar e Configurar o Mod)</span>
-            </a>
+    <section class="features" id="recursos">
+        <div class="features-header">
+            <div>
+                <div class="section-tag">Capítulo 2 — O Que Há Dentro</div>
+                <h2>Recursos, narrados.</h2>
+            </div>
+            <div class="features-subtitle">
+                Cada ação de plantio, gentilmente observada e educadamente comentada por uma voz que você não consegue ignorar.
+            </div>
         </div>
-    </div>
 
-    <footer>
-        <p class="pixel-text" style="font-size: 1.5rem; margin-bottom: 10px;">StardewParable &copy; 2026</p>
-        <p class="narrator-text" style="font-size: 1rem; color: #aaa;">"E assim, o jogador desceu até o final da página, buscando respostas que não estavam lá. Mas a IA está sempre observando."</p>
-    </footer>
+        <div class="grid">
+            <!-- Card 1 -->
+            <div class="card">
+                <div class="card-tag">Recurso 01</div>
+                <h3 class="card-title">Uma Voz no Campo</h3>
+                <p class="card-desc">As falas do narrador são geradas e acionadas pela sua rotina diária — cortar lenha, desmaiar às 2 da manhã, presentear o Lewis com mais um quartzo.</p>
+                <div class="card-quote">"Ah. Outro quartzo. O Lewis vai adorar... Não, O Lewis não vai adorar."</div>
+            </div>
 
-    <script>
-        // Script de digitação (Mantido e ligeiramente ajustado)
-        const text = "\"Ele regou a mesma planta duas vezes. Como se a rotina pudesse, de alguma forma, preencher o vazio. Que perda de tempo monumental. Mas tudo bem, vamos continuar fingindo que essa fazenda tem futuro.\"";
-        let index = 0;
-        const speed = 40; // typing speed in ms
-        const target = document.getElementById("narrator-typing");
+            <!-- Card 2 -->
+            <div class="card">
+                <div class="card-tag">Recurso 02</div>
+                <h3 class="card-title">As Duas Portas</h3>
+                <p class="card-desc">Escolha entre narrações ao fim do dia, caso queira um resumo da historiia escrita aquele dia, ou a cada turno para uma experiencia unica.</p>
+                <div class="card-quote">"E então o Fazendeiro escolheu a porta da esquerda, porque a porta da direita era claramente a escolha certa."</div>
+            </div>
 
-        function typeWriter() {
-            if (index < text.length) {
-                target.innerHTML += text.charAt(index);
-                index++;
-                setTimeout(typeWriter, speed);
-            }
-        }
+            <!-- Card 3 -->
+            <div class="card">
+                <div class="card-tag">Recurso 03</div>
+                <h3 class="card-title">O Narrador Lembra</h3>
+                <p class="card-desc">Com histórico das narações, o narrador consegue ter continuidade durante os dias.</p>
+                <div class="card-quote">"Esta é a quarta vez que você replanta a Primavera. Eu anotei tudo."</div>
+            </div>
 
-        // Start typing after a short delay
-        setTimeout(typeWriter, 1000);
-    </script>
+            <!-- Card 4 -->
+            <div class="card">
+                <div class="card-tag">Pacote</div>
+                <h3 class="card-title">O Pacote da Burocracia</h3>
+                <div class="card-quote">"Uma nova sala no Centro Comunitário. Itens necessários: um (1) bloco de notas amarelo, três (3) grampeadores idênticos e a sua total atenção."</div>
+                <div style="text-align: right; margin-top: 1rem; opacity: 0.8; font-size: 2rem;">📦📝</div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="card" style="grid-column: span 2;">
+                <div class="card-tag">Registro de Diálogo</div>
+                <h3 class="card-title">Uma terça-feira comum</h3>
+                <div class="dialogue-log">
+                    <p><span class="time">06:12</span> <span>O Fazendeiro acordou. Imediatamente regou quatorze abóboras.</span></p>
+                    <p><span class="time">09:40</span> <span>O Fazendeiro entrou na mina, contra meu conselho explícito.</span></p>
+                    <p><span class="time">14:55</span> <span>O Fazendeiro desmaiou. O Narrador suspirou, fora de cena.</span></p>
+                    <p><span class="time">23:50</span> <span class="italic-log">"Amanhã," ele pensou, "eu farei melhor." Ele não faria.</span></p>
+                </div>
+            </div>
+            <!-- Card 5 -->
+            <div class="card" style="grid-column: span 2;">
+                <div class="card-tag">Dicas importantes</div>
+                <h3 class="card-title">Para caso esqueça</h3>
+                <div class="dialogue-log">
+                    <p>Configure o Mod com as APIS utilizando o <span href="https://www.nexusmods.com/stardewvalley/mods/5098">GMCM</span>.</p>
+                    <p>Execute a backend para que o mod possa funcionar.</p>
+                    <p>O audio do narrador sairá da backend, caso queira ajustar o volume.</p>
+                    <p>O narrador pode ser duro as vezes...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
 </body>
 </html>

@@ -9,7 +9,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Usando dispositivo: {device}")
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = '/'
+app.config['UPLOAD_FOLDER'] = 'uploads'
 
 # Garante que a pasta para os uploads existe
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
@@ -35,7 +35,7 @@ def synthesize():
         speaker_wav.save(speaker_wav_path)
 
         # Gerar o áudio usando o arquivo enviado
-        output_file = '/output.wav'
+        output_file = 'output.wav'
         tts.tts_to_file(text=text, file_path=output_file, speaker_wav=speaker_wav_path, language="pt")
 
         return send_file(output_file, as_attachment=True)

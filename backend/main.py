@@ -292,3 +292,7 @@ with gr.Blocks(title="Dashboard - ActionLogger") as dashboard:
 
 # Monta o Gradio na rota /dashboard do FastAPI
 app = gr.mount_gradio_app(app, dashboard, path="/dashboard")
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="127.0.0.1", port=8000)

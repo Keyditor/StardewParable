@@ -6,7 +6,7 @@ from pocket_tts import TTSModel
 import scipy.io.wavfile
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = '/'  # Pasta no Google Drive
+app.config['UPLOAD_FOLDER'] = 'uploads'
 
 # Garante que a pasta para os uploads existe
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
@@ -32,7 +32,7 @@ def synthesize():
         speaker_wav.save(speaker_wav_path)
 
         # Gerar o áudio usando o arquivo enviado
-        output_file = '/output.wav'
+        output_file = 'output.wav'
         
         voice_state = tts_model.get_state_for_audio_prompt(speaker_wav_path)
         audio = tts_model.generate_audio(voice_state, text, frames_after_eos=4)
