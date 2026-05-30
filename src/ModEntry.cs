@@ -21,6 +21,7 @@ namespace ActionLogger
     {
         public string BackendUrl { get; set; } = "http://localhost:8000/actions";
         public string TtsApiUrl { get; set; } = "http://localhost:8000/tts";
+        public string NarrationMode { get; set; } = "Diaria";
     }
 
     public interface IGenericModConfigMenuApi
@@ -78,6 +79,7 @@ namespace ActionLogger
             helper.Events.GameLoop.DayStarted += OnDayStarted;
             helper.Events.GameLoop.DayEnding += OnDayEnding;
             helper.Events.GameLoop.UpdateTicked += OnUpdateTicked;
+            helper.Events.GameLoop.TimeChanged += OnTimeChanged;
             helper.Events.Player.InventoryChanged += OnInventoryChanged;
             helper.Events.Player.Warped += OnWarped;
             helper.Events.World.ObjectListChanged += OnObjectListChanged;
@@ -101,19 +103,23 @@ namespace ActionLogger
 
             configMenu.AddTextOption(
                 mod: this.ModManifest,
-                name: () => "URL do Backend",
-                tooltip: () => "A URL para enviar o relatório de ações diárias.",
-                getValue: () => this.Config.BackendUrl,
-                setValue: value => this.Config.BackendUrl = value
+                name: () => "Narração:",
+                tooltip: () => "Escolha quando o narrador vai falar sobre as suas ações.",
+                getValue: () => this.Config.NarrationMode,
+                setValue: value => this.Config.NarrationMode = value,
+                allowedValues: new string[] { "Diaria", "Por Turno" }
             );
+        }
 
-            configMenu.AddTextOption(
-                mod: this.ModManifest,
-                name: () => "URL da API de TTS",
-                tooltip: () => "A URL para o gerador de voz (Text-To-Speech).",
-                getValue: () => this.Config.TtsApiUrl,
-                setValue: value => this.Config.TtsApiUrl = value
-            );
+        private void OnTimeChanged(object? sender, TimeChangedEventArgs e)
+        {
+            if (this.Config.NarrationMode == "Por Turno")
+            {
+                if (e.NewTime == 1200 || e.NewTime == 1800)
+                {
+                    SendTurnLogsAndClear();
+                }
+            }
         }
 
         private static string GetLocationName(GameLocation location, string fallbackName = null)
@@ -394,13 +400,21 @@ namespace ActionLogger
             LogAction($"Faturou {totalEarned} ouros no final do dia", false);
             LogAction($"Foi dormir no final do dia {SDate.Now().ToLocaleString()}", false);
 
+            SendTurnLogsAndClear();
+        }
+
+        private void SendTurnLogsAndClear()
+        {
+            if (dailyLogs.Count == 0) return;
+
             WriteLogToFile();
             
             var actionStrings = dailyLogs.Select(l => l.GetFormattedString()).ToList();
-            Task.Run(() => SendLogsToBackend(actionStrings));
+            bool isTurn = this.Config.NarrationMode == "Por Turno";
+            Task.Run(() => SendLogsToBackend(actionStrings, isTurn));
             
             dailyLogs.Clear();
-            Monitor.Log("Histórico de ações limpo para o próximo dia.", LogLevel.Info);
+            Monitor.Log("Histórico de ações limpo para o próximo turno/dia.", LogLevel.Info);
         }
 
         private static readonly HttpClient httpClient = new HttpClient();
@@ -422,7 +436,7 @@ namespace ActionLogger
             }
         }
 
-        private async Task SendLogsToBackend(List<string> actionStrings)
+        private async Task SendLogsToBackend(List<string> actionStrings, bool isTurn = false)
         {
             try
             {
@@ -430,8 +444,14 @@ namespace ActionLogger
                 string jsonString = JsonSerializer.Serialize(payload);
                 var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
                 
-                Monitor.Log("Enviando ações para o backend...", LogLevel.Info);
-                HttpResponseMessage response = await httpClient.PostAsync(this.Config.BackendUrl, content);
+                string targetUrl = this.Config.BackendUrl;
+                if (isTurn && targetUrl.EndsWith("/actions"))
+                {
+                    targetUrl = targetUrl.Substring(0, targetUrl.Length - 8) + "/actionsturn";
+                }
+                
+                Monitor.Log($"Enviando ações para o backend ({targetUrl})...", LogLevel.Info);
+                HttpResponseMessage response = await httpClient.PostAsync(targetUrl, content);
                 
                 if (response.IsSuccessStatusCode)
                 {
