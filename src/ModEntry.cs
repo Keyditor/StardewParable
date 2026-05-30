@@ -22,6 +22,11 @@ namespace ActionLogger
         public string BackendUrl { get; set; } = "http://localhost:8000/actions";
         public string TtsApiUrl { get; set; } = "http://localhost:8000/tts";
         public string NarrationMode { get; set; } = "Diaria";
+        public string OpenAiUrl { get; set; } = "";
+        public string OpenAiApiKey { get; set; } = "";
+        public string OpenAiModel { get; set; } = "";
+        public string ElevenLabsApiKey { get; set; } = "";
+        public string ElevenLabsVoiceId { get; set; } = "";
     }
 
     public interface IGenericModConfigMenuApi
@@ -108,6 +113,46 @@ namespace ActionLogger
                 getValue: () => this.Config.NarrationMode,
                 setValue: value => this.Config.NarrationMode = value,
                 allowedValues: new string[] { "Diaria", "Por Turno" }
+            );
+
+            configMenu.AddTextOption(
+                mod: this.ModManifest,
+                name: () => "OpenAI URL (Opcional)",
+                tooltip: () => "Deixe em branco para usar o padrão da backend.",
+                getValue: () => this.Config.OpenAiUrl,
+                setValue: value => this.Config.OpenAiUrl = value
+            );
+
+            configMenu.AddTextOption(
+                mod: this.ModManifest,
+                name: () => "OpenAI API Key (Opcional)",
+                tooltip: () => "Deixe em branco para usar a chave da backend.",
+                getValue: () => this.Config.OpenAiApiKey,
+                setValue: value => this.Config.OpenAiApiKey = value
+            );
+
+            configMenu.AddTextOption(
+                mod: this.ModManifest,
+                name: () => "OpenAI Model (Opcional)",
+                tooltip: () => "Ex: gpt-3.5-turbo. Deixe em branco para usar o padrão.",
+                getValue: () => this.Config.OpenAiModel,
+                setValue: value => this.Config.OpenAiModel = value
+            );
+
+            configMenu.AddTextOption(
+                mod: this.ModManifest,
+                name: () => "ElevenLabs API Key (Opcional)",
+                tooltip: () => "Deixe em branco para usar o TTS local da backend.",
+                getValue: () => this.Config.ElevenLabsApiKey,
+                setValue: value => this.Config.ElevenLabsApiKey = value
+            );
+
+            configMenu.AddTextOption(
+                mod: this.ModManifest,
+                name: () => "ElevenLabs Voice ID (Opcional)",
+                tooltip: () => "ID da voz no ElevenLabs.",
+                getValue: () => this.Config.ElevenLabsVoiceId,
+                setValue: value => this.Config.ElevenLabsVoiceId = value
             );
         }
 
@@ -440,7 +485,14 @@ namespace ActionLogger
         {
             try
             {
-                var payload = new { actions = actionStrings };
+                var payload = new { 
+                    actions = actionStrings,
+                    openai_url = this.Config.OpenAiUrl,
+                    openai_api_key = this.Config.OpenAiApiKey,
+                    openai_model = this.Config.OpenAiModel,
+                    eleven_labs_api_key = this.Config.ElevenLabsApiKey,
+                    eleven_labs_voice_id = this.Config.ElevenLabsVoiceId
+                };
                 string jsonString = JsonSerializer.Serialize(payload);
                 var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
                 
@@ -537,30 +589,55 @@ namespace ActionLogger
                     else
                         LogAction($"Coletou {change.Item.DisplayName}{qualityStr}", false, amount);
                 }
-                else if (amount < 0 && Game1.activeClickableMenu is ShopMenu)
+                else if (amount < 0)
                 {
-                    LogAction($"Vendeu {change.Item.DisplayName}{qualityStr}", false, -amount);
+                    if (Game1.activeClickableMenu is ShopMenu)
+                    {
+                        LogAction($"Vendeu {change.Item.DisplayName}{qualityStr}", false, -amount);
+                    }
+                    else if (Game1.activeClickableMenu == null)
+                    {
+                        if (change.Item.Category == StardewValley.Object.SeedsCategory || change.Item.Category == -74)
+                        {
+                            LogAction($"Plantou {change.Item.DisplayName}", false, -amount);
+                        }
+                        else if (change.Item.Category == StardewValley.Object.CraftingCategory || 
+                                 change.Item.Category == StardewValley.Object.furnitureCategory ||
+                                 change.Item.Category == StardewValley.Object.BigCraftableCategory ||
+                                 change.Item.Category == -8 || change.Item.Category == -9)
+                        {
+                            LogAction($"Colocou {change.Item.DisplayName} no chão", false, -amount);
+                        }
+                    }
                 }
             }
 
-            if (Game1.activeClickableMenu is ShopMenu)
+            foreach (var item in e.Removed)
             {
-                foreach (var item in e.Removed)
+                string qualityStr = item is StardewValley.Object obj ? GetQualityString(obj.Quality) : "";
+                if (Game1.activeClickableMenu is ShopMenu)
                 {
-                    string qualityStr = item is StardewValley.Object obj ? GetQualityString(obj.Quality) : "";
                     LogAction($"Vendeu {item.DisplayName}{qualityStr}", false, item.Stack);
+                }
+                else if (Game1.activeClickableMenu == null)
+                {
+                    if (item.Category == StardewValley.Object.SeedsCategory || item.Category == -74)
+                    {
+                        LogAction($"Plantou {item.DisplayName}", false, item.Stack);
+                    }
+                    else if (item.Category == StardewValley.Object.CraftingCategory || 
+                             item.Category == StardewValley.Object.furnitureCategory ||
+                             item.Category == StardewValley.Object.BigCraftableCategory ||
+                             item.Category == -8 || item.Category == -9)
+                    {
+                        LogAction($"Colocou {item.DisplayName} no chão", false, item.Stack);
+                    }
                 }
             }
         }
 
         private void OnObjectListChanged(object? sender, ObjectListChangedEventArgs e)
         {
-            foreach (var pair in e.Added)
-            {
-                var obj = pair.Value;
-                LogAction($"Colocou {obj.DisplayName} no chão", false);
-            }
-
             foreach (var pair in e.Removed)
             {
                 var obj = pair.Value;

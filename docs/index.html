@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StardewParable</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --stanley-yellow: #FFD700;
+            --stanley-dark: #2C3E50;
+            --stanley-gray: #BDC3C7;
+            --stardew-green: #4CAF50;
+            --stardew-wood: #8B4513;
+            --stardew-bg: #87CEEB; /* Sky blue */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--stardew-bg);
+            color: var(--stanley-dark);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* The iconic yellow line */
+        .yellow-line {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 100%;
+            background-color: var(--stanley-yellow);
+            z-index: -1;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+        }
+
+        /* Pixel art font for Stardew elements */
+        .pixel-text {
+            font-family: 'VT323', monospace;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+        }
+
+        /* Office font for Stanley elements */
+        .narrator-text {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: 1.5rem;
+            color: #333;
+            font-style: italic;
+        }
+
+        header {
+            text-align: center;
+            padding: 10vh 20px;
+            background: url('data:image/svg+xml;utf8,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="%2387CEEB"/><circle cx="50" cy="50" r="40" fill="%23FFF" opacity="0.3"/></svg>');
+            background-size: cover;
+            border-bottom: 8px solid var(--stardew-wood);
+            position: relative;
+        }
+
+        .title-box {
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 4px solid var(--stardew-wood);
+            border-radius: 8px;
+            display: inline-block;
+            padding: 20px 40px;
+            box-shadow: 0 10px 0 rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 5rem;
+            color: var(--stardew-green);
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-top: 10px;
+            color: var(--stanley-dark);
+        }
+
+        .section {
+            padding: 80px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            border: 2px solid var(--stanley-gray);
+            margin-top: 40px;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .office-section {
+            background-color: #f4f4f4;
+            border-radius: 4px;
+            border-left: 10px solid var(--stanley-yellow);
+        }
+
+        .farm-section {
+            border: 6px solid var(--stardew-wood);
+            border-radius: 12px;
+            background-color: #fcf3d9;
+        }
+
+        .typing-container {
+            min-height: 80px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--stanley-dark);
+            padding-left: 20px;
+        }
+
+        .door-choices {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .door {
+            border: 4px solid var(--stardew-wood);
+            background-color: #d35400;
+            color: white;
+            padding: 20px 40px;
+            font-family: 'VT323', monospace;
+            font-size: 2rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.2s, background-color 0.2s;
+            box-shadow: inset -4px -4px 0px rgba(0,0,0,0.3);
+            text-align: center;
+            width: 250px;
+        }
+
+        .door:hover {
+            transform: scale(1.05);
+            background-color: #e67e22;
+        }
+
+        .door.stanley {
+            border: 2px solid var(--stanley-dark);
+            background-color: #fff;
+            color: var(--stanley-dark);
+            font-family: 'Inter', sans-serif;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .door.stanley:hover {
+            background-color: var(--stanley-yellow);
+            color: #000;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .feature-card {
+            background: #fff;
+            padding: 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .feature-card h3 {
+            font-family: 'VT323', monospace;
+            font-size: 2rem;
+            color: var(--stardew-green);
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            background-color: var(--stanley-dark);
+            color: #fff;
+            margin-top: 100px;
+        }
+
+        @media (max-width: 768px) {
+            .door-choices {
+                flex-direction: column;
+                align-items: center;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            h1 { font-size: 3.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="yellow-line"></div>
+
+    <header>
+        <div class="title-box">
+            <h1 class="pixel-text">StardewParable</h1>
+            <h2 class="narrator-text">"Esta é a história de um fazendeiro chamado..."</h2>
+        </div>
+    </header>
+
+    <div class="section office-section">
+        <div class="typing-container">
+            <p id="narrator-typing" class="narrator-text"></p>
+        </div>
+        <p style="margin-top: 20px; line-height: 1.6;">
+            <strong>StardewParable</strong> é um mod focado em narrativa para Stardew Valley que se recusa a observar silenciosamente suas escolhas rurais questionáveis.
+            Ele rastreia todas as suas ações — desde plantar cherívias até fuçar no lixo alheio — e usa uma Inteligência Artificial para gerar um monólogo sarcástico julgando o seu dia.
+        </p>
+    </div>
+
+    <div class="section farm-section">
+        <h2 class="pixel-text" style="font-size: 3rem; text-align: center; margin-bottom: 30px;">O que a IA observa?</h2>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>🎮 Rastreamento Preciso</h3>
+                <p>O mod sabe quando você planta, colhe, mina ou quando coloca uma cerca exatamente no lugar errado. 100% integrado ao inventário do jogo.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🧠 Memória de Continuidade</h3>
+                <p>O Narrador não esquece os dias anteriores. Ele usará seus erros passados como munição para os julgamentos futuros (Graças ao contexto da IA).</p>
+            </div>
+            <div class="feature-card">
+                <h3>🔊 Voz Text-to-Speech</h3>
+                <p>Suporte integrado para a API do <strong>ElevenLabs</strong> para que as broncas sejam verbalizadas com elegância. Ou use a voz robótica local, se preferir o caos.</p>
+            </div>
+            <div class="feature-card">
+                <h3>📊 Dashboard Web</h3>
+                <p>Acompanha um painel interativo (Gradio) no backend. Lá você monitora os logs em tempo real e pode até escrever prompts customizados para testar a paciência da IA.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section office-section" style="text-align: center;">
+        <h2 style="margin-bottom: 20px;">O Fazendeiro chegou a duas portas.</h2>
+        <p style="margin-bottom: 30px; font-style: italic; color: #555;">Ele tomou a porta da esquerda para ler o código-fonte, ou a porta da direita para ignorar tudo e baixar o mod?</p>
+        
+        <div class="door-choices">
+            <a href="https://github.com/Keyditor/StardewParable" class="door" target="_blank">
+                PORTA ESQUERDA<br>
+                <span style="font-size: 1rem;">(Ver GitHub)</span>
+            </a>
+            <a href="#download" class="door stanley" onclick="alert('O Narrador nota que você clicou no botão de Download, mas infelizmente este link ainda é uma ilusão. Visite o GitHub.')">
+                PORTA DIREITA<br>
+                <span style="font-weight: normal; font-size: 0.9rem;">(Download Mod)</span>
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <p class="pixel-text" style="font-size: 1.5rem; margin-bottom: 10px;">StardewParable &copy; 2026</p>
+        <p class="narrator-text" style="font-size: 1rem; color: #aaa;">"E assim, o jogador desceu até o final da página, buscando respostas que não estavam lá."</p>
+    </footer>
+
+    <script>
+        const text = "\"Ele regou a mesma planta duas vezes. Como se a rotina pudesse, de alguma forma, preencher o vazio. Que perda de tempo monumental. Mas tudo bem, vamos continuar fingindo que essa fazenda tem futuro.\"";
+        let index = 0;
+        const speed = 40; // typing speed in ms
+        const target = document.getElementById("narrator-typing");
+
+        function typeWriter() {
+            if (index < text.length) {
+                target.innerHTML += text.charAt(index);
+                index++;
+                setTimeout(typeWriter, speed);
+            }
+        }
+
+        // Start typing after a short delay
+        setTimeout(typeWriter, 1000);
+    </script>
+</body>
+</html>
