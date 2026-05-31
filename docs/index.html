@@ -366,6 +366,115 @@
             font-size: 1.1rem;
         }
 
+        /* Sessão de Roadmap */
+        .roadmap-container {
+            margin: 0 -5%;
+        }
+
+        .roadmap-track {
+            display: flex;
+            gap: 2.5rem;
+            padding: 1rem 5% 5rem 5%;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none; /* Oculta no Firefox */
+            -ms-overflow-style: none; /* Oculta no IE e Edge */
+        }
+
+        .roadmap-track::-webkit-scrollbar {
+            display: none; /* Oculta no Chrome, Safari e Edge moderno */
+        }
+
+        .roadmap-card {
+            flex: 0 0 300px;
+            max-width: 85vw;
+            scroll-snap-align: start;
+            position: relative;
+            margin-bottom: 70px;
+            transition: border-color 0.3s ease;
+        }
+
+        .roadmap-card:hover {
+            transform: translateY(0);
+        }
+
+        .roadmap-card::before {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            left: -1.3rem;
+            right: -1.3rem;
+            height: 4px;
+            background: repeating-linear-gradient(90deg, var(--border-card) 0, var(--border-card) 15px, transparent 15px, transparent 30px);
+            z-index: 1;
+        }
+
+        .roadmap-card:first-child::before {
+            left: 0;
+            border-top-left-radius: 2px;
+            border-bottom-left-radius: 2px;
+        }
+
+        .roadmap-card:last-child::before {
+            right: 0;
+            -webkit-mask-image: linear-gradient(90deg, black 60%, transparent 100%);
+            mask-image: linear-gradient(90deg, black 60%, transparent 100%);
+        }
+
+        .roadmap-card.done::before, .roadmap-card.active::before {
+            background: repeating-linear-gradient(90deg, var(--accent-gold-dim) 0, var(--accent-gold-dim) 15px, transparent 15px, transparent 30px);
+        }
+
+        .roadmap-card::after {
+            content: '';
+            position: absolute;
+            bottom: -55px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 14px;
+            height: 14px;
+            background-color: var(--bg-dark);
+            border: 3px solid var(--border-card);
+            border-radius: 50%;
+            z-index: 3;
+            box-sizing: border-box;
+        }
+
+        .roadmap-connector {
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 50px;
+            background-color: var(--border-card);
+            z-index: 2;
+        }
+
+        .roadmap-card.done::after {
+            border-color: var(--accent-gold-dim);
+            background-color: var(--accent-gold-dim);
+        }
+
+        .roadmap-card.done .roadmap-connector {
+            background-color: var(--accent-gold-dim);
+        }
+
+        .roadmap-card.active {
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 15px rgba(224, 169, 109, 0.1);
+        }
+
+        .roadmap-card.active::after {
+            border-color: var(--accent-gold);
+            background-color: var(--accent-gold);
+            box-shadow: 0 0 10px rgba(224, 169, 109, 0.5);
+        }
+
+        .roadmap-card.active .roadmap-connector {
+            background-color: var(--accent-gold);
+        }
+
         /* Footer Section */
         .footer {
             background-color: var(--bg-footer);
@@ -463,7 +572,7 @@
     <nav>
       <div class="logo"> <span>KEYD</span> Stardew Parable </div>
       <div class="nav-links"> <a href="#historia">A História</a> <a href="#recursos">Recursos</a>
-        <a href="#instalacao">Instalação</a> <a href="#perguntas">Perguntas</a>
+        <a href="#instalacao">Instalação</a> <a href="#roadmap">Roadmap</a> <a href="#perguntas">Perguntas</a>
       </div>
       <a href="https://github.com/Keyditor/StardewParable" class="btn-outline">GITHUB</a>
     </nav>
@@ -610,11 +719,55 @@
         </div>
       </div>
     </section>
+    <!-- NOVA SESSÃO: Roadmap -->
+    <section class="features" id="roadmap">
+      <div class="features-header">
+        <div>
+          <div class="section-tag">Capítulo 4 — O Futuro</div>
+          <h2>Roadmap.</h2>
+        </div>
+        <div class="features-subtitle"> O caminho que o Fazendeiro ainda tem a percorrer. Uma estrada de novidades e atualizações que estão por vir.</div>
+      </div>
+      <div class="roadmap-container">
+        <div class="roadmap-track">
+          <div class="card roadmap-card done">
+            <div class="roadmap-connector"></div>
+            <div class="card-tag">Concluído</div>
+            <h3 class="card-title">A Fundação</h3>
+            <p class="card-desc">Lançamento inicial do mod. Suporte a narração por Fim do Dia e Turnos, integração GMCM, e suporte a ElevenLabs e TTS Local.</p>
+          </div>
+          <div class="card roadmap-card active">
+            <div class="roadmap-connector"></div>
+            <div class="card-tag">Atual</div>
+            <h3 class="card-title">Melhoria de Eventos</h3>
+            <p class="card-desc">Adicionando mais eventos do jogo para que o narrador tenha mais conciência do que está ocorrendo e possa descrever em suas narrações.</p>
+          </div>
+          <div class="card roadmap-card">
+            <div class="roadmap-connector"></div>
+            <div class="card-tag">Em Breve</div>
+            <h3 class="card-title">Multiplayer</h3>
+            <p class="card-desc">O mod ainda não foi testado em multiplayer e pode haver erros. Ainda não foram adicionado eventos do multiplayer mas essa é um dos objetivos para que o cáos do narrador seja ainda maior.</p>
+          </div>
+          <div class="card roadmap-card">
+            <div class="roadmap-connector"></div>
+            <div class="card-tag">Futuro</div>
+            <h3 class="card-title">Novas vozes</h3>
+            <p class="card-desc">Incluir a poossibilidade de trocar a voz do narrador diretamente pelo menu de configurções do mod. Apenas dispondo o arquivo da voz em .WAV na pasta do mod junto ao arquivo de configurações.</p>
+          </div>
+          <div class="card roadmap-card">
+            <div class="roadmap-connector"></div>
+            <div class="card-tag">Distante</div>
+            <h3 class="card-title">Backend em NUVEM</h3>
+            <p class="card-desc">Para dar possibilidade do mod não necessitar de backend local. Sendo necessário apenas as API Key dos serviços utilizados. E ainda sim com possibilidade de TTS gratuito.</p>
+          </div>
+        </div>
+      </div>
+    </section>
     <!-- Sessão: Perguntas Frequentes -->
     <section class="features" id="perguntas">
       <div class="features-header">
         <div>
-          <div class="section-tag">Capítulo 4 — Dúvidas</div>
+          <div class="section-tag">Capítulo 5 — Dúvidas</div>
           <h2>Perguntas Frequentes.</h2>
         </div>
         <div class="features-subtitle"> Se você tem dúvidas, uma delas pode ser

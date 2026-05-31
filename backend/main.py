@@ -14,16 +14,37 @@ from datetime import datetime
 load_dotenv()
 
 # Configuração de Logs
-logging.basicConfig(level=logging.INFO)
+class ColoredFormatter(logging.Formatter):
+    COLORS = {
+        'DEBUG': '\033[94m',
+        'INFO': '\033[92m',      # Verde
+        'WARNING': '\033[93m',   # Amarelo
+        'ERROR': '\033[91m',     # Vermelho
+        'CRITICAL': '\033[95m'   # Magenta
+    }
+    RESET = '\033[0m'
+
+    def format(self, record):
+        color = self.COLORS.get(record.levelname, self.RESET)
+        time_str = self.formatTime(record, "%d/%m %H:%M:%S")
+        return f"\033[90m[{time_str}]\033[0m {color}{record.levelname:8}\033[0m | {record.getMessage()}"
+
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+handler = logging.StreamHandler()
+handler.setFormatter(ColoredFormatter())
+logger.addHandler(handler)
+logger.propagate = False
 
 # Configurações via variáveis de ambiente
 OPENAI_API_BASE = os.getenv("OPENAI_API_BASE", "https://api.openai.com/v1")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-3.5-turbo")
 TTS_API_URL = os.getenv("TTS_API_URL", "http://localhost:5000/synthesize")
-if not "localhost" in TTS_API_URL:
+if not "localhost" in TTS_API_URL and not TTS_API_URL.endswith("/synthesize"):
     TTS_API_URL += "/synthesize"
+ELEVEN_LABS_API_KEY = os.getenv("ELEVEN_LABS_API_KEY", "")
+ELEVEN_LABS_VOICE_ID = os.getenv("ELEVEN_LABS_VOICE_ID", "")
     
 app = FastAPI()
 
@@ -33,6 +54,7 @@ pygame.mixer.init()
 # Estado Global para o Dashboard e Histórico
 global_actions_log = []
 global_narrations_log = []
+last_known_config = {}
 
 class ActionList(BaseModel):
     actions: List[str]
@@ -56,6 +78,41 @@ REGRAS CRÍTICAS (SIGA ESTRITAMENTE):
 
 Contexto opcional do jogador:
 - Ele é um streamer na Twitch e seu chat se chama 'Bapo'. Sinta-se à vontade para zombar que o 'Bapo' está assistindo essa perda de tempo, se achar oportuno."""
+
+def check_config_changes(payload: ActionList):
+    global last_known_config
+    
+    def mask_key(k):
+        if not k: return None
+        return f"{k[:4]}...{k[-4:]}" if len(k) > 8 else "***"
+
+    current_config = {
+        "URL da OpenAI": payload.openai_url,
+        "Modelo da IA": payload.openai_model,
+        "Chave da OpenAI": mask_key(payload.openai_api_key),
+        "Chave do ElevenLabs": mask_key(payload.eleven_labs_api_key),
+        "Voz do ElevenLabs": payload.eleven_labs_voice_id,
+    }
+    
+    changes = []
+    if not last_known_config:
+        last_known_config = current_config
+        return
+
+    for key, value in current_config.items():
+        old_value = last_known_config.get(key)
+        if value != old_value and value is not None:
+            if old_value is None:
+                changes.append(f"{key}: Definido como \033[1m'{value}'\033[0m")
+            else:
+                changes.append(f"{key}: \033[31m'{old_value}'\033[0m -> \033[32m'{value}'\033[0m")
+                
+    if changes:
+        logger.info("\033[93m[⚙️ CONFIGURAÇÕES ATUALIZADAS PELO JOGO]\033[0m")
+        for change in changes:
+            logger.info(f"   \033[96m↳ {change}\033[0m")
+            
+    last_known_config = current_config
 
 def load_prompt():
     prompt_path = os.path.join(os.path.dirname(__file__), "prompts.json")
@@ -97,7 +154,7 @@ def generate_narration(payload: ActionList, custom_prompt: str = None) -> str:
         ]
     }
 
-    logger.info(f"Enviando {len(payload.actions)} ações para a OpenAI em {api_url} com o modelo {model}...")
+    logger.info(f"🚀 Enviando \033[1m{len(payload.actions)}\033[0m ações para a IA ({model})...")
     response = requests.post(f"{api_url}/chat/completions", headers=headers, json=request_payload)
     
     if response.status_code != 200:
@@ -106,18 +163,21 @@ def generate_narration(payload: ActionList, custom_prompt: str = None) -> str:
         
     data = response.json()
     narration = data["choices"][0]["message"]["content"]
-    logger.info(f"Narração gerada: {narration}")
+    logger.info(f"🧠 Narração gerada:\n\033[3m{narration}\033[0m")
     return narration
 
 def synthesize_and_play(text: str, payload: ActionList):
-    if payload.eleven_labs_api_key and payload.eleven_labs_voice_id:
-        logger.info(f"Enviando texto para a API do ElevenLabs...")
+    el_key = payload.eleven_labs_api_key if payload.eleven_labs_api_key else ELEVEN_LABS_API_KEY
+    el_voice = payload.eleven_labs_voice_id if payload.eleven_labs_voice_id else ELEVEN_LABS_VOICE_ID
+    
+    if el_key and el_voice:
+        logger.info(f"🎙️ Enviando texto para a API do ElevenLabs...")
         try:
-            url = f"https://api.elevenlabs.io/v1/text-to-speech/{payload.eleven_labs_voice_id}"
+            url = f"https://api.elevenlabs.io/v1/text-to-speech/{el_voice}"
             headers = {
                 "Accept": "audio/mpeg",
                 "Content-Type": "application/json",
-                "xi-api-key": payload.eleven_labs_api_key
+                "xi-api-key": el_key
             }
             data = {
                 "text": text,
@@ -132,17 +192,17 @@ def synthesize_and_play(text: str, payload: ActionList):
                 logger.error(f"Erro no ElevenLabs: {response.text}")
                 return
             audio_data = io.BytesIO(response.content)
-            logger.info("Reproduzindo áudio do ElevenLabs...")
+            logger.info("▶️ Reproduzindo áudio do ElevenLabs...")
             pygame.mixer.music.load(audio_data)
             pygame.mixer.music.play()
             while pygame.mixer.music.get_busy():
                 pygame.time.Clock().tick(10)
-            logger.info("Áudio finalizado.")
+            logger.info("✅ Áudio finalizado.")
         except Exception as e:
             logger.error(f"Erro ElevenLabs: {e}")
     else:
         wav_path = os.path.join(os.path.dirname(__file__), "BraumS.wav")
-        logger.info(f"Enviando texto para a API de TTS Local ({TTS_API_URL})...")
+        logger.info(f"🎙️ Enviando texto para a API de TTS Local ({TTS_API_URL})...")
         try:
             with open(wav_path, "rb") as f:
                 files = {
@@ -160,14 +220,14 @@ def synthesize_and_play(text: str, payload: ActionList):
                 
                 audio_data = io.BytesIO(response.content)
                 
-                logger.info("Reproduzindo áudio do TTS Local...")
+                logger.info("▶️ Reproduzindo áudio do TTS Local...")
                 pygame.mixer.music.load(audio_data)
                 pygame.mixer.music.play()
                 
                 while pygame.mixer.music.get_busy():
                     pygame.time.Clock().tick(10)
                     
-                logger.info("Áudio finalizado.")
+                logger.info("✅ Áudio finalizado.")
         except Exception as e:
             logger.error(f"Erro ao sintetizar e tocar áudio: {str(e)}")
 
@@ -194,13 +254,15 @@ def process_actions_task(payload: ActionList, custom_prompt: str = None):
 
 @app.post("/actions")
 def receive_actions(action_list: ActionList, background_tasks: BackgroundTasks):
-    logger.info(f"Recebidas {len(action_list.actions)} ações do mod.")
+    check_config_changes(action_list)
+    logger.info(f"📦 Recebidas \033[1m{len(action_list.actions)}\033[0m ações do mod (Fim do dia).")
     background_tasks.add_task(process_actions_task, action_list)
     return {"message": "Ações recebidas e processamento iniciado em background"}
 
 @app.post("/actionsturn")
 def receive_actions_turn(action_list: ActionList, background_tasks: BackgroundTasks):
-    logger.info(f"Recebidas {len(action_list.actions)} ações do mod (turno).")
+    check_config_changes(action_list)
+    logger.info(f"📦 Recebidas \033[1m{len(action_list.actions)}\033[0m ações do mod (Turno).")
     background_tasks.add_task(process_actions_task, action_list, TURN_PROMPT)
     return {"message": "Ações de turno recebidas e processamento iniciado em background"}
 
@@ -261,6 +323,17 @@ def trigger_custom_narration(prompt: str, actions_text: str):
     except Exception as e:
         return f"Erro ao gerar narração: {e}"
 
+def save_settings(new_openai_base, new_openai_key, new_openai_model, new_tts_url, new_el_key, new_el_voice):
+    global OPENAI_API_BASE, OPENAI_API_KEY, OPENAI_MODEL, TTS_API_URL, ELEVEN_LABS_API_KEY, ELEVEN_LABS_VOICE_ID
+    OPENAI_API_BASE = new_openai_base
+    OPENAI_API_KEY = new_openai_key
+    OPENAI_MODEL = new_openai_model
+    TTS_API_URL = new_tts_url
+    ELEVEN_LABS_API_KEY = new_el_key
+    ELEVEN_LABS_VOICE_ID = new_el_voice
+    logger.info("\033[93m[⚙️ CONFIGURAÇÕES ATUALIZADAS PELO DASHBOARD]\033[0m")
+    return f"Configurações salvas com sucesso em {datetime.now().strftime('%H:%M:%S')}!"
+
 with gr.Blocks(title="Dashboard - ActionLogger") as dashboard:
     gr.Markdown("# Painel de Controle - Narrador Stardew Valley")
     
@@ -289,6 +362,29 @@ with gr.Blocks(title="Dashboard - ActionLogger") as dashboard:
             custom_output = gr.Textbox(label="Resultado", lines=10, interactive=False)
             
             btn_generate.click(fn=trigger_custom_narration, inputs=[custom_prompt_input, custom_actions_input], outputs=[custom_output])
+            
+        with gr.TabItem("Configurações Globais"):
+            gr.Markdown("Altere as APIs, URLs e modelos utilizados como padrão (caso o Mod não envie valores específicos do jogo). As mudanças feitas aqui passam a valer imediatamente no backend.")
+            with gr.Row():
+                with gr.Column():
+                    gr.Markdown("### Inteligência Artificial (Texto)")
+                    in_openai_base = gr.Textbox(label="URL Base da API", value=OPENAI_API_BASE, placeholder="Ex: https://api.groq.com/openai/v1")
+                    in_openai_key = gr.Textbox(label="Chave da API (OpenAI/Groq/etc)", value=OPENAI_API_KEY, type="password")
+                    in_openai_model = gr.Textbox(label="Modelo da IA", value=OPENAI_MODEL, placeholder="Ex: llama-3.1-8b-instant")
+                with gr.Column():
+                    gr.Markdown("### Síntese de Voz (TTS)")
+                    in_tts_url = gr.Textbox(label="URL do TTS Local", value=TTS_API_URL, placeholder="Ex: http://localhost:5000/synthesize")
+                    in_el_key = gr.Textbox(label="Chave do ElevenLabs (Opcional)", value=ELEVEN_LABS_API_KEY, type="password")
+                    in_el_voice = gr.Textbox(label="ID da Voz do ElevenLabs (Opcional)", value=ELEVEN_LABS_VOICE_ID)
+            
+            btn_save_config = gr.Button("Salvar Configurações", variant="primary")
+            config_status = gr.Textbox(label="Status", interactive=False)
+            
+            btn_save_config.click(
+                fn=save_settings,
+                inputs=[in_openai_base, in_openai_key, in_openai_model, in_tts_url, in_el_key, in_el_voice],
+                outputs=[config_status]
+            )
 
 # Monta o Gradio na rota /dashboard do FastAPI
 app = gr.mount_gradio_app(app, dashboard, path="/dashboard")
