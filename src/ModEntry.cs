@@ -76,6 +76,9 @@ namespace ActionLogger
         private bool wasInEvent = false;
         private bool wasEating = false;
 
+        private Dictionary<string, int> npcGifts = new Dictionary<string, int>();
+        private int completedBundlesCount = 0;
+
         public override void Entry(IModHelper helper)
         {
             this.Config = this.Helper.ReadConfig<ModConfig>();
@@ -91,6 +94,27 @@ namespace ActionLogger
             helper.Events.World.TerrainFeatureListChanged += OnTerrainFeatureListChanged;
             helper.Events.Input.ButtonPressed += OnButtonPressed;
             helper.Events.World.NpcListChanged += OnNpcListChanged;
+            helper.Events.Display.MenuChanged += OnMenuChanged;
+            helper.Events.Multiplayer.PeerConnected += OnPeerConnected;
+        }
+
+        private void OnPeerConnected(object? sender, PeerConnectedEventArgs e)
+        {
+            var farmer = Game1.GetPlayer(e.Peer.PlayerID, true);
+            string playerName = farmer?.Name ?? "Um jogador";
+            LogAction($"{playerName} se juntou à fazenda", false);
+        }
+
+        private void OnMenuChanged(object? sender, MenuChangedEventArgs e)
+        {
+            if (e.NewMenu is Billboard)
+            {
+                LogAction("Interagiu com o quadro de missões ou calendário", false);
+            }
+            else if (e.NewMenu is LetterViewerMenu)
+            {
+                LogAction("Leu uma carta", false);
+            }
         }
 
         private void OnGameLaunched(object? sender, GameLaunchedEventArgs e)
@@ -276,6 +300,33 @@ namespace ActionLogger
         {
             if (!Context.IsWorldReady || Game1.player == null) return;
 
+            foreach (var npc in Game1.player.friendshipData.Keys)
+            {
+                int currentGifts = Game1.player.friendshipData[npc].GiftsToday;
+                if (npcGifts.TryGetValue(npc, out int previousGifts))
+                {
+                    if (currentGifts > previousGifts)
+                    {
+                        LogAction($"Deu um presente para {npc}", false);
+                    }
+                }
+                npcGifts[npc] = currentGifts;
+            }
+
+            if (Game1.getLocationFromName("CommunityCenter") as CommunityCenter is { } currentCc)
+            {
+                int currentCompletedBundles = currentCc.bundles.Values.Count(v => v.All(x => x));
+                if (currentCompletedBundles > completedBundlesCount)
+                {
+                    int diff = currentCompletedBundles - completedBundlesCount;
+                    for (int i = 0; i < diff; i++)
+                    {
+                        LogAction("Completou um conjunto no Centro Comunitário", false);
+                    }
+                    completedBundlesCount = currentCompletedBundles;
+                }
+            }
+
             bool isInEvent = Game1.CurrentEvent != null;
             if (isInEvent && !wasInEvent)
             {
@@ -392,6 +443,17 @@ namespace ActionLogger
         {
             dailyLogs.Clear();
             moneyAtStartOfDay = Game1.player.Money;
+
+            npcGifts.Clear();
+            foreach (var npc in Game1.player.friendshipData.Keys)
+            {
+                npcGifts[npc] = Game1.player.friendshipData[npc].GiftsToday;
+            }
+
+            if (Game1.getLocationFromName("CommunityCenter") as CommunityCenter is { } cc)
+            {
+                completedBundlesCount = cc.bundles.Values.Count(v => v.All(x => x));
+            }
         }
 
         private string GetQualityString(int quality)
@@ -569,6 +631,8 @@ namespace ActionLogger
                 isCrafting = true;
             }
 
+            bool isJunimoNote = Game1.activeClickableMenu is JunimoNoteMenu;
+
             foreach (var item in e.Added)
             {
                 string qualityStr = item is StardewValley.Object obj ? GetQualityString(obj.Quality) : "";
@@ -595,6 +659,10 @@ namespace ActionLogger
                     {
                         LogAction($"Vendeu {change.Item.DisplayName}{qualityStr}", false, -amount);
                     }
+                    else if (isJunimoNote)
+                    {
+                        LogAction($"Entregou {change.Item.DisplayName}{qualityStr} ao Centro Comunitário", false, -amount);
+                    }
                     else if (Game1.activeClickableMenu == null)
                     {
                         if (change.Item.Category == StardewValley.Object.SeedsCategory || change.Item.Category == -74)
@@ -618,6 +686,10 @@ namespace ActionLogger
                 if (Game1.activeClickableMenu is ShopMenu)
                 {
                     LogAction($"Vendeu {item.DisplayName}{qualityStr}", false, item.Stack);
+                }
+                else if (isJunimoNote)
+                {
+                    LogAction($"Entregou {item.DisplayName}{qualityStr} ao Centro Comunitário", false, item.Stack);
                 }
                 else if (Game1.activeClickableMenu == null)
                 {

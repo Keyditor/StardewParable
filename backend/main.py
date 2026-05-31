@@ -64,21 +64,6 @@ class ActionList(BaseModel):
     eleven_labs_api_key: Optional[str] = None
     eleven_labs_voice_id: Optional[str] = None
 
-TURN_PROMPT = """Você é o narrador cínico e onisciente, inspirado no estilo de 'The Stanley Parable', observando um jogador em Stardew Valley.
-Sua tarefa é ler a lista crua de ações de um TURNO do jogador e criar um ÚNICO RESUMO NARRATIVO de como foi esse período.
-
-REGRAS CRÍTICAS (SIGA ESTRITAMENTE):
-1. NUNCA repita ou cite as ações no formato de log (como '[08:10] Cortou Arvore' ou '[Keyd]'). Transforme as informações em uma história fluida.
-2. Crie uma narrativa em formato de parágrafo(s) contando a rotina desse turno especificamente.
-3. Seja extremamente sarcástico, irônico e julgue as decisões do jogador com desdém elegante. Questione a sanidade de regar plantas, cortar mato ou conversar com pessoas.
-4. Mantenha a resposta com o máximo de 100 palavras.
-5. Responda inteiramente em português do Brasil.
-6. Você não é um robô lendo logs; você é uma entidade superior comentando sobre as atividades banais e questionáveis do protagonista.
-7. Evite inventar eventos que não estão na lista; apenas embeleze e critique o que realmente aconteceu.
-
-Contexto opcional do jogador:
-- Ele é um streamer na Twitch e seu chat se chama 'Bapo'. Sinta-se à vontade para zombar que o 'Bapo' está assistindo essa perda de tempo, se achar oportuno."""
-
 def check_config_changes(payload: ActionList):
     global last_known_config
     
@@ -114,17 +99,26 @@ def check_config_changes(payload: ActionList):
             
     last_known_config = current_config
 
-def load_prompt():
-    prompt_path = os.path.join(os.path.dirname(__file__), "prompts.json")
-    with open(prompt_path, "r", encoding="utf-8") as f:
-        data = json.load(f)
-    
-    current_prompt_id = data["prompt_config"]["current_prompt_id"]
-    system_prompt = data["prompt_config"]["prompts"][current_prompt_id]
-    return system_prompt
+def load_prompt(is_turn=False):
+    try:
+        prompt_path = os.path.join(os.path.dirname(__file__), "prompts.json")
+        with open(prompt_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        
+        if "personalities_config" in data:
+            personality_id = data["personalities_config"]["current_personality_id"]
+            personality = data["personalities_config"]["personalities"][personality_id]
+            prompt_id = personality.get("turn_prompt_id") if is_turn else personality.get("daily_prompt_id")
+            return data["prompt_config"]["prompts"].get(prompt_id, "")
+            
+        current_prompt_id = data.get("prompt_config", {}).get("current_prompt_id", "")
+        return data.get("prompt_config", {}).get("prompts", {}).get(current_prompt_id, "")
+    except Exception as e:
+        logger.error(f"Erro ao carregar prompts.json: {e}")
+        return "Erro ao carregar prompt."
 
-def generate_narration(payload: ActionList, custom_prompt: str = None) -> str:
-    system_prompt = custom_prompt if custom_prompt else load_prompt()
+def generate_narration(payload: ActionList, custom_prompt: str = None, is_turn: bool = False) -> str:
+    system_prompt = custom_prompt if custom_prompt else load_prompt(is_turn)
     
     # Prepara a lista de ações como string
     actions_text = "\n".join(f"- {action}" for action in payload.actions)
@@ -201,12 +195,12 @@ def synthesize_and_play(text: str, payload: ActionList):
         except Exception as e:
             logger.error(f"Erro ElevenLabs: {e}")
     else:
-        wav_path = os.path.join(os.path.dirname(__file__), "BraumS.wav")
+        wav_path = os.path.join(os.path.dirname(__file__), "KeydV.wav")
         logger.info(f"🎙️ Enviando texto para a API de TTS Local ({TTS_API_URL})...")
         try:
             with open(wav_path, "rb") as f:
                 files = {
-                    "speaker_wav": ("BraumS.wav", f, "audio/wav")
+                    "speaker_wav": ("KeydV.wav", f, "audio/wav")
                 }
                 data = {
                     "text": text
@@ -231,7 +225,7 @@ def synthesize_and_play(text: str, payload: ActionList):
         except Exception as e:
             logger.error(f"Erro ao sintetizar e tocar áudio: {str(e)}")
 
-def process_actions_task(payload: ActionList, custom_prompt: str = None):
+def process_actions_task(payload: ActionList, custom_prompt: str = None, is_turn: bool = False):
     try:
         # Registrar ações recebidas
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -240,7 +234,7 @@ def process_actions_task(payload: ActionList, custom_prompt: str = None):
             "actions": payload.actions
         })
         
-        narration = generate_narration(payload, custom_prompt)
+        narration = generate_narration(payload, custom_prompt, is_turn)
         
         # Registrar narração gerada
         global_narrations_log.append({
@@ -256,14 +250,14 @@ def process_actions_task(payload: ActionList, custom_prompt: str = None):
 def receive_actions(action_list: ActionList, background_tasks: BackgroundTasks):
     check_config_changes(action_list)
     logger.info(f"📦 Recebidas \033[1m{len(action_list.actions)}\033[0m ações do mod (Fim do dia).")
-    background_tasks.add_task(process_actions_task, action_list)
+    background_tasks.add_task(process_actions_task, action_list, None, False)
     return {"message": "Ações recebidas e processamento iniciado em background"}
 
 @app.post("/actionsturn")
 def receive_actions_turn(action_list: ActionList, background_tasks: BackgroundTasks):
     check_config_changes(action_list)
     logger.info(f"📦 Recebidas \033[1m{len(action_list.actions)}\033[0m ações do mod (Turno).")
-    background_tasks.add_task(process_actions_task, action_list, TURN_PROMPT)
+    background_tasks.add_task(process_actions_task, action_list, None, True)
     return {"message": "Ações de turno recebidas e processamento iniciado em background"}
 
 # ----------------- GRADIO DASHBOARD -----------------
@@ -356,7 +350,7 @@ with gr.Blocks(title="Dashboard - ActionLogger") as dashboard:
             
         with gr.TabItem("Gerar Narração Customizada"):
             gr.Markdown("Teste prompts customizados com ações simuladas (ou as últimas recebidas).")
-            custom_prompt_input = gr.Textbox(label="Prompt Personalizado", lines=10, value=TURN_PROMPT)
+            custom_prompt_input = gr.Textbox(label="Prompt Personalizado", lines=10, value=lambda: load_prompt(is_turn=True))
             custom_actions_input = gr.Textbox(label="Ações (uma por linha)", lines=5, placeholder="[08:00] [Jogador] [Fazenda] Cortou Árvore\n[09:00] [Jogador] [Fazenda] Regou Planta")
             btn_generate = gr.Button("Gerar e Tocar")
             custom_output = gr.Textbox(label="Resultado", lines=10, interactive=False)
@@ -391,4 +385,4 @@ app = gr.mount_gradio_app(app, dashboard, path="/dashboard")
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000)
