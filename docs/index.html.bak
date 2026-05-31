@@ -583,23 +583,21 @@
         <div class="card">
           <div class="card-tag">Passo 02</div>
           <h3 class="card-title">Baixe e instale o mod.</h3>
-          <p class="card-desc dialogue-log">Baixe o mod e backend em <strong><a
-                href="https://github.com/Keyditor/StardewParable/releases">Releases</a></strong>.</p>
+          <p class="card-desc">Baixe o mod e backend em Releases.</p>
           <p class="card-desc">Instale copiando o mod para pasta mods na pasta
             do StardewValley.</p>
         </div>
         <div class="card">
           <div class="card-tag">Passo 03</div>
           <h3 class="card-title">Execute a Backend.</h3>
-          <p class="card-desc">Inicie a Backend executando o <strong>RunBackend.bat</strong>
-            ( e
-            <strong> RunLocalTTS.bat</strong> caso queira usar o TTS gratuito).<br>
+          <p class="card-desc">Inicie a Backend executando o RunBackend.bat ( e
+            RunLocalTTS.bat caso queira usar o TTS gratuito).<br>
             Deixe a tela aberta e siga em frente.</p>
         </div>
         <div class="card">
           <div class="card-tag">Passo 04</div>
           <h3 class="card-title">Inicie o jogo.</h3>
-          <p class="card-desc">Lembre-se de iniciar pelo executavel do <strong>SMAPI</strong>
+          <p class="card-desc">Lembre-se de iniciar pelo executavel do SMAPI
             para que o jogo carregue o mod e você possa configura-lo e jogar com
             a narração ativa.</p>
         </div>
