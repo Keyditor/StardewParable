@@ -379,6 +379,8 @@
             scroll-snap-type: x mandatory;
             scrollbar-width: none; /* Oculta no Firefox */
             -ms-overflow-style: none; /* Oculta no IE e Edge */
+            user-select: none;
+            -webkit-user-select: none;
         }
 
         .roadmap-track::-webkit-scrollbar {
@@ -752,11 +754,23 @@
             <div class="roadmap-connector"></div>
             <div class="card-tag">Atual</div>
             <h3 class="card-title">Novas vozes (tts local)</h3>
-            <p class="card-desc">Incluir a poossibilidade de trocar a voz do narrador diretamente pelo menu de configurções do mod. Apenas dispondo o arquivo da voz em .WAV na pasta do mod junto ao arquivo de configurações.</p>
+            <p class="card-desc">Incluir a possibilidade de trocar a voz do narrador diretamente pelo menu de configurções do mod. Apenas dispondo o arquivo da voz em .WAV na pasta do mod junto ao arquivo de configurações.</p>
           </div>
           <div class="card roadmap-card">
             <div class="roadmap-connector"></div>
             <div class="card-tag">Futuro</div>
+            <h3 class="card-title">Intervalos de narração</h3>
+            <p class="card-desc">Mais intervalos de narração para uma experiencia melhor e mais costumizada.</p>
+          </div>
+          <div class="card roadmap-card">
+            <div class="roadmap-connector"></div>
+            <div class="card-tag">Futuro</div>
+            <h3 class="card-title">Melhoria nas configurações</h3>
+            <p class="card-desc">Melhorar as configurações in-gane, possibilitando escolher outros modos de narração e moods de narração.</p>
+          </div>
+          <div class="card roadmap-card">
+            <div class="roadmap-connector"></div>
+            <div class="card-tag">Distante</div>
             <h3 class="card-title">Backend em NUVEM</h3>
             <p class="card-desc">Para dar possibilidade do mod não necessitar de backend local. Sendo necessário apenas as API Key dos serviços utilizados. E ainda sim com possibilidade de TTS gratuito.</p>
           </div>
@@ -830,5 +844,56 @@
         <p>O Narrador <span>observa</span>.</p>
       </div>
     </footer>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+          const track = document.querySelector('.roadmap-track');
+          if (!track) return;
+
+          // Mouse wheel horizontal scrolling
+          track.addEventListener('wheel', (e) => {
+              if (e.deltaY !== 0) {
+                  e.preventDefault();
+                  track.scrollLeft += e.deltaY;
+              }
+          });
+
+          // Click and drag to scroll
+          let isDown = false;
+          let startX;
+          let scrollLeft;
+
+          track.addEventListener('mousedown', (e) => {
+              isDown = true;
+              track.style.cursor = 'grabbing';
+              // Desativar scroll snap durante o drag para ficar mais suave
+              track.style.scrollSnapType = 'none';
+              startX = e.pageX - track.offsetLeft;
+              scrollLeft = track.scrollLeft;
+          });
+
+          track.addEventListener('mouseleave', () => {
+              isDown = false;
+              track.style.cursor = 'grab';
+              track.style.scrollSnapType = 'x mandatory';
+          });
+
+          track.addEventListener('mouseup', () => {
+              isDown = false;
+              track.style.cursor = 'grab';
+              track.style.scrollSnapType = 'x mandatory';
+          });
+
+          track.addEventListener('mousemove', (e) => {
+              if (!isDown) return;
+              e.preventDefault();
+              const x = e.pageX - track.offsetLeft;
+              const walk = (x - startX) * 2; // velocidade do scroll
+              track.scrollLeft = scrollLeft - walk;
+          });
+          
+          // Estilo de cursor inicial
+          track.style.cursor = 'grab';
+      });
+    </script>
   </body>
 </html>
