@@ -1,3 +1,13 @@
+/*
+
+The Stardew Parable - Stardew Valley narrado por IA
+Esse é um projeto feito por @keyditor
+
+Utilize com bom senso.
+
+
+*/
+
 using System;
 using System.Collections.Generic;
 using System.IO;

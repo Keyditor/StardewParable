@@ -35,7 +35,10 @@ Registra automaticamente, de forma precisa:
 - Uso de ferramentas e armas
 - Mineração e combate a monstros
 - Pesca
-- Interações com NPCs e cutscenes
+- Interações, presentes para NPCs e cutscenes
+- Leitura de cartas e interação com quadro de avisos/calendário
+- Entregas de itens e conclusão de pacotes no Centro Comunitário
+- Conexão de outros jogadores na fazenda (Multiplayer)
 - Transições de áreas
 - Crafting e vendas de itens
 - Comportamento geral do jogador
@@ -144,6 +147,8 @@ OPENAI_API_BASE=https://api.groq.com/openai/v1
 OPENAI_API_KEY=SUA_CHAVE
 OPENAI_MODEL=llama-3.1-8b-instant
 TTS_API_URL=http://localhost:5000/synthesize
+ELEVEN_LABS_API_KEY=SUA_CHAVE_ELEVENLABS_AQUI_OPCIONAL
+ELEVEN_LABS_VOICE_ID=ID_DA_VOZ_OPCIONAL
 ```
 
 Execute o backend:
@@ -197,7 +202,10 @@ Automatically and accurately records:
 - Tool and weapon usage
 - Mining and fighting
 - Fishing
-- NPC interactions and cutscenes
+- NPC interactions, gifting, and cutscenes
+- Reading mail and checking the billboard/calendar
+- Donating items and completing Community Center bundles
+- Other players joining the farm (Multiplayer)
 - Area transitions
 - Crafting and selling
 - General player behavior
@@ -290,6 +298,8 @@ OPENAI_API_BASE=https://api.groq.com/openai/v1
 OPENAI_API_KEY=YOUR_KEY
 OPENAI_MODEL=llama-3.1-8b-instant
 TTS_API_URL=http://localhost:5000/synthesize
+ELEVEN_LABS_API_KEY=YOUR_ELEVENLABS_KEY_OPTIONAL
+ELEVEN_LABS_VOICE_ID=VOICE_ID_OPTIONAL
 ```
 
 Run the backend:
