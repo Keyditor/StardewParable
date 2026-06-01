@@ -177,6 +177,8 @@ Contribuições são bem-vindas. Abra issues, sugira funcionalidades ou envie pu
 
 ---
 
+> Feito por @Keyditor.
+
 # 🇺🇸 English
 
 ## 📖 About
@@ -312,4 +314,5 @@ uvicorn main:app --reload --port 8000
 ---
 
 > *"He watered the crops again. As if routine could somehow fill the emptiness."*  
-> — The Narrator
+> — The Narrator 
+> Made by @Keyditor
