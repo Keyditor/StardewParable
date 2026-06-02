@@ -73,7 +73,7 @@ namespace ActionLogger
                 string timeStr = Game1.getTimeOfDayString(InGameTime);
                 string countStr = Count > 1 ? $" [{Count}x]" : "";
                 string toolStr = string.IsNullOrEmpty(ToolName) || ToolName == "Nenhuma" ? "" : $" [{ToolName}]";
-                return $"[{timeStr}] [{PlayerName}] [{LocationName}]{countStr} {BaseMessage}{toolStr}";
+                return $" As [{timeStr}] o jogador [{PlayerName}] estava em [{LocationName}] e {countStr} {BaseMessage}{toolStr}";
             }
         }
 
@@ -146,7 +146,7 @@ namespace ActionLogger
                 tooltip: () => "Escolha quando o narrador vai falar sobre as suas ações.",
                 getValue: () => this.Config.NarrationMode,
                 setValue: value => this.Config.NarrationMode = value,
-                allowedValues: new string[] { "Diaria", "Por Turno" }
+                allowedValues: new string[] { "Diaria", "Por Turno", "A cada 3h" }
             );
 
             configMenu.AddTextOption(
@@ -195,6 +195,13 @@ namespace ActionLogger
             if (this.Config.NarrationMode == "Por Turno")
             {
                 if (e.NewTime == 1200 || e.NewTime == 1800)
+                {
+                    SendTurnLogsAndClear();
+                }
+            }
+            else if (this.Config.NarrationMode == "A cada 3h")
+            {
+                if (e.NewTime == 900 || e.NewTime == 1200 || e.NewTime == 1500 || e.NewTime == 1800 || e.NewTime == 2100 || e.NewTime == 2400)
                 {
                     SendTurnLogsAndClear();
                 }
@@ -376,7 +383,7 @@ namespace ActionLogger
                             }
                         }
 
-                        LogAction($"Regou {cropWatered}", true);
+                        LogAction($"Regou {cropWatered} com ", true);
                     }
                     else if (tool is StardewValley.Tools.MeleeWeapon weapon && weapon.isScythe())
                     {
@@ -388,7 +395,7 @@ namespace ActionLogger
                     }
                     else if (tool is StardewValley.Tools.FishingRod)
                     {
-                        LogAction($"Começou a pescar", true);
+                        LogAction($"Começou a pescar usando", true);
                     }
                 }
             }
@@ -409,7 +416,7 @@ namespace ActionLogger
                     var speaker = Game1.currentSpeaker?.Name;
                     if (speaker != null)
                     {
-                        LogAction($"Conversou com {speaker}: \"{text}\"", false);
+                        LogAction($"Conversou com {speaker}, que disse: \"{text}\"", false);
                     }
                     else
                     {
@@ -527,7 +534,7 @@ namespace ActionLogger
             WriteLogToFile();
             
             var actionStrings = dailyLogs.Select(l => l.GetFormattedString()).ToList();
-            bool isTurn = this.Config.NarrationMode == "Por Turno";
+            bool isTurn = this.Config.NarrationMode == "Por Turno" || this.Config.NarrationMode == "A cada 3h";
             Task.Run(() => SendLogsToBackend(actionStrings, isTurn));
             
             dailyLogs.Clear();
@@ -598,7 +605,7 @@ namespace ActionLogger
             {
                 string oldLoc = GetLocationName(e.OldLocation, e.OldLocation.Name);
                 string newLoc = GetLocationName(e.NewLocation, e.NewLocation.Name);
-                LogAction($"Saiu de '{oldLoc}' para '{newLoc}'", false);
+                LogAction($"Foi para '{newLoc}'", false);
 
                 if (e.NewLocation is MineShaft newShaft)
                 {
@@ -725,15 +732,15 @@ namespace ActionLogger
                 var obj = pair.Value;
                 if (obj.Name.Contains("Stone") || obj.Name.Contains("Rock"))
                 {
-                    LogAction($"Quebrou {obj.DisplayName}");
+                    LogAction($"Quebrou {obj.DisplayName} com ");
                 }
                 else if (obj.Name.Contains("Weed"))
                 {
-                    LogAction($"Cortou {obj.DisplayName}");
+                    LogAction($"Cortou {obj.DisplayName} com ");
                 }
                 else if (obj.Name.Contains("Twig") || obj.Name.Contains("Wood"))
                 {
-                    LogAction($"Quebrou {obj.DisplayName}");
+                    LogAction($"Quebrou {obj.DisplayName} com ");
                 }
                 else
                 {
@@ -748,11 +755,11 @@ namespace ActionLogger
             {
                 if (pair.Value is Tree)
                 {
-                    LogAction("Cortou uma Árvore");
+                    LogAction("Cortou uma Árvore com ");
                 }
                 else if (pair.Value is FruitTree)
                 {
-                    LogAction("Cortou uma Árvore Frutífera");
+                    LogAction("Cortou uma Árvore Frutífera com");
                 }
             }
         }

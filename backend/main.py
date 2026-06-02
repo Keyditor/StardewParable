@@ -109,26 +109,41 @@ def check_config_changes(payload: ActionList):
             
     last_known_config = current_config
 
-def load_prompt(is_turn=False):
+def get_current_personality_config(is_turn=False):
     try:
         prompt_path = os.path.join(os.path.dirname(__file__), "prompts.json")
         with open(prompt_path, "r", encoding="utf-8") as f:
             data = json.load(f)
         
+        temperature = 0.8
+        prompt_text = ""
+        
         if "personalities_config" in data:
-            personality_id = data["personalities_config"]["current_personality_id"]
-            personality = data["personalities_config"]["personalities"][personality_id]
+            personality_id = data["personalities_config"].get("current_personality_id", "")
+            personalities = data["personalities_config"].get("personalities", {})
+            personality = personalities.get(personality_id, {})
+            temperature = personality.get("temperature", 0.8)
             prompt_id = personality.get("turn_prompt_id") if is_turn else personality.get("daily_prompt_id")
-            return data["prompt_config"]["prompts"].get(prompt_id, "")
+            prompt_text = data.get("prompt_config", {}).get("prompts", {}).get(prompt_id, "")
+        else:
+            current_prompt_id = data.get("prompt_config", {}).get("current_prompt_id", "")
+            prompt_text = data.get("prompt_config", {}).get("prompts", {}).get(current_prompt_id, "")
             
-        current_prompt_id = data.get("prompt_config", {}).get("current_prompt_id", "")
-        return data.get("prompt_config", {}).get("prompts", {}).get(current_prompt_id, "")
+        return prompt_text, temperature
     except Exception as e:
         logger.error(f"Erro ao carregar prompts.json: {e}")
-        return "Erro ao carregar prompt."
+        return "Erro ao carregar prompt.", 0.8
+
+def load_prompt(is_turn=False):
+    prompt_text, _ = get_current_personality_config(is_turn)
+    return prompt_text
 
 def generate_narration(payload: ActionList, custom_prompt: str = None, is_turn: bool = False) -> str:
-    system_prompt = custom_prompt if custom_prompt else load_prompt(is_turn)
+    if custom_prompt:
+        system_prompt = custom_prompt
+        temperature = 0.8
+    else:
+        system_prompt, temperature = get_current_personality_config(is_turn)
     
     # Prepara a lista de ações como string
     actions_text = "\n".join(f"- {action}" for action in payload.actions)
@@ -152,6 +167,7 @@ def generate_narration(payload: ActionList, custom_prompt: str = None, is_turn: 
     
     request_payload = {
         "model": model,
+        "temperature": temperature,
         "messages": [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_message}
@@ -327,7 +343,7 @@ def trigger_custom_narration(prompt: str, actions_text: str):
     except Exception as e:
         return f"Erro ao gerar narração: {e}"
 
-def save_settings(new_openai_base, new_openai_key, new_openai_model, new_tts_url, new_el_key, new_el_voice):
+def save_settings(new_openai_base, new_openai_key, new_openai_model, new_tts_url, new_el_key, new_el_voice, new_active_personality=None):
     global OPENAI_API_BASE, OPENAI_API_KEY, OPENAI_MODEL, TTS_API_URL, ELEVEN_LABS_API_KEY, ELEVEN_LABS_VOICE_ID
     OPENAI_API_BASE = new_openai_base
     OPENAI_API_KEY = new_openai_key
@@ -335,8 +351,95 @@ def save_settings(new_openai_base, new_openai_key, new_openai_model, new_tts_url
     TTS_API_URL = new_tts_url
     ELEVEN_LABS_API_KEY = new_el_key
     ELEVEN_LABS_VOICE_ID = new_el_voice
+    
+    if new_active_personality:
+        prompt_path = os.path.join(os.path.dirname(__file__), "prompts.json")
+        try:
+            with open(prompt_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            if "personalities_config" in data:
+                data["personalities_config"]["current_personality_id"] = str(new_active_personality).strip()
+                with open(prompt_path, "w", encoding="utf-8") as f:
+                    json.dump(data, f, indent=4, ensure_ascii=False)
+        except Exception as e:
+            logger.error(f"Erro ao salvar personalidade ativa: {e}")
+
     logger.info("\033[93m[⚙️ CONFIGURAÇÕES ATUALIZADAS PELO DASHBOARD]\033[0m")
     return f"Configurações salvas com sucesso em {datetime.now().strftime('%H:%M:%S')}!"
+
+def load_all_personalities():
+    prompt_path = os.path.join(os.path.dirname(__file__), "prompts.json")
+    try:
+        with open(prompt_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        personalities = data.get("personalities_config", {}).get("personalities", {})
+        return list(personalities.keys())
+    except:
+        return []
+
+def get_active_personality_id():
+    prompt_path = os.path.join(os.path.dirname(__file__), "prompts.json")
+    try:
+        with open(prompt_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return data.get("personalities_config", {}).get("current_personality_id", "")
+    except:
+        return ""
+
+def load_personality_details(pers_id):
+    prompt_path = os.path.join(os.path.dirname(__file__), "prompts.json")
+    try:
+        with open(prompt_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        personality = data.get("personalities_config", {}).get("personalities", {}).get(pers_id, {})
+        temperature = personality.get("temperature", 0.8)
+        daily_id = personality.get("daily_prompt_id", "")
+        turn_id = personality.get("turn_prompt_id", "")
+        
+        prompts = data.get("prompt_config", {}).get("prompts", {})
+        daily_text = prompts.get(daily_id, "")
+        turn_text = prompts.get(turn_id, "")
+        
+        return daily_text, turn_text, temperature
+    except:
+        return "", "", 0.8
+
+def save_personality_details(pers_id, daily_text, turn_text, temperature, set_active):
+    if not pers_id or not str(pers_id).strip():
+        return "Erro: O Nome/ID da persona não pode estar vazio.", gr.update()
+    
+    pers_id = str(pers_id).strip()
+    prompt_path = os.path.join(os.path.dirname(__file__), "prompts.json")
+    try:
+        with open(prompt_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        
+        if "personalities_config" not in data:
+            data["personalities_config"] = {"personalities": {}, "current_personality_id": ""}
+        if "prompt_config" not in data:
+            data["prompt_config"] = {"prompts": {}, "current_prompt_id": ""}
+            
+        daily_id = f"{pers_id}_daily"
+        turn_id = f"{pers_id}_turn"
+        
+        data["prompt_config"]["prompts"][daily_id] = daily_text
+        data["prompt_config"]["prompts"][turn_id] = turn_text
+        
+        data["personalities_config"]["personalities"][pers_id] = {
+            "daily_prompt_id": daily_id,
+            "turn_prompt_id": turn_id,
+            "temperature": float(temperature)
+        }
+        
+        if set_active:
+            data["personalities_config"]["current_personality_id"] = pers_id
+            
+        with open(prompt_path, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=4, ensure_ascii=False)
+            
+        return f"Personalidade '{pers_id}' salva com sucesso em {datetime.now().strftime('%H:%M:%S')}!", gr.update(choices=load_all_personalities(), value=pers_id if set_active else None)
+    except Exception as e:
+        return f"Erro ao salvar: {e}", gr.update()
 
 with gr.Blocks(title="Dashboard - ActionLogger") as dashboard:
     gr.Markdown("# Painel de Controle - Narrador Stardew Valley")
@@ -366,6 +469,32 @@ with gr.Blocks(title="Dashboard - ActionLogger") as dashboard:
             custom_output = gr.Textbox(label="Resultado", lines=10, interactive=False)
             
             btn_generate.click(fn=trigger_custom_narration, inputs=[custom_prompt_input, custom_actions_input], outputs=[custom_output])
+
+        with gr.TabItem("Configuração de Personalidade"):
+            gr.Markdown("Crie ou edite personas (Narradores). Você pode definir regras específicas para finais de dia (Daily) e para eventos instantâneos (Turn).")
+            
+            with gr.Row():
+                with gr.Column(scale=1):
+                    pers_list_dropdown = gr.Dropdown(label="Personalidades Existentes", choices=load_all_personalities(), value=get_active_personality_id())
+                    pers_name_input = gr.Textbox(label="Nome/ID da Persona (sem espaços)", placeholder="Ex: GLaDOS, waldemar")
+                    pers_temp_input = gr.Slider(label="Temperature (Criatividade)", minimum=0.0, maximum=2.0, step=0.1, value=0.8)
+                    pers_active_checkbox = gr.Checkbox(label="Definir como Ativa", value=True)
+                with gr.Column(scale=2):
+                    pers_daily_input = gr.Textbox(label="Regras para Fim do Dia (Daily)", lines=10)
+                    pers_turn_input = gr.Textbox(label="Regras para Turno (Turn)", lines=10)
+            
+            btn_load_pers = gr.Button("Carregar Selecionada")
+            btn_save_pers = gr.Button("Salvar/Criar Personalidade", variant="primary")
+            pers_status = gr.Textbox(label="Status", interactive=False)
+            
+            def on_load_pers(selected_id):
+                if not selected_id:
+                    return "", 0.8, "", ""
+                daily, turn, temp = load_personality_details(selected_id)
+                return selected_id, temp, daily, turn
+            
+            btn_load_pers.click(fn=on_load_pers, inputs=[pers_list_dropdown], outputs=[pers_name_input, pers_temp_input, pers_daily_input, pers_turn_input])
+            btn_save_pers.click(fn=save_personality_details, inputs=[pers_name_input, pers_daily_input, pers_turn_input, pers_temp_input, pers_active_checkbox], outputs=[pers_status, pers_list_dropdown])
             
         with gr.TabItem("Configurações Globais"):
             gr.Markdown("Altere as APIs, URLs e modelos utilizados como padrão (caso o Mod não envie valores específicos do jogo). As mudanças feitas aqui passam a valer imediatamente no backend.")

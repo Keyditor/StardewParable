@@ -40,13 +40,13 @@
     "C:\\Users\\Keyditor\\.nuget\\packages\\": {}
   },
   "project": {
-    "version": "1.4.0",
+    "version": "1.5.0",
     "restore": {
-      "projectUniqueName": "F:\\StardewParable\\src\\ActionLogger.csproj",
+      "projectUniqueName": "f:\\StardewParable\\src\\ActionLogger.csproj",
       "projectName": "ActionLogger",
-      "projectPath": "F:\\StardewParable\\src\\ActionLogger.csproj",
+      "projectPath": "f:\\StardewParable\\src\\ActionLogger.csproj",
       "packagesPath": "C:\\Users\\Keyditor\\.nuget\\packages\\",
-      "outputPath": "F:\\StardewParable\\src\\obj\\",
+      "outputPath": "f:\\StardewParable\\src\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Keyditor\\AppData\\Roaming\\NuGet\\NuGet.Config"

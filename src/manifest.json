@@ -1,7 +1,7 @@
 {
   "Name": "Action Logger",
   "Author": "Keyditor",
-  "Version": "1.4.0",
+  "Version": "1.5.0",
   "Description": "Um mod de narração por IA inspirado em The Stanley Parable.",
   "UniqueID": "Keyditor.ActionLogger",
   "EntryDll": "ActionLogger.dll",
