@@ -78,7 +78,7 @@ namespace ActionLogger
         }
 
         private List<ActionLog> dailyLogs = new List<ActionLog>();
-        private int moneyAtStartOfDay = 0;
+        private uint totalMoneyEarnedAtStartOfDay = 0;
 
         private string? lastDialogueText = null;
 
@@ -459,7 +459,7 @@ namespace ActionLogger
         private void OnDayStarted(object? sender, DayStartedEventArgs e)
         {
             dailyLogs.Clear();
-            moneyAtStartOfDay = Game1.player.Money;
+            totalMoneyEarnedAtStartOfDay = Game1.player.totalMoneyEarned;
 
             npcGifts.Clear();
             foreach (var npc in Game1.player.friendshipData.Keys)
@@ -486,7 +486,7 @@ namespace ActionLogger
 
         private void OnDayEnding(object? sender, DayEndingEventArgs e)
         {
-            int earnedToday = Game1.player.Money - moneyAtStartOfDay;
+            uint earnedToday = Game1.player.totalMoneyEarned - totalMoneyEarnedAtStartOfDay;
             int shippingValue = 0;
             
             var shippingBin = Game1.getFarm().getShippingBin(Game1.player);
@@ -516,10 +516,10 @@ namespace ActionLogger
 
             foreach (var kvp in shippedItems)
             {
-                LogAction($"Enviou {kvp.Key} (Lucro: {kvp.Value.value} ouros)", false, kvp.Value.amount);
+                LogAction($"Enviou {kvp.Key} ao mercado e vendeu por (Lucro: {kvp.Value.value} ouros)", false, kvp.Value.amount);
             }
 
-            int totalEarned = Math.Max(0, earnedToday + shippingValue);
+            int totalEarned = (int)earnedToday + shippingValue;
 
             LogAction($"Faturou {totalEarned} ouros no final do dia", false);
             LogAction($"Foi dormir no final do dia {SDate.Now().ToLocaleString()}", false);
