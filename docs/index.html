@@ -569,6 +569,78 @@
             .footer-content { grid-template-columns: 1fr; gap: 2.5rem; }
             .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
         }
+        /* Modal Video */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            width: 90%;
+            max-width: 1000px;
+            position: relative;
+        }
+
+        .modal-title {
+            font-family: var(--font-serif);
+            color: var(--accent-gold);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: var(--text-light);
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--accent-gold);
+        }
+
+        .modal-video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            background-color: #000;
+            border: 1px solid var(--border-card);
+        }
+
+        .modal-video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            outline: none;
+        }
     </style>
   </head>
   <body>
@@ -590,7 +662,7 @@
           absolutamente correto." </div>
         <div class="hero-actions"> <a href="https://github.com/Keyditor/StardewParable/releases"
 
-            class="btn-outline">BAIXAR O MOD</a> <a href="#" class="btn-outline">OUVIR
+            class="btn-outline">BAIXAR O MOD</a> <a href="#" id="play-video-btn" class="btn-outline">OUVIR
             O NARRADOR</a> </div>
         <div class="hero-meta"> SMAPI 4.0+ • Stardew Valley 1.6 • Mod Gratuito <span>■</span>
         </div>
@@ -845,8 +917,48 @@
         <p>O Narrador <span>observa</span>.</p>
       </div>
     </footer>
+    <!-- Video Modal -->
+    <div class="modal-overlay" id="video-modal">
+      <div class="modal-content">
+        <button class="modal-close" id="close-video-btn">&times;</button>
+        <h2 class="modal-title">Tutorial e Spotlight</h2>
+        <div class="modal-video-container">
+          <iframe id="tuto-video" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+
     <script>
       document.addEventListener('DOMContentLoaded', () => {
+          // Modal Logic
+          const playBtn = document.getElementById('play-video-btn');
+          const closeBtn = document.getElementById('close-video-btn');
+          const modal = document.getElementById('video-modal');
+          const iframe = document.getElementById('tuto-video');
+
+          if (playBtn && modal && closeBtn && iframe) {
+              const videoSrc = "https://www.youtube.com/embed/BtaL31w3NC0?autoplay=1";
+
+              playBtn.addEventListener('click', (e) => {
+                  e.preventDefault();
+                  iframe.src = videoSrc;
+                  modal.classList.add('active');
+              });
+
+              const closeModal = () => {
+                  modal.classList.remove('active');
+                  iframe.src = "";
+              };
+
+              closeBtn.addEventListener('click', closeModal);
+
+              modal.addEventListener('click', (e) => {
+                  if (e.target === modal) {
+                      closeModal();
+                  }
+              });
+          }
+
           const track = document.querySelector('.roadmap-track');
           if (!track) return;
 
