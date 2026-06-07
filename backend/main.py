@@ -343,6 +343,30 @@ def trigger_custom_narration(prompt: str, actions_text: str):
     except Exception as e:
         return f"Erro ao gerar narração: {e}"
 
+def update_env(key, value):
+    env_path = os.path.join(os.path.dirname(__file__), ".env")
+    if not os.path.exists(env_path):
+        with open(env_path, "w", encoding="utf-8") as f:
+            f.write("")
+    
+    with open(env_path, "r", encoding="utf-8") as f:
+        lines = f.readlines()
+        
+    updated = False
+    for i, line in enumerate(lines):
+        if line.strip().startswith(f"{key}="):
+            lines[i] = f"{key}={value}\n"
+            updated = True
+            break
+            
+    if not updated:
+        if lines and not lines[-1].endswith("\n"):
+            lines[-1] += "\n"
+        lines.append(f"{key}={value}\n")
+        
+    with open(env_path, "w", encoding="utf-8") as f:
+        f.writelines(lines)
+
 def save_settings(new_openai_base, new_openai_key, new_openai_model, new_tts_url, new_el_key, new_el_voice, new_active_personality=None):
     global OPENAI_API_BASE, OPENAI_API_KEY, OPENAI_MODEL, TTS_API_URL, ELEVEN_LABS_API_KEY, ELEVEN_LABS_VOICE_ID
     OPENAI_API_BASE = new_openai_base
@@ -351,6 +375,16 @@ def save_settings(new_openai_base, new_openai_key, new_openai_model, new_tts_url
     TTS_API_URL = new_tts_url
     ELEVEN_LABS_API_KEY = new_el_key
     ELEVEN_LABS_VOICE_ID = new_el_voice
+    
+    try:
+        update_env("OPENAI_API_BASE", new_openai_base)
+        update_env("OPENAI_API_KEY", new_openai_key)
+        update_env("OPENAI_MODEL", new_openai_model)
+        update_env("TTS_API_URL", new_tts_url)
+        update_env("ELEVEN_LABS_API_KEY", new_el_key)
+        update_env("ELEVEN_LABS_VOICE_ID", new_el_voice)
+    except Exception as e:
+        logger.error(f"Erro ao salvar no arquivo .env: {e}")
     
     if new_active_personality:
         prompt_path = os.path.join(os.path.dirname(__file__), "prompts.json")
@@ -403,6 +437,27 @@ def load_personality_details(pers_id):
         return daily_text, turn_text, temperature
     except:
         return "", "", 0.8
+
+def apply_personality_fn(pers_id):
+    if not pers_id or not str(pers_id).strip():
+        return "Erro: Selecione uma personalidade para aplicar."
+    
+    pers_id = str(pers_id).strip()
+    prompt_path = os.path.join(os.path.dirname(__file__), "prompts.json")
+    try:
+        with open(prompt_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            
+        if "personalities_config" not in data or pers_id not in data.get("personalities_config", {}).get("personalities", {}):
+            return f"Erro: Personalidade '{pers_id}' não encontrada."
+            
+        data["personalities_config"]["current_personality_id"] = pers_id
+        with open(prompt_path, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=4, ensure_ascii=False)
+            
+        return f"Personalidade '{pers_id}' definida como ativa com sucesso em {datetime.now().strftime('%H:%M:%S')}!"
+    except Exception as e:
+        return f"Erro ao aplicar personalidade: {e}"
 
 def save_personality_details(pers_id, daily_text, turn_text, temperature, set_active):
     if not pers_id or not str(pers_id).strip():
@@ -464,10 +519,14 @@ with gr.Blocks(title="Dashboard - ActionLogger") as dashboard:
         with gr.TabItem("Gerar Narração Customizada"):
             gr.Markdown("Teste prompts customizados com ações simuladas (ou as últimas recebidas).")
             custom_prompt_input = gr.Textbox(label="Prompt Personalizado", lines=10, value=lambda: load_prompt(is_turn=True))
+            btn_load_active_prompt = gr.Button("Recarregar Prompt da Personalidade Ativa")
             custom_actions_input = gr.Textbox(label="Ações (uma por linha)", lines=5, placeholder="[08:00] [Jogador] [Fazenda] Cortou Árvore\n[09:00] [Jogador] [Fazenda] Regou Planta")
             btn_generate = gr.Button("Gerar e Tocar")
             custom_output = gr.Textbox(label="Resultado", lines=10, interactive=False)
             
+            def reload_custom_prompt():
+                return load_prompt(is_turn=True)
+            btn_load_active_prompt.click(fn=reload_custom_prompt, inputs=[], outputs=[custom_prompt_input])
             btn_generate.click(fn=trigger_custom_narration, inputs=[custom_prompt_input, custom_actions_input], outputs=[custom_output])
 
         with gr.TabItem("Configuração de Personalidade"):
@@ -483,8 +542,11 @@ with gr.Blocks(title="Dashboard - ActionLogger") as dashboard:
                     pers_daily_input = gr.Textbox(label="Regras para Fim do Dia (Daily)", lines=10)
                     pers_turn_input = gr.Textbox(label="Regras para Turno (Turn)", lines=10)
             
-            btn_load_pers = gr.Button("Carregar Selecionada")
-            btn_save_pers = gr.Button("Salvar/Criar Personalidade", variant="primary")
+            with gr.Row():
+                btn_load_pers = gr.Button("Carregar Selecionada")
+                btn_apply_pers = gr.Button("Aplicar Selecionada (Tornar Ativa)", variant="secondary")
+                btn_save_pers = gr.Button("Salvar/Criar Personalidade", variant="primary")
+                
             pers_status = gr.Textbox(label="Status", interactive=False)
             
             def on_load_pers(selected_id):
@@ -494,6 +556,7 @@ with gr.Blocks(title="Dashboard - ActionLogger") as dashboard:
                 return selected_id, temp, daily, turn
             
             btn_load_pers.click(fn=on_load_pers, inputs=[pers_list_dropdown], outputs=[pers_name_input, pers_temp_input, pers_daily_input, pers_turn_input])
+            btn_apply_pers.click(fn=apply_personality_fn, inputs=[pers_list_dropdown], outputs=[pers_status])
             btn_save_pers.click(fn=save_personality_details, inputs=[pers_name_input, pers_daily_input, pers_turn_input, pers_temp_input, pers_active_checkbox], outputs=[pers_status, pers_list_dropdown])
             
         with gr.TabItem("Configurações Globais"):
@@ -522,6 +585,25 @@ with gr.Blocks(title="Dashboard - ActionLogger") as dashboard:
 # Monta o Gradio na rota /dashboard do FastAPI
 app = gr.mount_gradio_app(app, dashboard, path="/dashboard")
 
+def print_banner():
+    banner = """
+\033[92m===============================================================\033[0m
+\033[96m★ The Stardew Parable Backend Iniciado com Sucesso! ★\033[0m
+\033[92m===============================================================\033[0m
+
+\033[93mPainel de Controle (Dashboard):\033[0m
+▶ \033[4;94mhttp://localhost:8000/dashboard\033[0m
+
+\033[93mInstruções:\033[0m
+- Deixe esta janela aberta enquanto joga.
+- Configure suas APIs e Vozes diretamente pelo Dashboard.
+- Acompanhe os logs de ações e narrações no painel.
+
+\033[92m===============================================================\033[0m
+"""
+    print(banner)
+
 if __name__ == "__main__":
     import uvicorn
+    print_banner()
     uvicorn.run(app, host="0.0.0.0", port=8000)
