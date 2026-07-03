@@ -51,23 +51,55 @@ OPENAI_API_BASE = os.getenv("OPENAI_API_BASE", "https://api.openai.com/v1")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-3.5-turbo")
 TTS_API_URL = os.getenv("TTS_API_URL", "http://localhost:5000/synthesize")
-if not "localhost" in TTS_API_URL and not TTS_API_URL.endswith("/synthesize"):
+TTS_API_URL = TTS_API_URL.rstrip("/")
+if not TTS_API_URL.endswith("/synthesize"):
     TTS_API_URL += "/synthesize"
 ELEVEN_LABS_API_KEY = os.getenv("ELEVEN_LABS_API_KEY", "")
 ELEVEN_LABS_VOICE_ID = os.getenv("ELEVEN_LABS_VOICE_ID", "")
     
 app = FastAPI()
 
-# Inicializa o mixer de áudio do pygame
-pygame.mixer.init()
-
 # Estado Global para o Dashboard e Histórico
 global_actions_log = []
 global_narrations_log = []
 last_known_config = {}
+MAX_HISTORY_ENTRIES = 50
+pygame_audio_initialized = False
+
+
+def init_audio():
+    global pygame_audio_initialized
+    if pygame_audio_initialized:
+        return True
+
+    try:
+        pygame.mixer.init()
+        pygame_audio_initialized = True
+        return True
+    except Exception as e:
+        logger.error(f"Falha ao inicializar o mixer de áudio: {e}")
+        return False
+
+
+def append_global_actions(entry):
+    global global_actions_log
+    global_actions_log.append(entry)
+    if len(global_actions_log) > MAX_HISTORY_ENTRIES:
+        global_actions_log = global_actions_log[-MAX_HISTORY_ENTRIES:]
+
+
+def append_global_narrations(entry):
+    global global_narrations_log
+    global_narrations_log.append(entry)
+    if len(global_narrations_log) > MAX_HISTORY_ENTRIES:
+        global_narrations_log = global_narrations_log[-MAX_HISTORY_ENTRIES:]
+
 
 class ActionList(BaseModel):
     actions: List[str]
+    player_name: Optional[str] = None
+    player_unique_id: Optional[int] = None
+    is_multiplayer: Optional[bool] = None
     openai_url: Optional[str] = None
     openai_api_key: Optional[str] = None
     openai_model: Optional[str] = None
@@ -124,10 +156,10 @@ def get_current_personality_config(is_turn=False):
             personality = personalities.get(personality_id, {})
             temperature = personality.get("temperature", 0.8)
             prompt_id = personality.get("turn_prompt_id") if is_turn else personality.get("daily_prompt_id")
-            prompt_text = data.get("prompt_config", {}).get("prompts", {}).get(prompt_id, "")
+            prompt_text = data.get("prompt_config", {}).get("prompts", {}).get(prompt_id, "") or ""
         else:
             current_prompt_id = data.get("prompt_config", {}).get("current_prompt_id", "")
-            prompt_text = data.get("prompt_config", {}).get("prompts", {}).get(current_prompt_id, "")
+            prompt_text = data.get("prompt_config", {}).get("prompts", {}).get(current_prompt_id, "") or ""
             
         return prompt_text, temperature
     except Exception as e:
@@ -154,7 +186,15 @@ def generate_narration(payload: ActionList, custom_prompt: str = None, is_turn: 
         recent_history = global_narrations_log[-3:]
         history_context = "\n\nHISTÓRICO DE NARRAÇÕES ANTERIORES (Para continuidade da história):\n" + "\n---\n".join([item["narration"] for item in recent_history])
 
-    user_message = f"{history_context}\n\nAções recentes do jogador a serem narradas agora:\n{actions_text}"
+    player_context = ""
+    if payload.player_name:
+        player_context += f"Jogador: {payload.player_name}\n"
+    if payload.player_unique_id is not None:
+        player_context += f"PlayerUniqueID: {payload.player_unique_id}\n"
+    if payload.is_multiplayer:
+        player_context += "Modo multiplayer: ativo\n"
+
+    user_message = f"{player_context}{history_context}\n\nAções recentes do jogador a serem narradas agora:\n{actions_text}"
 
     api_key = payload.openai_api_key if payload.openai_api_key else OPENAI_API_KEY
     api_url = payload.openai_url if payload.openai_url else OPENAI_API_BASE
@@ -212,6 +252,9 @@ def synthesize_and_play(text: str, payload: ActionList):
                 logger.error(f"Erro no ElevenLabs: {response.text}")
                 return
             audio_data = io.BytesIO(response.content)
+            if not init_audio():
+                logger.error("Áudio indisponível; narração não pôde ser reproduzida.")
+                return
             logger.info("▶️ Reproduzindo áudio do ElevenLabs...")
             pygame.mixer.music.load(audio_data)
             pygame.mixer.music.play()
@@ -239,7 +282,9 @@ def synthesize_and_play(text: str, payload: ActionList):
                     return
                 
                 audio_data = io.BytesIO(response.content)
-                
+                if not init_audio():
+                    logger.error("Áudio indisponível; narração não pôde ser reproduzida.")
+                    return
                 logger.info("▶️ Reproduzindo áudio do TTS Local...")
                 pygame.mixer.music.load(audio_data)
                 pygame.mixer.music.play()
@@ -255,7 +300,7 @@ def process_actions_task(payload: ActionList, custom_prompt: str = None, is_turn
     try:
         # Registrar ações recebidas
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        global_actions_log.append({
+        append_global_actions({
             "time": timestamp,
             "actions": payload.actions
         })
@@ -263,7 +308,7 @@ def process_actions_task(payload: ActionList, custom_prompt: str = None, is_turn
         narration = generate_narration(payload, custom_prompt, is_turn)
         
         # Registrar narração gerada
-        global_narrations_log.append({
+        append_global_narrations({
             "time": timestamp,
             "narration": narration
         })
@@ -286,6 +331,15 @@ def receive_actions_turn(action_list: ActionList, background_tasks: BackgroundTa
     background_tasks.add_task(process_actions_task, action_list, None, True)
     return {"message": "Ações de turno recebidas e processamento iniciado em background"}
 
+@app.get("/health")
+def health_check():
+    return {
+        "status": "ok",
+        "loaded_prompt": get_active_personality_id(),
+        "openai_base": OPENAI_API_BASE,
+        "tts_url": TTS_API_URL
+    }
+
 # ----------------- GRADIO DASHBOARD -----------------
 
 def get_actions_display():
@@ -293,7 +347,12 @@ def get_actions_display():
         return "Nenhuma ação recebida ainda."
     display = ""
     for entry in reversed(global_actions_log):
-        display += f"[{entry['time']}]\n"
+        display += f"[{entry['time']}]
+"
+        if entry.get('player_name'):
+            display += f"Jogador: {entry['player_name']}\n"
+        if entry.get('is_multiplayer'):
+            display += "Multiplayer: sim\n"
         for act in entry['actions']:
             display += f"- {act}\n"
         display += "-"*40 + "\n"
@@ -325,7 +384,7 @@ def trigger_custom_narration(prompt: str, actions_text: str):
     
     try:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        global_actions_log.append({
+        append_global_actions({
             "time": timestamp,
             "actions": actions_list
         })
@@ -333,7 +392,7 @@ def trigger_custom_narration(prompt: str, actions_text: str):
         dummy_payload = ActionList(actions=actions_list)
         narration = generate_narration(dummy_payload, prompt)
         
-        global_narrations_log.append({
+        append_global_narrations({
             "time": timestamp,
             "narration": narration
         })

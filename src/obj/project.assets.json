@@ -1,5 +1,5 @@
 {
-  "version": 4,
+  "version": 3,
   "targets": {
     "net6.0": {
       "Pathoschild.Stardew.ModBuildConfig/4.1.1": {
@@ -37,19 +37,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Keyditor\\.nuget\\packages\\": {}
+    "/home/codespace/.nuget/packages/": {}
   },
   "project": {
     "version": "1.5.0",
     "restore": {
-      "projectUniqueName": "f:\\StardewParable\\src\\ActionLogger.csproj",
+      "projectUniqueName": "/workspaces/StardewParable/src/ActionLogger.csproj",
       "projectName": "ActionLogger",
-      "projectPath": "f:\\StardewParable\\src\\ActionLogger.csproj",
-      "packagesPath": "C:\\Users\\Keyditor\\.nuget\\packages\\",
-      "outputPath": "f:\\StardewParable\\src\\obj\\",
+      "projectPath": "/workspaces/StardewParable/src/ActionLogger.csproj",
+      "packagesPath": "/home/codespace/.nuget/packages/",
+      "outputPath": "/workspaces/StardewParable/src/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Keyditor\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/home/codespace/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
@@ -59,7 +59,6 @@
       },
       "frameworks": {
         "net6.0": {
-          "framework": "net6.0",
           "targetAlias": "net6.0",
           "projectReferences": {}
         }
@@ -74,11 +73,10 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "10.0.300"
+      "SdkAnalysisLevel": "10.0.200"
     },
     "frameworks": {
       "net6.0": {
-        "framework": "net6.0",
         "targetAlias": "net6.0",
         "dependencies": {
           "Pathoschild.Stardew.ModBuildConfig": {
@@ -105,10 +103,6 @@
           {
             "name": "Microsoft.NETCore.App.Ref",
             "version": "[6.0.36, 6.0.36]"
-          },
-          {
-            "name": "Microsoft.WindowsDesktop.App.Ref",
-            "version": "[6.0.36, 6.0.36]"
           }
         ],
         "frameworkReferences": {
@@ -116,7 +110,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.200/RuntimeIdentifierGraph.json"
       }
     }
   }

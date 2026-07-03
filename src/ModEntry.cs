@@ -115,22 +115,9 @@ namespace ActionLogger
             LogAction($"{playerName} se juntou à fazenda", false);
         }
 
-        private void OnMenuChanged(object? sender, MenuChangedEventArgs e)
-        {
-            if (e.NewMenu is Billboard)
-            {
-                LogAction("Interagiu com o quadro de missões ou calendário", false);
-            }
-            else if (e.NewMenu is LetterViewerMenu)
-            {
-                LogAction("Leu uma carta", false);
-            }
-        }
-
         private void OnGameLaunched(object? sender, GameLaunchedEventArgs e)
         {
             var configMenu = this.Helper.ModRegistry.GetApi<IGenericModConfigMenuApi>("spacechase0.GenericModConfigMenu");
-            
             if (configMenu is null)
                 return;
 
@@ -190,6 +177,22 @@ namespace ActionLogger
             );
         }
 
+        private void OnMenuChanged(object? sender, MenuChangedEventArgs e)
+        {
+            if (e.NewMenu is Billboard)
+            {
+                LogAction("Interagiu com o quadro de missões ou calendário", false);
+            }
+            else if (e.NewMenu is LetterViewerMenu)
+            {
+                LogAction("Leu uma carta", false);
+            }
+            else if (e.NewMenu is JunimoNoteMenu)
+            {
+                LogAction("Consultou a nota dos Junimos no Centro Comunitário", false);
+            }
+        }
+
         private void OnTimeChanged(object? sender, TimeChangedEventArgs e)
         {
             if (this.Config.NarrationMode == "Por Turno")
@@ -201,7 +204,7 @@ namespace ActionLogger
             }
             else if (this.Config.NarrationMode == "A cada 3h")
             {
-                if (e.NewTime == 900 || e.NewTime == 1200 || e.NewTime == 1500 || e.NewTime == 1800 || e.NewTime == 2100 || e.NewTime == 2400)
+                if (e.NewTime == 900 || e.NewTime == 1200 || e.NewTime == 1500 || e.NewTime == 1800 || e.NewTime == 2100)
                 {
                     SendTurnLogsAndClear();
                 }
@@ -377,13 +380,13 @@ namespace ActionLogger
                         
                         if (Game1.currentLocation.terrainFeatures.TryGetValue(tileVec, out var feature) && feature is HoeDirt dirt)
                         {
-                            if (dirt.crop != null && !string.IsNullOrEmpty(dirt.crop.indexOfHarvest.Value))
+                            if (dirt.crop != null && dirt.crop.indexOfHarvest.Value > 0)
                             {
-                                cropWatered = ItemRegistry.Create(dirt.crop.indexOfHarvest.Value, 1).DisplayName;
+                                cropWatered = new StardewValley.Object(dirt.crop.indexOfHarvest.Value, 1).DisplayName;
                             }
                         }
 
-                        LogAction($"Regou {cropWatered} com ", true);
+                        LogAction($"Regou {cropWatered}", true);
                     }
                     else if (tool is StardewValley.Tools.MeleeWeapon weapon && weapon.isScythe())
                     {
@@ -454,6 +457,25 @@ namespace ActionLogger
             newLog.Count = amount;
             dailyLogs.Add(newLog);
             Monitor.Log($"Ação registrada: {newLog.GetFormattedString()}", LogLevel.Info);
+        }
+
+        private int? GetPlayerUniqueId()
+        {
+            if (Game1.player == null) return null;
+
+            var property = Game1.player.GetType().GetProperty("UniqueMultiplayerID");
+            if (property != null)
+            {
+                var value = property.GetValue(Game1.player);
+                if (value is int intValue)
+                    return intValue;
+                if (value is long longValue)
+                    return (int)longValue;
+                if (value is uint uintValue)
+                    return (int)uintValue;
+            }
+
+            return null;
         }
 
         private void OnDayStarted(object? sender, DayStartedEventArgs e)
@@ -545,7 +567,7 @@ namespace ActionLogger
 
         private void WriteLogToFile()
         {
-            string path = @"C:\ações.txt";
+            string path = Path.Combine(this.Helper.DirectoryPath, "acoes.txt");
             try
             {
                 File.AppendAllLines(path, dailyLogs.Select(l => l.GetFormattedString()));
@@ -554,7 +576,7 @@ namespace ActionLogger
             catch (Exception ex)
             {
                 Monitor.Log($"Falha ao salvar em {path}: {ex.Message}", LogLevel.Error);
-                string fallbackPath = Path.Combine(Helper.DirectoryPath, "ações.txt");
+                string fallbackPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "acoes.txt");
                 File.AppendAllLines(fallbackPath, dailyLogs.Select(l => l.GetFormattedString()));
                 Monitor.Log($"Salvo na pasta alternativa: {fallbackPath}", LogLevel.Info);
             }
@@ -564,8 +586,11 @@ namespace ActionLogger
         {
             try
             {
-                var payload = new { 
+                var payload = new {
                     actions = actionStrings,
+                    player_name = Game1.player?.Name,
+                    player_unique_id = GetPlayerUniqueId(),
+                    is_multiplayer = Context.IsMultiplayer,
                     openai_url = this.Config.OpenAiUrl,
                     openai_api_key = this.Config.OpenAiApiKey,
                     openai_model = this.Config.OpenAiModel,
@@ -654,9 +679,17 @@ namespace ActionLogger
             {
                 string qualityStr = item is StardewValley.Object obj ? GetQualityString(obj.Quality) : "";
                 if (isCrafting)
+                {
                     LogAction($"Craftou {item.DisplayName}{qualityStr}", false, item.Stack);
+                }
+                else if (!isJunimoNote && Game1.activeClickableMenu == null && item.Category != StardewValley.Object.CraftingCategory && item.Category != StardewValley.Object.furnitureCategory && item.Category != StardewValley.Object.BigCraftableCategory)
+                {
+                    LogAction($"Colheu {item.DisplayName}{qualityStr}", false, item.Stack);
+                }
                 else
+                {
                     LogAction($"Coletou {item.DisplayName}{qualityStr}", false, item.Stack);
+                }
             }
 
             foreach (var change in e.QuantityChanged)
@@ -667,6 +700,8 @@ namespace ActionLogger
                 {
                     if (isCrafting)
                         LogAction($"Craftou {change.Item.DisplayName}{qualityStr}", false, amount);
+                    else if (!isJunimoNote && Game1.activeClickableMenu == null && change.Item.Category != StardewValley.Object.CraftingCategory && change.Item.Category != StardewValley.Object.furnitureCategory && change.Item.Category != StardewValley.Object.BigCraftableCategory)
+                        LogAction($"Colheu {change.Item.DisplayName}{qualityStr}", false, amount);
                     else
                         LogAction($"Coletou {change.Item.DisplayName}{qualityStr}", false, amount);
                 }
@@ -693,6 +728,10 @@ namespace ActionLogger
                         {
                             LogAction($"Colocou {change.Item.DisplayName} no chão", false, -amount);
                         }
+                        else
+                        {
+                            LogAction($"Usou {change.Item.DisplayName}{qualityStr}", false, -amount);
+                        }
                     }
                 }
             }
@@ -715,31 +754,15 @@ namespace ActionLogger
                         LogAction($"Plantou {item.DisplayName}", false, item.Stack);
                     }
                     else if (item.Category == StardewValley.Object.CraftingCategory || 
-                             item.Category == StardewValley.Object.furnitureCategory ||
+                             item.Category == StardewValley.Object.furnitureCategory || 
                              item.Category == StardewValley.Object.BigCraftableCategory ||
                              item.Category == -8 || item.Category == -9)
                     {
                         LogAction($"Colocou {item.DisplayName} no chão", false, item.Stack);
                     }
-                }
-            }
-        }
-
-        private void OnObjectListChanged(object? sender, ObjectListChangedEventArgs e)
-        {
-            foreach (var pair in e.Removed)
-            {
-                var obj = pair.Value;
-                if (obj.Name.Contains("Stone") || obj.Name.Contains("Rock"))
-                {
-                    LogAction($"Quebrou {obj.DisplayName} com ");
-                }
-                else if (obj.Name.Contains("Weed"))
-                {
-                    LogAction($"Cortou {obj.DisplayName} com ");
-                }
-                else if (obj.Name.Contains("Twig") || obj.Name.Contains("Wood"))
-                {
+                    else
+                    {
+                        LogAction($"Usou {item.DisplayName}{qualityStr}", false, item.Stack);
                     LogAction($"Quebrou {obj.DisplayName} com ");
                 }
                 else
