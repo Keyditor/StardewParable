@@ -347,8 +347,7 @@ def get_actions_display():
         return "Nenhuma ação recebida ainda."
     display = ""
     for entry in reversed(global_actions_log):
-        display += f"[{entry['time']}]
-"
+        display += f"[{entry['time']}]\n"
         if entry.get('player_name'):
             display += f"Jogador: {entry['player_name']}\n"
         if entry.get('is_multiplayer'):
