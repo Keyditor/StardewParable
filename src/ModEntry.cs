@@ -35,6 +35,10 @@ namespace ActionLogger
         public string OpenAiUrl { get; set; } = "";
         public string OpenAiApiKey { get; set; } = "";
         public string OpenAiModel { get; set; } = "";
+        public string GeminiApiKey { get; set; } = "";
+        public string GeminiModel { get; set; } = "";
+        public string GeminiApiBase { get; set; } = "";
+        public bool UseGemini { get; set; } = false;
         public string ElevenLabsApiKey { get; set; } = "";
         public string ElevenLabsVoiceId { get; set; } = "";
     }
@@ -43,6 +47,7 @@ namespace ActionLogger
     {
         void Register(IManifest mod, Action reset, Action save, bool titleScreenOnly = false);
         void AddTextOption(IManifest mod, Func<string> getValue, Action<string> setValue, Func<string> name, Func<string> tooltip = null, string[] allowedValues = null, Func<string, string> formatAllowedValue = null, string fieldId = null);
+        void AddBoolOption(IManifest mod, Func<bool> getValue, Action<bool> setValue, Func<string> name, Func<string> tooltip = null, string fieldId = null);
     }
 
     public class ModEntry : Mod
@@ -133,7 +138,7 @@ namespace ActionLogger
                 tooltip: () => "Escolha quando o narrador vai falar sobre as suas ações.",
                 getValue: () => this.Config.NarrationMode,
                 setValue: value => this.Config.NarrationMode = value,
-                allowedValues: new string[] { "Diaria", "Por Turno", "A cada 3h" }
+                allowedValues: new string[] { "Diaria", "Por Turno", "A cada 3h", "A cada hora" }
             );
 
             configMenu.AddTextOption(
@@ -158,6 +163,38 @@ namespace ActionLogger
                 tooltip: () => "Ex: gpt-3.5-turbo. Deixe em branco para usar o padrão.",
                 getValue: () => this.Config.OpenAiModel,
                 setValue: value => this.Config.OpenAiModel = value
+            );
+
+            configMenu.AddBoolOption(
+                mod: this.ModManifest,
+                name: () => "Usar Gemini para narrar",
+                tooltip: () => "Se ativado, o backend tenta usar o Gemini quando houver chave configurada.",
+                getValue: () => this.Config.UseGemini,
+                setValue: value => this.Config.UseGemini = value
+            );
+
+            configMenu.AddTextOption(
+                mod: this.ModManifest,
+                name: () => "Gemini API Key (Opcional)",
+                tooltip: () => "Se preenchido e a opção de uso estiver ativa, o backend prioriza o Gemini.",
+                getValue: () => this.Config.GeminiApiKey,
+                setValue: value => this.Config.GeminiApiKey = value
+            );
+
+            configMenu.AddTextOption(
+                mod: this.ModManifest,
+                name: () => "Gemini Model (Opcional)",
+                tooltip: () => "Ex: gemini-2.0-flash. Deixe em branco para usar o padrão.",
+                getValue: () => this.Config.GeminiModel,
+                setValue: value => this.Config.GeminiModel = value
+            );
+
+            configMenu.AddTextOption(
+                mod: this.ModManifest,
+                name: () => "Gemini API Base (Opcional)",
+                tooltip: () => "Deixe em branco para usar o padrão da backend.",
+                getValue: () => this.Config.GeminiApiBase,
+                setValue: value => this.Config.GeminiApiBase = value
             );
 
             configMenu.AddTextOption(
@@ -205,6 +242,13 @@ namespace ActionLogger
             else if (this.Config.NarrationMode == "A cada 3h")
             {
                 if (e.NewTime == 900 || e.NewTime == 1200 || e.NewTime == 1500 || e.NewTime == 1800 || e.NewTime == 2100)
+                {
+                    SendTurnLogsAndClear();
+                }
+            }
+            else if (this.Config.NarrationMode == "A cada hora")
+            {
+                if (e.NewTime % 100 == 0)
                 {
                     SendTurnLogsAndClear();
                 }
@@ -556,7 +600,7 @@ namespace ActionLogger
             WriteLogToFile();
             
             var actionStrings = dailyLogs.Select(l => l.GetFormattedString()).ToList();
-            bool isTurn = this.Config.NarrationMode == "Por Turno" || this.Config.NarrationMode == "A cada 3h";
+            bool isTurn = this.Config.NarrationMode == "Por Turno" || this.Config.NarrationMode == "A cada 3h" || this.Config.NarrationMode == "A cada hora";
             Task.Run(() => SendLogsToBackend(actionStrings, isTurn));
             
             dailyLogs.Clear();
@@ -594,6 +638,10 @@ namespace ActionLogger
                     openai_url = this.Config.OpenAiUrl,
                     openai_api_key = this.Config.OpenAiApiKey,
                     openai_model = this.Config.OpenAiModel,
+                    gemini_api_key = this.Config.GeminiApiKey,
+                    gemini_model = this.Config.GeminiModel,
+                    gemini_api_base = this.Config.GeminiApiBase,
+                    use_gemini = this.Config.UseGemini,
                     eleven_labs_api_key = this.Config.ElevenLabsApiKey,
                     eleven_labs_voice_id = this.Config.ElevenLabsVoiceId
                 };

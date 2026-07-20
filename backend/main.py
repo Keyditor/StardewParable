@@ -21,6 +21,11 @@ import io
 import gradio as gr
 from datetime import datetime
 
+try:
+    from .ai_providers import resolve_provider, build_llm_request
+except ImportError:  # pragma: no cover - fallback for direct script execution
+    from ai_providers import resolve_provider, build_llm_request
+
 load_dotenv()
 
 # Configuração de Logs
@@ -50,6 +55,9 @@ logger.propagate = False
 OPENAI_API_BASE = os.getenv("OPENAI_API_BASE", "https://api.openai.com/v1")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-3.5-turbo")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
+GEMINI_API_BASE = os.getenv("GEMINI_API_BASE", "https://generativelanguage.googleapis.com/v1beta")
 TTS_API_URL = os.getenv("TTS_API_URL", "http://localhost:5000/synthesize")
 TTS_API_URL = TTS_API_URL.rstrip("/")
 if not TTS_API_URL.endswith("/synthesize"):
@@ -103,6 +111,10 @@ class ActionList(BaseModel):
     openai_url: Optional[str] = None
     openai_api_key: Optional[str] = None
     openai_model: Optional[str] = None
+    gemini_api_key: Optional[str] = None
+    gemini_model: Optional[str] = None
+    gemini_api_base: Optional[str] = None
+    use_gemini: Optional[bool] = None
     eleven_labs_api_key: Optional[str] = None
     eleven_labs_voice_id: Optional[str] = None
 
@@ -117,6 +129,8 @@ def check_config_changes(payload: ActionList):
         "URL da OpenAI": payload.openai_url,
         "Modelo da IA": payload.openai_model,
         "Chave da OpenAI": mask_key(payload.openai_api_key),
+        "Uso do Gemini": payload.use_gemini,
+        "Chave do Gemini": mask_key(payload.gemini_api_key),
         "Chave do ElevenLabs": mask_key(payload.eleven_labs_api_key),
         "Voz do ElevenLabs": payload.eleven_labs_voice_id,
     }
@@ -196,26 +210,35 @@ def generate_narration(payload: ActionList, custom_prompt: str = None, is_turn: 
 
     user_message = f"{player_context}{history_context}\n\nAções recentes do jogador a serem narradas agora:\n{actions_text}"
 
+    provider = resolve_provider(
+        use_gemini=payload.use_gemini,
+        gemini_api_key=payload.gemini_api_key,
+        openai_api_key=payload.openai_api_key,
+    )
+    if provider == "gemini":
+        api_key = payload.gemini_api_key if payload.gemini_api_key else GEMINI_API_KEY
+        api_base = payload.gemini_api_base if payload.gemini_api_base else GEMINI_API_BASE
+        model = payload.gemini_model if payload.gemini_model else GEMINI_MODEL
+        request = build_llm_request(provider, model, api_key, api_base, temperature, system_prompt, user_message)
+        logger.info(f"🚀 Enviando \033[1m{len(payload.actions)}\033[0m ações para a IA via Gemini ({model})...")
+        response = requests.post(request["url"], headers=request["headers"], json=request["json"])
+        if response.status_code != 200:
+            logger.error(f"Erro no Gemini: {response.text}")
+            raise Exception(f"Erro no Gemini: {response.status_code}")
+        data = response.json()
+        try:
+            narration = data["candidates"][0]["content"]["parts"][0]["text"]
+        except (KeyError, IndexError, TypeError):
+            raise Exception(f"Resposta inesperada do Gemini: {response.text}")
+        logger.info(f"🧠 Narração gerada:\n\033[3m{narration}\033[0m")
+        return narration
+
     api_key = payload.openai_api_key if payload.openai_api_key else OPENAI_API_KEY
     api_url = payload.openai_url if payload.openai_url else OPENAI_API_BASE
     model = payload.openai_model if payload.openai_model else OPENAI_MODEL
-
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json"
-    }
-    
-    request_payload = {
-        "model": model,
-        "temperature": temperature,
-        "messages": [
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_message}
-        ]
-    }
-
-    logger.info(f"🚀 Enviando \033[1m{len(payload.actions)}\033[0m ações para a IA ({model})...")
-    response = requests.post(f"{api_url}/chat/completions", headers=headers, json=request_payload)
+    request = build_llm_request(provider, model, api_key, api_url, temperature, system_prompt, user_message)
+    logger.info(f"🚀 Enviando \033[1m{len(payload.actions)}\033[0m ações para a IA via OpenAI ({model})...")
+    response = requests.post(request["url"], headers=request["headers"], json=request["json"])
     
     if response.status_code != 200:
         logger.error(f"Erro na OpenAI: {response.text}")
@@ -425,14 +448,17 @@ def update_env(key, value):
     with open(env_path, "w", encoding="utf-8") as f:
         f.writelines(lines)
 
-def save_settings(new_openai_base, new_openai_key, new_openai_model, new_tts_url, new_el_key, new_el_voice, new_active_personality=None):
-    global OPENAI_API_BASE, OPENAI_API_KEY, OPENAI_MODEL, TTS_API_URL, ELEVEN_LABS_API_KEY, ELEVEN_LABS_VOICE_ID
+def save_settings(new_openai_base, new_openai_key, new_openai_model, new_tts_url, new_el_key, new_el_voice, new_active_personality=None, new_gemini_key=None, new_gemini_model=None, new_gemini_base=None):
+    global OPENAI_API_BASE, OPENAI_API_KEY, OPENAI_MODEL, TTS_API_URL, ELEVEN_LABS_API_KEY, ELEVEN_LABS_VOICE_ID, GEMINI_API_KEY, GEMINI_MODEL, GEMINI_API_BASE
     OPENAI_API_BASE = new_openai_base
     OPENAI_API_KEY = new_openai_key
     OPENAI_MODEL = new_openai_model
     TTS_API_URL = new_tts_url
     ELEVEN_LABS_API_KEY = new_el_key
     ELEVEN_LABS_VOICE_ID = new_el_voice
+    GEMINI_API_KEY = new_gemini_key or GEMINI_API_KEY
+    GEMINI_MODEL = new_gemini_model or GEMINI_MODEL
+    GEMINI_API_BASE = new_gemini_base or GEMINI_API_BASE
     
     try:
         update_env("OPENAI_API_BASE", new_openai_base)
@@ -441,6 +467,12 @@ def save_settings(new_openai_base, new_openai_key, new_openai_model, new_tts_url
         update_env("TTS_API_URL", new_tts_url)
         update_env("ELEVEN_LABS_API_KEY", new_el_key)
         update_env("ELEVEN_LABS_VOICE_ID", new_el_voice)
+        if new_gemini_key is not None:
+            update_env("GEMINI_API_KEY", new_gemini_key)
+        if new_gemini_model is not None:
+            update_env("GEMINI_MODEL", new_gemini_model)
+        if new_gemini_base is not None:
+            update_env("GEMINI_API_BASE", new_gemini_base)
     except Exception as e:
         logger.error(f"Erro ao salvar no arquivo .env: {e}")
     
@@ -630,13 +662,16 @@ with gr.Blocks(title="Dashboard - ActionLogger") as dashboard:
                     in_tts_url = gr.Textbox(label="URL do TTS Local", value=TTS_API_URL, placeholder="Ex: http://localhost:5000/synthesize")
                     in_el_key = gr.Textbox(label="Chave do ElevenLabs (Opcional)", value=ELEVEN_LABS_API_KEY, type="password")
                     in_el_voice = gr.Textbox(label="ID da Voz do ElevenLabs (Opcional)", value=ELEVEN_LABS_VOICE_ID)
+                    in_gemini_key = gr.Textbox(label="Chave do Gemini (Opcional)", value=GEMINI_API_KEY, type="password")
+                    in_gemini_model = gr.Textbox(label="Modelo do Gemini (Opcional)", value=GEMINI_MODEL)
+                    in_gemini_base = gr.Textbox(label="Base da API do Gemini (Opcional)", value=GEMINI_API_BASE)
             
             btn_save_config = gr.Button("Salvar Configurações", variant="primary")
             config_status = gr.Textbox(label="Status", interactive=False)
             
             btn_save_config.click(
                 fn=save_settings,
-                inputs=[in_openai_base, in_openai_key, in_openai_model, in_tts_url, in_el_key, in_el_voice],
+                inputs=[in_openai_base, in_openai_key, in_openai_model, in_tts_url, in_el_key, in_el_voice, None, in_gemini_key, in_gemini_model, in_gemini_base],
                 outputs=[config_status]
             )
 
